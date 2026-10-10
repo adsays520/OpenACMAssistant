@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"multiplier","parameters":{"bit_width":8,"kind":"approx","compressor_id":8,"samples":4096},"constraints":[{"metric":"mred","op":"le","value":0.0}],"message":"验证近似乘法器仿真及未达标状态，MRED约束故意设为0。"}

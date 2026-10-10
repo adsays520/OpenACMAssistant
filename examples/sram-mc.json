@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"sram","parameters":{"rows":4,"cols":2,"operations":["read"],"variation":true,"mc_runs":3,"seed":42},"constraints":[],"message":"验证真实独立的Monte Carlo器件样本。"}

@@ -1,0 +1,17 @@
+{
+  "intent": "run",
+  "workflow": "multiplier",
+  "parameters": {
+    "bit_width": 8,
+    "kind": "exact",
+    "compressor_id": 1,
+    "samples": 4096,
+    "exhaustive": true,
+    "seed": 42
+  },
+  "constraints": [],
+  "objective": null,
+  "sweep": null,
+  "message": "生成并穷举验证8位精确乘法器。",
+  "assumptions": []
+}

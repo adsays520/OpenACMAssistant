@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenACM 电路助手"
+  short_description: "通过本地 DeepSeek 调整电路参数，在专属目录运行仿真并保护原仓库"
+  default_prompt: "使用 $openacm-design 将我的电路需求转成参数计划，在独立工作副本中完成仿真并报告实测结果。"

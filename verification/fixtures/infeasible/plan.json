@@ -1,0 +1,23 @@
+{
+  "intent": "run",
+  "workflow": "multiplier",
+  "parameters": {
+    "bit_width": 8,
+    "kind": "approx",
+    "compressor_id": 8,
+    "samples": 4096,
+    "exhaustive": false,
+    "seed": 42
+  },
+  "constraints": [
+    {
+      "metric": "mred",
+      "op": "le",
+      "value": 0.0
+    }
+  ],
+  "objective": null,
+  "sweep": null,
+  "message": "生成8位近似乘法器，所有近似位置用sabetz，采样4096组，要求MRED≤0，不改原OpenACM文件。",
+  "assumptions": []
+}

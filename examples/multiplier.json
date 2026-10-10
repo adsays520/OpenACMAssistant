@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"multiplier","parameters":{"bit_width":8,"kind":"exact","exhaustive":true},"constraints":[],"message":"8位精确乘法器穷举验证。"}

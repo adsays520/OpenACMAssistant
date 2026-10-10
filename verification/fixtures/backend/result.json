@@ -1,0 +1,47 @@
+{
+  "status": "completed",
+  "metrics": {
+    "sample_count": 65536,
+    "error_count": 0,
+    "error_rate": 0.0,
+    "mae": 0.0,
+    "max_absolute_error": 0,
+    "mred": 0.0,
+    "nmed": 0.0,
+    "pe_constant_input_checks": 16,
+    "post_synth_functional_checks": 278,
+    "route_drc_count": 0,
+    "routed_area_um2": 7788.0,
+    "post_route_functional_checks": 278,
+    "setup_wns_ns": 4.64,
+    "hold_wns_ns": 0.01,
+    "routed_power_uw": 260.273227,
+    "sdf_annotated_timing_checks": 294,
+    "sdf_annotated_iopaths": 1471,
+    "post_route_sdf_checks": 278
+  },
+  "elapsed_s": 32.716,
+  "constraints": [
+    {
+      "metric": "setup_wns_ns",
+      "op": "ge",
+      "value": 0.0,
+      "actual": 4.64,
+      "passed": true
+    },
+    {
+      "metric": "hold_wns_ns",
+      "op": "ge",
+      "value": 0.0,
+      "actual": 0.01,
+      "passed": true
+    },
+    {
+      "metric": "route_drc_count",
+      "op": "le",
+      "value": 0.0,
+      "actual": 0,
+      "passed": true
+    }
+  ]
+}

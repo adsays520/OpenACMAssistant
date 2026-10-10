@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "metrics": {
+    "sample_count": 65536,
+    "error_count": 0,
+    "error_rate": 0.0,
+    "mae": 0.0,
+    "max_absolute_error": 0,
+    "mred": 0.0,
+    "nmed": 0.0
+  },
+  "elapsed_s": 2.631,
+  "constraints": []
+}

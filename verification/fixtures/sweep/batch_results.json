@@ -1,0 +1,45 @@
+{
+  "results": [
+    {
+      "candidate": 1,
+      "value": 0.9,
+      "status": "completed",
+      "metrics": {
+        "cell_area_um2": 0.49817647058823533,
+        "read_delay_ns": 0.32237785,
+        "read_power_uw": 5.225111
+      },
+      "elapsed_s": 3.576,
+      "constraints": [
+        {
+          "metric": "read_delay_ns",
+          "op": "le",
+          "value": 2.0,
+          "actual": 0.32237785,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 2,
+      "value": 1.0,
+      "status": "completed",
+      "metrics": {
+        "cell_area_um2": 0.49817647058823533,
+        "read_delay_ns": 0.2727611,
+        "read_power_uw": 6.892977
+      },
+      "elapsed_s": 5.084,
+      "constraints": [
+        {
+          "metric": "read_delay_ns",
+          "op": "le",
+          "value": 2.0,
+          "actual": 0.2727611,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "best_feasible_candidate": 1
+}

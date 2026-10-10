@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"sram","parameters":{"rows":4,"cols":2,"operations":["read"]},"constraints":[{"metric":"read_delay_ns","op":"le","value":2.0}],"sweep":{"parameter":"vdd_v","values":[0.9,1.0]},"objective":{"metric":"read_power_uw","direction":"min"},"message":"比较两种电压的读功耗，并判断时延约束。"}

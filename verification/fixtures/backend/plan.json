@@ -1,0 +1,36 @@
+{
+  "intent": "run",
+  "workflow": "dcim",
+  "parameters": {
+    "bit_width": 8,
+    "rows": 16,
+    "kind": "exact",
+    "compressor_id": 1,
+    "samples": 4096,
+    "exhaustive": true,
+    "seed": 42,
+    "backend": "asic",
+    "clock_period_ns": 10.0
+  },
+  "constraints": [
+    {
+      "metric": "setup_wns_ns",
+      "op": "ge",
+      "value": 0.0
+    },
+    {
+      "metric": "hold_wns_ns",
+      "op": "ge",
+      "value": 0.0
+    },
+    {
+      "metric": "route_drc_count",
+      "op": "le",
+      "value": 0.0
+    }
+  ],
+  "objective": null,
+  "sweep": null,
+  "message": "生成16行8列的精确DCiM全流程，时钟周期10ns，8位精确乘法器穷举；setup slack不低于0ns，hold slack不低于0ns，布线DRC不超过0。",
+  "assumptions": []
+}

@@ -1,0 +1,139 @@
+{
+  "plan": {
+    "intent": "run",
+    "workflow": "multiplier",
+    "parameters": {
+      "bit_width": 8,
+      "kind": "approx",
+      "compressor_id": 1,
+      "samples": 4096,
+      "exhaustive": false,
+      "seed": 42,
+      "backend": "synthesis",
+      "architecture": "auto"
+    },
+    "constraints": [
+      {
+        "metric": "mred",
+        "op": "le",
+        "value": 0.02
+      }
+    ],
+    "objective": null,
+    "sweep": null,
+    "message": "",
+    "assumptions": []
+  },
+  "space": {
+    "compressor_id": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "compressor_ids": [
+      [
+        1,
+        1,
+        1,
+        1,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      [
+        8,
+        8,
+        8,
+        8,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      [
+        5,
+        5,
+        5,
+        5,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      [
+        2,
+        2,
+        2,
+        2,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      [
+        8,
+        8,
+        8,
+        8,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      [
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    ]
+  },
+  "objectives": [
+    {
+      "metric": "synthesized_area_um2",
+      "direction": "min"
+    },
+    {
+      "metric": "mred",
+      "direction": "min"
+    }
+  ]
+}

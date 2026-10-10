@@ -1,0 +1,18 @@
+{
+  "intent": "run",
+  "workflow": "dcim",
+  "parameters": {
+    "rows": 16,
+    "bit_width": 8,
+    "kind": "exact",
+    "exhaustive": true,
+    "backend": "asic",
+    "clock_period_ns": 10.0
+  },
+  "constraints": [
+    {"metric": "setup_wns_ns", "op": "ge", "value": 0},
+    {"metric": "hold_wns_ns", "op": "ge", "value": 0},
+    {"metric": "route_drc_count", "op": "le", "value": 0}
+  ],
+  "message": "16×8精确DCiM，10ns时钟；生成、RTL、综合、门级、布局布线、RC提取、STA、SDF及活动功耗。"
+}

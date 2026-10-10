@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"compressor","parameters":{"name":"sabetz","nmos_scale":1.1,"pmos_scale":1.1},"constraints":[],"message":"sabetz晶体管宽度增大10%，重新运行SPICE。"}

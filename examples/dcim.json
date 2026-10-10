@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"dcim","parameters":{"bit_width":8,"rows":16,"kind":"exact","samples":256},"constraints":[],"message":"生成16×8 DCiM PE，完成乘法器和PE功能检查。"}

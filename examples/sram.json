@@ -1,0 +1,1 @@
+{"intent":"run","workflow":"sram","parameters":{"rows":16,"cols":8,"operations":["read","write","hold_snm","read_snm","write_snm"]},"constraints":[],"message":"验证16×8 SRAM读写和三种SNM。"}
