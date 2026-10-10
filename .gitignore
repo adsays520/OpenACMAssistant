@@ -10,6 +10,10 @@ __pycache__/
 *.pem
 *.key
 *.token
+*.gguf
+*.safetensors
+*.pth
+*.pt
 .DS_Store
 publish/
 verification/isolation_workspace/

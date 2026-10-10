@@ -1,6 +1,7 @@
 """Run actual RTL/SPICE adapters across sizes; keep failed points as evidence."""
 import argparse
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import json
 from pathlib import Path
 import sys
@@ -29,7 +30,7 @@ def main():
         cases.append({"workflow":"sram","parameters":{"rows":rows,"cols":cols,"operations":["read","write"]}})
     for width,exp in [(8,3),(16,5),(24,7),(32,8)]:
         cases.append({"workflow":"floating","parameters":{"fp_width":width,"exp_width":exp,"variant":"Exact","samples":256}})
-    directory=ROOT/"runs"/(datetime.now().strftime("%Y%m%d_%H%M%S")+"_size_verification_"+uuid.uuid4().hex[:6])
+    directory=ROOT/"runs"/(datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y%m%d_%H%M%S")+"_size_verification_"+uuid.uuid4().hex[:6])
     directory.mkdir(parents=True)
     before=assistant.manifest(assistant.SOURCE)
     records=[]

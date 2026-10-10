@@ -73,6 +73,6 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_exploration.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_sizes.py --all-widths
 ```
 
-前三种结果解析与探索回归测试使用随仓库提供的少量真实结果夹具；尺寸验证需要本机 EDA/OpenACM 环境，失败尺寸也会保留记录。完整仿真目录、虚拟环境、模型和私密配置不进入 Git。
+前四项覆盖输入校验、真实 Landlock 隔离、计划重试、结果总结、探索续跑及浮点参考；其中结果总结和计划重试使用仓库附带的小型夹具，基本回归不要求安装 EDA 或部署 DeepSeek。尺寸验证需要本机 EDA/OpenACM 环境，失败尺寸也会保留记录。完整仿真目录、虚拟环境、模型和私密配置不进入 Git。
 
 领域 skill：[openacm-design](skills/openacm-design/SKILL.md)。DeepSeek 入口直接读取该 skill 和参数参考，不要求模型原生支持 skill/tool calling。

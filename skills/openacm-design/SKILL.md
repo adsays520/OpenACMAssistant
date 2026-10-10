@@ -5,16 +5,16 @@ description: 将中文或英文需求转为 OpenACM 电路任务，调用本地 
 
 # OpenACM 电路需求与仿真
 
-原始来源由 `OPENACM_SOURCE` 指定，默认助手目录旁的 `OpenACM`；本机为 `/data2/huangjj/OpenACM`，只读。所有输入、配置调整、RTL/网表、日志和结果只能存入 `/data2/huangjj/OpenACMAssistant/runs/<任务>/`。不得在原目录运行生成器、修改程序、配置或网表，也不得使用硬链接或指向原目录的可写符号链接。
+助手根目录是本 SKILL.md 实际文件所在目录的上两级；安装 skill 的符号链接时先解析实际路径。原始来源由 `OPENACM_SOURCE` 指定，默认助手目录旁的 `OpenACM`，只读。所有输入、配置调整、RTL/网表、日志和结果只能存入助手根目录的 `runs/<任务>/`。不得在原目录运行生成器、修改程序、配置或网表，也不得使用硬链接或指向原目录的可写符号链接。
 
 当你是通过 Ollama 调用的 DeepSeek 时，你负责生成 JSON 需求；由外部执行器处理文件和 EDA 命令。不要输出或执行 shell 命令、Python 补丁、源目录写入路径。按接口给定的 JSON schema 输出一个对象。未知或不支持的要求设 `intent=clarify`，用中文说明需要的信息；说明能力时设 `intent=explain`。明确设计及仿真要求设 `intent=run`。
 
 自然语言字段落实细节见 [planner-prompt.md](references/planner-prompt.md)；可执行参数、指标和默认值见 [model-guide.md](references/model-guide.md)。本地 DeepSeek 入口按请求读取这些参考，并限制所选电路的输出字段。
 
-当你是使用此 skill 的 Codex 时，先读 [model-guide.md](references/model-guide.md)，查阅详细能力文档 `/data2/huangjj/OpenACMAssistant/docs/OpenACM能力与需求指南.md` 以了解支持范围。优先使用外部执行器：
+当你是使用此 skill 的 Codex 时，先读 [model-guide.md](references/model-guide.md)，查阅[详细能力文档](../../docs/OpenACM能力与需求指南.md)以了解支持范围。先切换到助手根目录，优先使用外部执行器：
 
 ```bash
-/data2/huangjj/OpenACMAssistant/openacm-assistant.sh ask '用户的具体电路与仿真需求'
+./openacm-assistant.sh ask '用户的具体电路与仿真需求'
 ```
 
 用户需要先看计划时使用 `ask '需求' --plan-only`。已整理的 JSON 保存到专属目录后可用 `run <spec.json>` 执行。可以连续输入 `chat`，明确的仿真需求会自动执行，不需要逐次要求确认。遵守已有用户授权及执行环境的权限限制。

@@ -82,7 +82,7 @@ def validate(plan):
         return {"intent": intent, "message": str(plan.get("message", "请补充电路类型和需求"))[:3000]}
     workflow = plan.get("workflow")
     if workflow not in DEFAULTS:
-        raise ValueError("workflow 需为 sram、multiplier、compressor 或 dcim")
+        raise ValueError("workflow 需为 sram、multiplier、compressor、dcim 或 floating")
     supplied = plan.get("parameters", {})
     if not isinstance(supplied, dict):
         raise ValueError("parameters 必须为对象")
