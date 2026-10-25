@@ -8,7 +8,7 @@ METRICS = ["read_delay_ns", "write_delay_ns", "read_power_uw", "write_power_uw",
            "hold_snm_v", "read_snm_v", "write_snm_v", "cell_area_um2", "delay_ns",
            "power_uw", "gate_area_um2", "estimated_area_um2", "mred", "nmed", "error_rate",
            "setup_wns_ns", "hold_wns_ns", "routed_area_um2", "routed_power_uw", "route_drc_count",
-           "synthesized_area_um2", "special_mismatch_count"]
+           "synthesized_area_um2", "special_mismatch_count", "pdp_fj", "sta_delay_ns", "sta_dynamic_power_uw"]
 DEFAULTS = {
     "sram": {"rows": 16, "cols": 8, "vdd_v": 1.0, "temperature_c": 27.0,
              "corner": "TT", "operations": ["read", "write"], "mc_runs": 1,

@@ -31,12 +31,23 @@ with TemporaryDirectory(dir=ROOT / "verification") as temporary:
             previous = validate({"workflow": "multiplier", "parameters": {"bit_width": 8, "exhaustive": True, "compressor_ids": [1] * 9}})
             plan, audit = assistant.plan_request(REQUEST, previous=previous)
         assert opener.return_value.open.call_count == 2
+
         assert plan["parameters"]["compressor_id"] == 8 and "compressor_ids" not in plan["parameters"]
         assert plan["parameters"]["samples"] == 4096 and not plan["parameters"]["exhaustive"]
         assert plan["constraints"] == [{"metric": "mred", "op": "le", "value": 0.02}]
         assert (Path(audit["audit_directory"]) / "validation_error_1.txt").exists()
         schema = json.loads(opener.return_value.open.call_args_list[0].args[0].data)["format"]
         assert "compressor_ids" not in schema["properties"]["parameters"]["properties"]
+    # Captured ACCO preview failure: the model invented 2ns read/write limits.
+    invented = {"intent": "run", "workflow": "sram", "parameters": {}, "constraints": [
+        {"metric": "read_delay_ns", "op": "le", "value": 2}, {"metric": "write_delay_ns", "op": "le", "value": 2}]}
+    corrected = {**invented, "constraints": []}
+    replies = [{"done_reason": "stop", "message": {"content": json.dumps(p)}} for p in (invented, corrected)]
+    with patch.object(assistant, "ROOT", fixture), patch("assistant.urllib.request.build_opener") as opener, redirect_stdout(io.StringIO()):
+        opener.return_value.open.side_effect = [io.StringIO(json.dumps(p)) for p in replies]
+        plan, audit = assistant.plan_request("两级探索SRAM，总容量4KB，输出字宽8位，预算2个候选")
+        assert plan["constraints"] == [] and opener.return_value.open.call_count == 2
+        assert "用户未要求" in (Path(audit["audit_directory"]) / "validation_error_1.txt").read_text()
     with patch.object(assistant, "ROOT", fixture), patch("assistant.urllib.request.build_opener") as opener, redirect_stdout(io.StringIO()):
         opener.return_value.open.side_effect = [io.StringIO(json.dumps(captured)) for _ in range(2)]
         try:

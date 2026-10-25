@@ -61,7 +61,7 @@ class TerminalUI:
             print(self.paint(title, bold=True))
             print(self.paint("LOCAL DEEPSEEK", 3))
         print(self.paint("  从电路想法，到仿真结果。", 1, bold=True))
-        print("  描述需求即可启动任务，完成后直接显示中文结果总结。")
+        print("  可以先问能力、参数和指标；明确执行需求后启动任务并总结结果。")
         self.help()
 
     def help(self):

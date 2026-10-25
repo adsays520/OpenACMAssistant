@@ -27,7 +27,7 @@ def explicit_parameters(text, workflow):
         sampled = re.search(r"(?:采样\s*|samples?\s*(?:=|：|:)?\s*)(\d+)\s*(?:组|对|次)?", s)
         if sampled:
             facts.update(samples=int(sampled[1]), exhaustive=False)
-        seed = re.search(r"(?:种子|seed)\s*(?:为|=|：|:)?\s*(\d+)", s)
+        seed = re.search(r"(?:种子|seed)\s*(?:设置为|改为|改成|设为|为|=|：|:)?\s*(\d+)", s)
         if seed:
             facts["seed"] = int(seed[1])
         if "穷举" in s or "exhaustive" in s:
@@ -116,7 +116,8 @@ def explicit_constraints(text, workflow):
                  (r"保持\s*snm|hold[_ ]snm", "hold_snm_v", "voltage"),
                  (r"读\s*snm|read[_ ]snm", "read_snm_v", "voltage"),
                  (r"写\s*snm|write[_ ]snm", "write_snm_v", "voltage")],
-        "multiplier": [(r"mred", "mred", "ratio"), (r"nmed", "nmed", "ratio")],
+        "multiplier": [(r"mred", "mred", "ratio"), (r"nmed", "nmed", "ratio"),
+                       (r"pdp|功耗延迟积", "pdp_fj", "energy")],
         "floating": [(r"mred", "mred", "ratio"),(r"特殊值错误数", "special_mismatch_count", "ratio")],
         "dcim": [(r"mred", "mred", "ratio"), (r"nmed", "nmed", "ratio"),
                  (r"setup[_ ]slack|setup[_ ]wns", "setup_wns_ns", "time"),
@@ -127,7 +128,8 @@ def explicit_constraints(text, workflow):
     }
     units = {"time":{"ns":1,"ps":0.001,"us":1000,"µs":1000,"μs":1000,"纳秒":1},
              "power":{"uw":1,"µw":1,"μw":1,"mw":1000,"微瓦":1},
-             "voltage":{"v":1,"mv":0.001,"伏":1}, "ratio":{"":1,"%":0.01}}
+             "voltage":{"v":1,"mv":0.001,"伏":1}, "ratio":{"":1,"%":0.01},
+             "energy":{"fj":1,"pj":1000,"飞焦":1}}
     operator = r"(不超过|不高于|小于等于|<=|≤|不低于|至少|大于等于|>=|≥)"
     found = []
     lowered = text.lower()

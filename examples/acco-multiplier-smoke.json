@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "workflow": "multiplier",
+  "plan": {
+    "workflow": "multiplier",
+    "parameters": {"bit_width": 8, "kind": "approx", "compressor_id": 7, "samples": 4096, "seed": 42, "backend": "synthesis"},
+    "constraints": [{"metric": "mred", "op": "le", "value": 0.02}]
+  },
+  "architecture_space": {"compressor_types": [1, 2, 3, 4, 5, 6, 7, 8]},
+  "device_space": {"width_scale": [0.8, 1, 1.2]},
+  "budgets": {"architecture": 4, "validation": 4, "shortlist": 1, "device_per_parent": 2, "max_seconds": 600},
+  "solvers": {"architecture": "nsga2", "device": "random"},
+  "physical_evaluation": {"clock_period_ns": 5, "output_load_ff": 10}
+}

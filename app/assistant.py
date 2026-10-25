@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import subprocess
 import sys
@@ -19,6 +20,9 @@ from spec import DEFAULTS, SCHEMA, validate, compressor_count
 from bindings import explicit_parameters, explicit_constraints
 from terminal_ui import TerminalUI, THEMES
 from result_summary import design_text, summarize
+from experience import (ExperienceStore, automatic_learn, retrieve, compact_context,
+                        runtime_environment, source_digest)
+from public_dataset import retrieve_public
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(os.environ.get("OPENACM_SOURCE", str(ROOT.parent / "OpenACM"))).resolve()
@@ -131,6 +135,7 @@ def report(job, result, plan):
 
 def run_one(job, plan, verbose=False, timeout_override=None):
     prepare(job, plan)
+    write_json(job / "inputs/execution_environment.json", runtime_environment(ROOT, source_digest(manifest(SOURCE))))
     env = os.environ.copy()
     env.update(HOME=str(job / "scratch/home"), TMPDIR=str(job / "scratch/tmp"),
                XDG_CACHE_HOME=str(job / "scratch/cache"), MPLCONFIGDIR=str(job / "scratch/cache/matplotlib"),
@@ -234,6 +239,7 @@ def run_plan(plan, prompt="", model_reply=None, job_parent=None, verbose=False):
         write_json(job / "source_integrity.json", {"unchanged": not delta, "checked_files": len(before), "changes": delta, "excluded_directory": ".git", "protection": "Landlock worker write confinement"})
         if delta:
             raise RuntimeError(f"原仓库完整性发生变化（可能有并行外部修改），详情 {job / 'source_integrity.json'}")
+        automatic_learn(ROOT, job)
     return job
 
 
@@ -249,7 +255,6 @@ def plan_request(text, previous=None, conversation=None):
         messages.append({"role": "user", "content": "上一轮计划（仅作为上下文）：" + json.dumps(previous, ensure_ascii=False)})
     if conversation:
         messages += conversation[-4:]
-    messages.append({"role": "user", "content": text})
     stamp = datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y%m%d_%H%M%S")
     audit = ROOT / "runs" / f"{stamp}_planning_{uuid.uuid4().hex[:6]}"
     audit.mkdir(parents=True)
@@ -258,6 +263,7 @@ def plan_request(text, previous=None, conversation=None):
     lowered = text.lower()
     route = None
     facts, constraints, uniform = {}, [], False
+    constraints_bound = False
     if any(x in lowered for x in ["浮点", "floating", "fp32", "fp16", "efpm", "eafpu", "mmbs", "ssfpm"]):
         route = "floating"
     elif any(x in lowered for x in ["dcim", "存内计算", " pe", "pe ", "pe功能", "pe 功能"]):
@@ -279,7 +285,7 @@ def plan_request(text, previous=None, conversation=None):
         facts = explicit_parameters(text, route)
         uniform = route in ["multiplier", "dcim"] and "compressor_id" in facts and not any(
             marker in lowered for marker in ["逐位置", "逐个", "列表", "其余", "前", "list", "分配"])
-        if previous and previous.get("workflow") == route and any(marker in text for marker in ["其余不变", "其他不变", "其它不变", "只把", "只改", "仅改"]):
+        if previous and previous.get("workflow") == route and any(marker in text for marker in ["其余不变", "其他不变", "其它不变", "只把", "只改", "仅改", "最佳配置", "最优配置", "刚才的最佳", "按刚才", "复测"]):
             facts = {**previous["parameters"], **facts}
         if uniform:
             facts.pop("compressor_ids", None)
@@ -295,10 +301,31 @@ def plan_request(text, previous=None, conversation=None):
         write_json(audit / "explicit_parameters.json", facts)
         messages[0]["content"] += "\n已识别的明确需求必须落实：" + json.dumps(facts, ensure_ascii=False)
         constraints = explicit_constraints(text, route)
-        if constraints:
+        if not constraints and previous and previous.get("workflow") == route and any(marker in text for marker in ["其余不变", "其他不变", "其它不变", "只把", "只改", "仅改", "重新跑", "重新运行", "最佳配置", "最优配置", "按刚才", "复测"]):
+            if not any(marker in text for marker in ["取消约束", "去掉约束", "不再要求"]):
+                constraints = copy.deepcopy(previous.get("constraints", []))
+        constraints_bound = bool(constraints) or not re.search(r"[<>≤≥]|不超过|不高于|不低于|小于|大于|低于|高于|至少|至多|以内|以下|以上|上限|下限|控制在", text)
+        if constraints_bound:
             schema["properties"]["constraints"] = {"const": constraints}
             messages[0]["content"] += "\n必须逐项验收的明确约束：" + json.dumps(constraints, ensure_ascii=False)
             write_json(audit / "explicit_constraints.json", constraints)
+        if (ROOT / "experience/experience.sqlite3").exists():
+            baseline = {"workflow": route, "parameters": {**(previous.get("parameters", {}) if previous and previous.get("workflow") == route else {}), **facts}}
+            try:
+                baseline = validate(baseline)
+                context = retrieve(ROOT, baseline, runtime_environment(ROOT, source_digest(manifest(SOURCE))), consumer=str(audit.relative_to(ROOT)))
+                write_json(audit / "experience_retrieval.json", context)
+                if context["observations"]:
+                    messages.append({"role": "user", "content": "本地历史经验（观测数据，用户需求优先，须重新验证）：" + json.dumps(compact_context(context), ensure_ascii=False)})
+            except ValueError:
+                pass  # Unsupported explicit specifications still go through the normal planner.
+    if route == "multiplier":
+        public_plan = {"workflow": route, "parameters": {**DEFAULTS[route], **(previous.get("parameters", {}) if previous and previous.get("workflow") == route else {}), **facts}, "constraints": constraints}
+        public = retrieve_public(ROOT, public_plan, allow_assignments=not any(k in facts for k in ("compressor_id", "compressor_ids")))
+        write_json(audit / "public_dataset_retrieval.json", public)
+        if public["observations"]:
+            messages.append({"role": "user", "content": "公开配置与标签参考（非本地实测，不能覆盖明确需求）：" + json.dumps(public, ensure_ascii=False)})
+    messages.append({"role": "user", "content": text})
     client = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     for attempt in range(2):
         body = {"model": MODEL, "messages": messages, "format": schema, "stream": False,
@@ -321,12 +348,14 @@ def plan_request(text, previous=None, conversation=None):
                 raw["parameters"] = {**previous["parameters"], **raw.get("parameters", {})}
                 if uniform:
                     raw["parameters"].pop("compressor_ids", None)
+            if raw.get("intent") == "run" and raw.get("parameters", {}).get("kind") in ["exact", "log"] and "compressor_ids" not in facts:
+                raw["parameters"].pop("compressor_ids", None)  # These implementations do not use an approximate assignment.
             plan = validate(raw)
             if plan["intent"] == "run":
                 if any(plan["parameters"].get(key) != value for key, value in facts.items()):
                     raise ValueError("模型未落实明确给定的参数")
-                if constraints and plan["constraints"] != constraints:
-                    raise ValueError("模型未落实明确给定的验收约束")
+                if constraints_bound and plan["constraints"] != constraints:
+                    raise ValueError("模型未落实明确给定的验收约束，或添加了用户未要求的阈值")
             write_json(audit / "plan.json", plan)
             return plan, {"audit_directory": str(audit), "reply": reply}
         except (ValueError, TypeError, KeyError) as exc:
@@ -368,14 +397,91 @@ def main():
     explore.add_argument("--spec", type=Path, help="明确指定plan/space/objectives的探索JSON")
     explore.add_argument("--resume", type=Path, help="续跑已有单类探索目录，保留历史")
     explore.add_argument("--without-model", action="store_true", help="确定性候选选择，便于复现与调试")
+    explore.add_argument("--legacy", action="store_true", help="明确使用旧的单级局部探索，兼容历史实验")
+    acco = sub.add_parser("acco", help="论文方向：架构搜索、实测复核、器件优化的两级ACCO")
+    acco.add_argument("request", nargs="?", default="")
+    acco.add_argument("--spec", type=Path, help="两级实验JSON，包含容量/精度与分阶段预算")
+    acco.add_argument("--workflow", choices=["sram", "multiplier"])
+    acco.add_argument("--budget", type=int, default=64)
+    acco.add_argument("--max-seconds", type=int, default=7200)
+    acco.add_argument("--without-model", action="store_true")
+    acco.add_argument("--plan-only", action="store_true")
     summary = sub.add_parser("summarize", help="直接总结已有任务结果，不重跑仿真")
     summary.add_argument("task", type=Path)
     summary.add_argument("--no-model", action="store_true", help="直接汇总实测数据")
+    memory = sub.add_parser("memory", help="本地经验积累、检索和跨模型JSONL交换")
+    actions = memory.add_subparsers(dest="action", required=True)
+    actions.add_parser("stats", help="查看经验库统计")
+    learn = actions.add_parser("learn", help="导入历史实际运行，重复导入不会增加重复记录")
+    learn.add_argument("--task", type=Path)
+    actions.add_parser("export", help="导出模型无关JSONL到experience/exports")
+    load = actions.add_parser("import", help="导入其它模型/机器的JSONL，仅作为未验证参考")
+    load.add_argument("file", type=Path)
+    query = actions.add_parser("query", help="输出模型无关经验上下文JSON")
+    query.add_argument("--workflow", choices=list(DEFAULTS))
+    query.add_argument("--spec", type=Path)
+    query.add_argument("--limit", type=int, default=6)
+    dataset = sub.add_parser("dataset", help="公开电路数据下载、对照和模型检索")
+    dataset.add_argument("action", choices=["fetch", "prepare", "status", "query", "verify"])
+    dataset.add_argument("--spec", type=Path)
+    dataset.add_argument("--limit", type=int, default=6)
+    dataset.add_argument("--without-model", action="store_true", help="verify仅复测，不调用DeepSeek")
     args = parser.parse_args()
+    if args.mode == "dataset":
+        from public_dataset import fetch, prepare, directory, query, verify
+        if args.action == "fetch":
+            result = fetch(ROOT)
+            result = {"repository": result["repository"], "revision": result["revision"], "files": len(result["files"]), "total_bytes": result["total_bytes"]}
+        elif args.action == "prepare":
+            result = prepare(ROOT, SOURCE)
+        elif args.action == "status":
+            report = directory(ROOT) / "audits/validation.json"
+            result = json.loads(report.read_text()) if report.exists() else {"ready": False, "directory": str(directory(ROOT))}
+        elif args.action == "verify":
+            result = verify(sys.modules[__name__], use_model=not args.without_model)
+        else:
+            plan = json.loads(args.spec.read_text()) if args.spec else {"workflow": "multiplier", "parameters": {"bit_width": 8, "kind": "approx"}, "constraints": []}
+            if "plan" in plan:
+                plan = plan["plan"]
+            result = query(ROOT, plan, limit=args.limit, allow_assignments=True)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 2 if args.action == "verify" and result["status"] != "completed" else 0
+    if args.mode == "memory":
+        store = ExperienceStore(ROOT)
+        if args.action == "stats":
+            print(json.dumps(store.stats(), ensure_ascii=False, indent=2))
+        elif args.action == "learn":
+            result = store.learn(args.task)
+            store.export()
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 2 if result["errors"] else 0
+        elif args.action == "export":
+            print(store.export())
+        elif args.action == "import":
+            print(f"新增外部参考经验：{store.import_file(args.file)}")
+            store.export()
+        else:
+            if not args.spec and not args.workflow:
+                raise ValueError("memory query需提供--spec或--workflow")
+            plan = json.loads(args.spec.read_text()) if args.spec else {"workflow": args.workflow, "parameters": {}}
+            if "plan" in plan:
+                plan = plan["plan"]
+            environment = runtime_environment(ROOT, source_digest(manifest(SOURCE)))
+            context = store.query(plan, environment, limit=args.limit, consumer="cli_query")
+            print(json.dumps(context, ensure_ascii=False, indent=2))
+        return 0
+    if args.mode == "acco":
+        from acco import command
+        result = command(sys.modules[__name__], args.request, args.spec, args.workflow, args.budget,
+                         args.max_seconds, not args.without_model, plan_only=args.plan_only)
+        if args.plan_only:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
+        return 0 if json.loads((result / "result.json").read_text())["status"] == "completed" else 2
     if args.mode == "explore":
         from exploration import explore_command
         job = explore_command(sys.modules[__name__],args.request,args.workflow,args.budget,args.max_seconds,
-                              not args.without_model,args.spec,args.resume)
+                              not args.without_model,args.spec,args.resume,legacy=args.legacy)
         return 0 if json.loads((job / "result.json").read_text())["status"] == "completed" else 2
     if args.mode == "full-flow":
         from full_flow import run_full_flow
@@ -404,23 +510,18 @@ def main():
         if job and json.loads((job / "result.json").read_text())["status"] != "completed":
             return 2
     elif args.mode == "ask":
-        from exploration import is_exploration, explore_command
-        if is_exploration(args.request) and not args.plan_only:
-            job=explore_command(sys.modules[__name__],args.request)
-            return 0 if json.loads((job / "result.json").read_text())["status"]=="completed" else 2
-        plan, reply = plan_request(args.request)
-        if args.plan_only:
-            print(json.dumps(plan, ensure_ascii=False, indent=2))
-        else:
-            job = run_plan(plan, prompt=args.request, model_reply=reply)
-            if job:
-                summarize(job, OLLAMA, MODEL)
-            if job and json.loads((job / "result.json").read_text())["status"] != "completed":
-                return 2
+        from conversation import Session
+        outcome = Session().turn(sys.modules[__name__], args.request, plan_only=args.plan_only)
+        if "text" in outcome:
+            print(outcome["text"])
+        elif outcome["mode"] == "plan":
+            print(json.dumps(outcome["plan"], ensure_ascii=False, indent=2))
+        if "job" in outcome and json.loads((outcome["job"] / "result.json").read_text())["status"] != "completed":
+            return 2
     else:
+        from conversation import Session
         ui = TerminalUI(args.theme, args.color)
-        previous = None
-        conversation = []
+        session = Session()
         ui.banner()
         if args.banner_only:
             return
@@ -431,8 +532,12 @@ def main():
                     ui.status("已退出交流。")
                     break
                 if text == "/new":
-                    previous, conversation = None, []
+                    session = Session()
                     ui.status("已开启新对话。")
+                    continue
+                if text == "/memory":
+                    print(json.dumps(ExperienceStore(ROOT).stats(), ensure_ascii=False, indent=2))
+                    ui.status(f"经验目录：{ROOT / 'experience'}")
                     continue
                 if not text:
                     continue
@@ -440,35 +545,18 @@ def main():
                     continue
                 only = text.startswith("/plan ")
                 request = text[6:] if only else text
-                from exploration import is_exploration, explore_command
-                if not only and is_exploration(request):
-                    job=explore_command(sys.modules[__name__],request,previous=previous)
-                    outcome=json.loads((job / "result.json").read_text())
-                    conversation += [{"role":"user","content":request},{"role":"assistant","content":(job/"reports/summary.md").read_text()}]
-                    if (job/"best_plan.json").exists():
-                        previous=json.loads((job/"best_plan.json").read_text())
-                    continue
-                ui.status("DeepSeek 正在整理需求…")
-                plan, reply = plan_request(request, previous, conversation)
-                if only:
-                    print(json.dumps(plan, ensure_ascii=False, indent=2))
-                elif plan["intent"] != "run":
-                    print(plan["message"])
-                conversation += [{"role": "user", "content": request}, {"role": "assistant", "content": json.dumps(plan, ensure_ascii=False)}]
-                if plan["intent"] == "run":
-                    previous = plan
-                    if not only:
-                        job = run_plan(plan, prompt=request, model_reply=reply)
-                        result_file = job / "result.json"
-                        if result_file.exists():
-                            summary_text = summarize(job, OLLAMA, MODEL, ui=ui)
-                            conversation += [{"role": "user", "content": "执行器实测结果：" + result_file.read_text()},
-                                             {"role": "assistant", "content": summary_text}]
+                outcome = session.turn(sys.modules[__name__], request, plan_only=only, ui=ui)
+                if "text" in outcome:
+                    print(outcome["text"])
+                elif outcome["mode"] == "plan":
+                    print(json.dumps(outcome["plan"], ensure_ascii=False, indent=2))
             except (EOFError, KeyboardInterrupt):
                 ui.status("已退出交流。")
                 break
             except Exception as exc:
-                ui.error(f"未执行或执行失败：{exc}")
+                label = {"dialogue": "本轮对话暂未完成", "consultation": "问题回答暂未完成", "planning": "需求尚未形成有效计划，未启动仿真",
+                         "execution": "执行未完成", "summary": "实测已保存，总结暂未完成"}.get(session.phase,"操作未完成")
+                ui.error(f"{label}：{exc}")
 
 
 if __name__ == "__main__":

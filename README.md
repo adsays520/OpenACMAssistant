@@ -4,9 +4,11 @@
 
 支持 SRAM 和八种压缩器 SPICE、整数/浮点乘法器 RTL 与综合评估、DCiM 功能仿真及完整 ASIC 后端。能力范围和限制见 [能力与需求指南](docs/OpenACM能力与需求指南.md)，实测记录见 [验证记录](docs/验证记录.md)。
 
+研究探索采用 **ACCO 两级流程**：在精度/容量约束下搜索架构，复核入选项，再固定架构优化器件。SRAM先确定bank组织，再执行器件与明确PVT/Monte Carlo；近似乘法器先用原8/16位PEA-GNN筛选，再以RTL、综合、STA活动功耗及单元真值复核。LLM、随机和原NSGA-II是可选策略。流程与边界见[两级探索](skills/openacm-design/references/acco.md)。
+
 ## 安装
 
-需要 Python 3.11+、Linux x86_64、Landlock ABI≥3，以及单独准备的 OpenACM 源目录和 EDA 工具。此仓库不包含 OpenACM 源码、模型权重或商业工具。
+需要 Python 3.10+、Linux x86_64、Landlock ABI≥3，以及单独准备的 OpenACM 源目录和 EDA 工具。此仓库不包含 OpenACM 源码、模型权重或商业工具。
 
 ```bash
 python3 -m venv .venv
@@ -22,37 +24,70 @@ export OPENACM_MODEL=deepseek-script
 
 Xyce 用于 SPICE；Icarus/vvp 用于 RTL；Yosys 用于综合；完整 DCiM 后端还需要 OpenROAD、OpenSTA（PATH 中的 `sta`/`opensta`）、GCC 和有可用许可证的 VCS。bash alias不会被 Python 子进程继承。依赖缺失时保留错误，不假称仿真通过。
 
+ACCO附加CPU依赖：`.venv/bin/pip install -r requirements.acco.lock.txt`。SRAM bank模型需可读的OpenYield源目录，默认`../OpenYield/OpenYield`，可通过`OPENYIELD_SOURCE`指定。原NSGA-II、GNN和压缩器尺寸适配器从OpenACM的`DCIM_OPT`复制；执行受Landlock约束，原目录不写入。没有sudo要求。
+
 ## 语言交流
 
 ```text
+你能干什么？
+8位乘法器有哪些参数？MRED是什么意思？
 做8位近似乘法器，所有近似位置用sabetz，固定种子采样4096组，要求MRED≤0.02。
 做16行8列SRAM，1V、TT，PU90nm、PD90nm、PG135nm、L50nm，跑读写和三种SNM。
 其余不变，只把电压改为0.9V，重新仿真。
 做FP16的Exact浮点乘法器，采样256组。
 探索8位近似乘法器，预算64个候选，要求MRED≤0.02。
-全工程设计空间探索，预算64个候选。
+探索SRAM，总容量4KB，输出字宽8位，预算32个候选。
+局部探索16行8列SRAM，读延迟≤0.5ns，read SNM≥0.2V，平均读功耗最小。
 ```
 
 `/plan 需求`只查看计划，`/new`清除上下文，`/exit`退出。启动界面提供 OPENACM 字符画及 `neon/ocean/sunset/mono` 主题；使用 `/theme ocean` 切换，`NO_COLOR=1` 禁用颜色。
+
+交流使用统一的上下文：DeepSeek同时看到当前问题、聊天记录、设计草案和历史实测，一轮可以解释、提出建议并调用参数/仿真工具。例如“之前探索的数值可以做什麽”会结合历史探索说明比较筛选、Pareto权衡、复测、继续优化与训练数据用途；随后可以说“解释刚才最佳配置，然后复测，改为穷举”。运行工具仍校验明确要求和参数，不因话里出现“探索”就启动循环。历史任务可通过名称指定，未指定时读取匹配的最近真实任务，跳过验证/对话审计目录。
+
+`/plan`或“先给我看计划”保存草案，随后“开始运行”直接执行；“其余不变，只改…”保留设计条件和验收约束。结果追问读取实测与日志，草案不能被称为已达标。模型连接或回复无效时回退到本地事实并保留上下文。CLI也可用`ask '你能干什么'`。详见[对话参考](skills/openacm-design/references/conversation-guide.md)。
 
 DeepSeek 整理需求和总结重点；实际数字、验收和最佳候选由执行器依据测量填写。无效或截断的计划自动重试一次；仍无效时停止执行。总结服务不可用时直接输出实测总结。
 
 ## 仿真与探索
 
 ```bash
+./openacm-assistant.sh acco --spec examples/acco-sram-smoke.json --plan-only
+./openacm-assistant.sh acco --spec examples/acco-sram-4kb.json
+./openacm-assistant.sh acco --spec examples/acco-multiplier-smoke.json
 ./openacm-assistant.sh ask '做8位精确乘法器，穷举所有输入'
 ./openacm-assistant.sh run examples/dcim-full.json
 ./openacm-assistant.sh summarize runs/<任务目录>
 ./openacm-assistant.sh full-flow
-./openacm-assistant.sh explore --workflow all --budget 64 --max-seconds 3600
+./openacm-assistant.sh explore --workflow all --budget 64 --max-seconds 3600 --legacy
 ./openacm-assistant.sh explore '探索16位近似乘法器，MRED≤0.02' --budget 128
 ./openacm-assistant.sh explore --spec examples/explore-multiplier.json --budget 64
 ./openacm-assistant.sh explore --resume runs/<单类探索目录> --budget 256
 ```
 
-探索循环逐次反馈实测数据，由 DeepSeek 从经校验的候选菜单中选择下一配置。每类默认64个候选，可提高到10000；时间预算和候选预算共同生效。只有约束全部达标且目标已测量的候选参与排名，同时保留 Pareto 候选。默认数字探索测量综合映射面积；指定 `backend=asic` 的 DCiM 探索实际执行完整后端。位宽、容量、随机种子、测试向量和模型条件保持一致。
+SRAM/近似乘法器新探索默认两级ACCO；显式旧JSON、历史resume、`--legacy`或“局部探索”保持旧单级格式。ACCO分别记录架构、入选复核和每个入选项的器件预算，max_seconds约束整管线。预测用predicted_*，bank外围/面积用*_estimate；仅实测精度通过的乘法器进入器件阶段。SRAM必须给总容量和输出字宽，不能用默认小阵列替代容量规格。完整ACCO暂未开放中途续跑，已完成阶段与超时记录保留。
 
-每次运行放入 `runs/<时间>_<任务>_<ID>/`，包含配置、普通工作副本、产物、日志、报告和源文件完整性校验。探索额外保存 `best_plan.json`、`history.csv`、逐轮模型决策和可续跑检查点。`--without-model`使用确定性选择；不会把它标为 LLM 决策。
+旧单级循环逐次反馈实测数据，默认64候选并保留Pareto；数字局部探索默认测综合面积，backend=asic的DCiM局部探索跑完整后端。单级局部结果不能当作论文两级协同优化已完成。
+
+每次运行放入 `runs/<时间>_<任务>_<ID>/`，包含配置、普通工作副本、产物、日志、报告和源文件完整性校验。旧单级探索额外保存 `best_plan.json`、`history.csv`、逐轮模型决策和可续跑检查点。`--without-model`使用固定种子的本地搜索；不会把它标为 LLM 决策。
+
+ACCO使用`stages/`保存架构/验证/器件父子关系，`decisions/`保留LLM请求与回复，`reference_manifest.json`记录原代码/权重SHA，`observations.jsonl`导出模型无关经验。SRAM最佳项用`best_experiment.json`复验，保持总容量/PVT；完整结果可直接追问或summarize。器件模板目前为简化LEVEL_1，没有将定制单元重新表征并回灌完整PE；应用PSNR/NN精度和论文全部实验尚未自动接通。
+
+## 持久经验积累
+
+实际结果自动记录到专属 `experience/`，新规划和探索检索历史配置、指标及失败原因。匹配测试范围的成功设计可成为待验证候选；旧记录或不同条件只作参考。经验积累不更新模型权重，原始OpenACM仍只读。
+
+```bash
+./openacm-assistant.sh memory learn          # 首次导入本机历史，重复执行不重复入库
+./openacm-assistant.sh memory stats
+./openacm-assistant.sh memory query --spec examples/explore-multiplier.json
+./openacm-assistant.sh memory export         # experience/exports/observations.jsonl
+```
+
+聊天 `/memory` 查看统计。SQLite本地索引及标准JSON/JSONL接口不依赖DeepSeek，换模型可继续共用；外部导入只作未验证参考。文件、证据规则与其它模型接入见[持久经验库](docs/持久经验库.md)。经验目录不进入Git。
+
+## 公开电路数据
+
+公开8位乘法器数据可独立下载到`datasets/`并核验。接入后，DeepSeek在规划和探索时检索配置/标签参考，候选仍重新仿真；不会更新模型权重或将公开标签当本地实测。用`dataset fetch`、`dataset prepare`、`dataset status`管理，用`dataset verify`验证实际模型与仿真接入。完整命令、对照结果和限制见[公开数据接入](docs/公开数据接入.md)。
 
 ## 尺寸与实现
 
@@ -70,9 +105,13 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_invariants.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_planner_recovery.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_summaries.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_exploration.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_experience.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_public_dataset.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_dialogue.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_acco.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_sizes.py --all-widths
 ```
 
-前四项覆盖输入校验、真实 Landlock 隔离、计划重试、结果总结、探索续跑及浮点参考；其中结果总结和计划重试使用仓库附带的小型夹具，基本回归不要求安装 EDA 或部署 DeepSeek。尺寸验证需要本机 EDA/OpenACM 环境，失败尺寸也会保留记录。完整仿真目录、虚拟环境、模型和私密配置不进入 Git。
+前四项覆盖输入校验、真实 Landlock 隔离、计划重试、结果总结、探索续跑及浮点参考；其中结果总结和计划重试使用仓库附带的小型夹具，基本回归不要求安装 EDA 或部署 DeepSeek。check_acco需要可读的原OpenACM/OpenYield代码，用于核对架构构造器和原NSGA-II的小种群行为，不启动EDA。尺寸验证需要本机 EDA/OpenACM 环境，失败尺寸也会保留记录。本次两级实测范围见[验证记录](docs/验证记录.md#2026-10-25论文方向校正与acco两级探索)。完整仿真目录、虚拟环境、模型和私密配置不进入 Git。
 
 领域 skill：[openacm-design](skills/openacm-design/SKILL.md)。DeepSeek 入口直接读取该 skill 和参数参考，不要求模型原生支持 skill/tool calling。

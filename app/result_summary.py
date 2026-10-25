@@ -20,6 +20,17 @@ LABELS = {
     "routed_power_uw": ("当前测试负载下的后端模型功耗", "µW"),
     "synthesized_area_um2": ("Nangate45综合映射面积", "µm²"),
     "special_mismatch_count": ("浮点特殊值/边界不一致数量", ""),
+    "pdp_fj": ("功耗延迟积 PDP", "fJ"), "sta_delay_ns": ("综合后STA延迟", "ns"),
+    "sta_dynamic_power_uw": ("指定VCD活动下动态功耗", "µW"),
+    "bank_area_um2_estimate": ("bank估算面积", "µm²"),
+    "bank_read_power_uw_estimate": ("bank估算读功耗", "µW"),
+    "bank_write_power_uw_estimate": ("bank估算写功耗", "µW"),
+    "bank_read_delay_ns_estimate": ("bank估算读延迟", "ns"),
+    "bank_write_delay_ns_estimate": ("bank估算写延迟", "ns"),
+    "bank_pmax_uw_estimate": ("bank估算最差功耗", "µW"),
+    "bank_dmax_ns_estimate": ("bank估算最差延迟", "ns"),
+    "min_snm_v": ("最小SNM", "V"),
+    "fom_arch_estimate": ("架构FOM估算", ""), "fom_robust_estimate": ("工程鲁棒FOM估算", ""),
 }
 STATUS = {"completed": "仿真完成", "infeasible": "仿真完成，但要求未全部达标",
           "unverified_constraints": "仿真完成，但部分要求尚未验证", "failed": "任务未完成",
@@ -62,7 +73,7 @@ def evidence(job):
     status = result["status"]
     plan_path = job / "plan.json"
     plan = json.loads(plan_path.read_text()) if plan_path.exists() else None
-    title = design_text(plan) if plan else "DeepSeek设计空间探索" if result.get("kind") in ["exploration","exploration_suite"] else "全工程参考流程"
+    title = design_text(plan) if plan else "ACCO两级探索" if result.get("kind") == "acco" else "DeepSeek设计空间探索" if result.get("kind") in ["exploration","exploration_suite"] else "全工程参考流程"
     verdict = STATUS.get(status, status)
     facts["status"] = f"{title}：{verdict}。"
     essential.append("status")
@@ -132,6 +143,25 @@ def evidence(job):
         facts["constraints"] = "要求验收：\n" + "\n".join("  • " + line for line in lines)
     elif batch_path.exists():
         facts["constraints"] = "验收按各候选的实际测量分别判定；最佳项只从已达标候选中选择。"
+    elif result.get("kind") == "acco":
+        facts["stages"] = "两级阶段记录：\n" + "\n".join(f"  • {name}：{stage['status']}，{len(stage['records'])}条；来源{stage['evidence_kind']}" for name, stage in result.get("stages", {}).items())
+        best = result.get("best_design")
+        facts["best"] = ("最佳已评价项：" + best["candidate"] + "；来源：" + best["evidence_kind"] + "\n" + "；".join(value_text(k, v) for k, v in best["metrics"].items() if type(v) in (int, float))) if best else "本次没有可推荐的完整入选结果，不能用预测值代替实测验收。"
+        facts["scope"] = result.get("implementation_limit", "SRAM bank外围及面积为单阵列SPICE加OpenYield模型估算；PVT/MC只覆盖已记录案例，不证明稀有失效率或版图签核。")
+        essential += ["stages", "best", "scope"]
+        checks = best.get("constraints", []) if best else [c for stage in result.get("stages", {}).values()
+            if stage["evidence_kind"] != "prediction" for row in stage["records"] for c in row.get("constraints", []) if c["passed"] is not True][:3]
+        if checks:
+            facts["constraints"] = "验收依据：" + "；".join(f"{c['metric']} {'≤' if c['op']=='le' else '≥'} {c['value']:g}，实际{c['actual']}："
+                + {True: "通过", False: "未达标", None: "未测量"}[c["passed"]] for c in checks)
+            essential.append("constraints")
+        for i, device in enumerate(result.get("best_device_designs", [])):
+            label = f"device_best_{i}"
+            facts[label] = ("单元器件阶段最佳已评价项：" + device["candidate"] + "；父项：" + device["parent"] + "；逐组宽度倍率："
+                + json.dumps(device["parameters"], ensure_ascii=False) + "\n"
+                + "；".join(value_text(k, v) for k, v in device["metrics"].items() if type(v) in (int, float))
+                + "。此处是单元SPICE及估算面积，未回灌完整乘法器。")
+            essential.append(label)
     elif result.get("kind") == "exploration":
         config=result["config"]
         candidates=result["candidates"]

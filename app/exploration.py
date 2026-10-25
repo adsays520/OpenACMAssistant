@@ -17,6 +17,8 @@ from zoneinfo import ZoneInfo
 
 from bindings import explicit_parameters, explicit_constraints
 from spec import COMPRESSORS, DEFAULTS, METRICS, compressor_count, validate
+from experience import automatic_learn, retrieve, compact_context, runtime_environment, source_digest, preferred_options
+from public_dataset import retrieve_public, preferred_public_options, augment_default_space, decision_context, POLICY as PUBLIC_DATA_POLICY
 
 
 WORKFLOWS = ["sram", "multiplier", "compressor", "dcim", "floating"]
@@ -127,7 +129,7 @@ def default_config(workflow, request="", base=None):
             space[key]=accepted
         else:
             space.pop(key)
-    return config
+    return augment_default_space(Path(__file__).resolve().parents[1], config)
 
 
 def candidate_plan(config, changes):
@@ -247,7 +249,7 @@ def menu(config,records,rng,limit=12):
     return head+rng.sample(items[len(head):],limit-len(head))
 
 
-def choose_model(options,records,config,endpoint,model,audit,timeout):
+def choose_model(options,records,config,endpoint,model,audit,timeout,persistent=None,public=None):
     schema={"type":"object","additionalProperties":False,"properties":{
         "candidate_index":{"type":"integer","enum":list(range(len(options)))},
         "reason":{"type":"string","maxLength":200}},"required":["candidate_index","reason"]}
@@ -262,8 +264,8 @@ def choose_model(options,records,config,endpoint,model,audit,timeout):
     if best:
         best={**best,"parameters":brief(best["parameters"])}
     body={"model":model,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":8192,"num_predict":220},
-          "messages":[{"role":"system","content":"你是OpenACM设计空间探索工程师。根据实测反馈选择下一项尚未运行的设计。先满足约束，再优化objectives第一项；兼顾其余目标，探索不同架构和参数组合。失败点不能当优胜者。仅返回菜单candidate_index和简短中文reason，不生成程序、不编造仿真结果。"},
-                      {"role":"user","content":json.dumps({"constraints":config["plan"]["constraints"],"objectives":config["objectives"],"best_measured":best,"recent_measured":history,"menu":[{"candidate_index":i,"parameters":brief(o["parameters"])} for i,o in enumerate(options)]},ensure_ascii=False)}]}
+          "messages":[{"role":"system","content":"你是OpenACM设计空间探索工程师。根据实测反馈选择下一项尚未运行的设计。先满足约束，再优化objectives第一项；兼顾其余目标，探索不同架构和参数组合。失败点不能当优胜者。menu内候选尚未在本轮实测，reason只能说明待验证的选择依据，不能说候选已达标或已有本地测量。仅返回菜单candidate_index和简短中文reason，不生成程序、不编造仿真结果。" + PUBLIC_DATA_POLICY},
+                      {"role":"user","content":json.dumps({"constraints":config["plan"]["constraints"],"objectives":config["objectives"],"best_measured":best,"recent_measured":history,"persistent_experience":compact_context(persistent) if persistent else None,"public_dataset_reference":public,"menu":[{"candidate_index":i,"parameters":brief(o["parameters"])} for i,o in enumerate(options)]},ensure_ascii=False)}]}
     json_write(audit/"request.json",body)
     client=urllib.request.build_opener(urllib.request.ProxyHandler({}))
     request=urllib.request.Request(endpoint+"/api/chat",data=json.dumps(body).encode(),headers={"Content-Type":"application/json"})
@@ -276,6 +278,18 @@ def choose_model(options,records,config,endpoint,model,audit,timeout):
     index=choice["candidate_index"]
     if type(index) is not int or not 0<=index<len(options) or not isinstance(choice["reason"],str):
         raise ValueError("探索建议不在允许菜单中")
+    if public and public["observations"]:
+        ids=options[index]["parameters"].get("compressor_ids")
+        evidence=next((r for r in public["observations"] if r["compressor_ids"]==ids),None)
+        if evidence:
+            # Raw model prose is retained in reply.json; external labels cannot
+            # turn speculative selection prose into a passed local constraint.
+            reason=f"选择菜单{index}复测；参考公开样本{evidence['sample_id']}（发布MRED={evidence['published_labels']['mred']:.6g}），本地是否达标待验收。"
+            json_write(audit/"reason_grounding.json",{"raw_model_reason":choice["reason"],"reason":reason,"sample_id":evidence["sample_id"]})
+            return index,reason
+        reason=f"选择菜单{index}探索其它配置；公开数据仅供参考，须本地实测验收。"
+        json_write(audit/"reason_grounding.json",{"raw_model_reason":choice["reason"],"reason":reason,"sample_id":None})
+        return index,reason
     return index,choice["reason"][:200]
 
 
@@ -341,6 +355,14 @@ def run_exploration(root,source,config,runner,manifest,endpoint,model,budget=64,
         state["sessions"].append(session)
         started=time.monotonic()
         rng=random.Random(config["plan"]["parameters"].get("seed",42)+len(state["candidates"]))
+        persistent=retrieve(root,config["plan"],runtime_environment(root,source_digest(before)),consumer=str(job.relative_to(root)),
+                            exclude_prefix=str(job.relative_to(root)),objectives=config["objectives"],allow_shapes="shape" in config["space"])
+        json_write(job/"experience_retrieval.json",persistent)
+        reference_plan=copy.deepcopy(config["plan"])
+        if "compressor_ids" in config["space"] or "compressor_id" in config["space"]:
+            reference_plan["parameters"]["kind"]="approx"
+        public=retrieve_public(root,reference_plan,limit=32,objectives=config["objectives"],allow_assignments="compressor_ids" in config["space"])
+        json_write(job/"public_dataset_retrieval.json",public)
         print(f"探索目录：{job}\n目标：{config['objectives']}；约束：{config['plan']['constraints']}\n预算：{budget} 个候选，{max_seconds} 秒。",flush=True)
         try:
             while len(state["candidates"])<budget:
@@ -348,6 +370,11 @@ def run_exploration(root,source,config,runner,manifest,endpoint,model,budget=64,
                 if remaining<5:
                     state["stop_reason"]="time_budget"; break
                 options=menu(config,state["candidates"],rng)
+                if state["candidates"]:
+                    prior=preferred_options(persistent,config,state["candidates"])
+                    prior += preferred_public_options(public,config,state["candidates"])
+                    seen={fingerprint(p["parameters"]) for p in prior}
+                    options=(prior+[p for p in options if fingerprint(p["parameters"]) not in seen])[:12]
                 if not options:
                     state["stop_reason"]="space_exhausted"; break
                 index,reason,proposer=0,"基线或确定性覆盖", "baseline" if not state["candidates"] else "deterministic"
@@ -358,7 +385,9 @@ def run_exploration(root,source,config,runner,manifest,endpoint,model,budget=64,
                 if use_model and state["candidates"]:
                     print(f"[{number}/{budget}] DeepSeek根据已测结果选择下一配置…",flush=True)
                     try:
-                        index,reason=choose_model(options,state["candidates"],config,endpoint,model,audit,min(120,max(1,remaining-2)))
+                        visible_public=decision_context(public,options)
+                        json_write(audit/"public_dataset_retrieval.json",visible_public)
+                        index,reason=choose_model(options,state["candidates"],config,endpoint,model,audit,min(120,max(1,remaining-2)),persistent,visible_public)
                         proposer="deepseek"
                     except Exception as exc:
                         (audit/"error.txt").write_text(str(exc)+"\n")
@@ -402,6 +431,7 @@ def run_exploration(root,source,config,runner,manifest,endpoint,model,budget=64,
             save(job,state)
             if delta:
                 raise RuntimeError("原始OpenACM完整性校验未通过")
+            automatic_learn(root,job)
     return job
 
 
@@ -409,16 +439,26 @@ def is_exploration(text):
     return bool(re.search(r"设计空间|探索|架构优化|\bloop\b|\bdse\b|跑.*最优|优化.*(?:候选|轮|次)",text,re.I))
 
 
-def explore_command(api,request="",workflow=None,budget=64,max_seconds=7200,use_model=True,spec_path=None,resume=None,previous=None):
+def explore_command(api,request="",workflow=None,budget=64,max_seconds=7200,use_model=True,spec_path=None,resume=None,previous=None,legacy=False):
     """CLI/chat routing; model still makes the sequential, feedback-based choices."""
     if resume:
         config=json.loads((Path(resume)/"config.json").read_text())
+        if config.get("schema_version") == 1 and "budgets" in config:
+            raise ValueError("ACCO阶段记录已保存；当前请用原config创建新任务，尚未开放中途续跑，不能用旧单级入口续跑")
         job=run_exploration(api.ROOT,api.SOURCE,config,api.run_one,api.manifest,api.OLLAMA,api.MODEL,budget,max_seconds,use_model,resume,request)
         api.summarize(job,api.OLLAMA,api.MODEL,use_model=use_model)
         return job
     count=re.search(r"(?:预算|最多|跑|探索)\s*(\d+)\s*(?:个候选|个配置|轮|次)",request)
     if count:
         budget=int(count[1])
+    legacy = legacy or bool(re.search(r"局部探索|单级探索|legacy", request, re.I))
+    from acco_spec import request_is_acco
+    from conversation import workflow as detect
+    detected = workflow or detect(request) or (previous or {}).get("workflow")
+    is_acco_spec = spec_path and "budgets" in json.loads(Path(spec_path).read_text())
+    if is_acco_spec or (not legacy and not spec_path and (request_is_acco(request) or detected in ("sram", "multiplier"))):
+        from acco import command
+        return command(api, request, spec_path, workflow, budget, max_seconds, use_model, previous)
     if workflow=="all" or re.search(r"所有.*(?:电路|工程)|全工程|全部电路",request):
         selected=WORKFLOWS
     elif workflow:

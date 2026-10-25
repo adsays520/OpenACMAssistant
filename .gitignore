@@ -1,5 +1,7 @@
 .venv/
 runs/
+experience/
+datasets/
 __pycache__/
 *.py[cod]
 *.log

@@ -66,3 +66,5 @@ multiplier增加backend=functional/synthesis；synthesis执行Nangate45综合并
 独立整数运算RNE浮点参考与实际RTL比较，测error_rate、mred、special_mismatch_count，综合模式另测synthesized_area_um2。非有限错误输出时不报告MRED。Exact名称不代表IEEE已验证，不得忽略边界错误。用户FP16对应fp_width=16、exp_width=5，FP32为32/8。
 
 设计空间探索由外部explore入口控制，基线计划仍为普通run计划；模型逐轮仅选择允许菜单中的候选。见[exploration.md](exploration.md)。
+
+若输入带public_dataset_reference，则为公开8位近似乘法器训练样本参考。published_labels不属于本地实测；测量条件、单位和位置可比性未完整确认，不得把area当synthesized_area_um2，也不得声称待运行菜单候选已通过用户约束。明确用户参数优先，参考不允许修改固定种子、尺寸、后端或指定的压缩器。此机制检索数据而不更新模型权重。

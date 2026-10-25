@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "workflow": "sram",
+  "capacity_bits": 64,
+  "output_width": 4,
+  "plan": {
+    "workflow": "sram",
+    "parameters": {"rows": 4, "cols": 4, "pu_width_nm": 90, "pd_width_nm": 135, "pg_width_nm": 135},
+    "constraints": []
+  },
+  "architecture_space": {"rows": [4, 8], "cols": [4, 8], "mux_ratio": [1]},
+  "device_space": {"pd_width_nm": [135, 180]},
+  "budgets": {"architecture": 2, "validation": 1, "shortlist": 1, "device_per_parent": 2, "max_seconds": 600},
+  "solvers": {"architecture": "nsga2", "device": "random"},
+  "robustness": {
+    "cases": [{"corner": "TT", "temperature_c": 27, "vdd_v": 1}, {"corner": "SS", "temperature_c": 85, "vdd_v": 0.9}],
+    "mc_runs": 2,
+    "vth_std": 0.05
+  }
+}
