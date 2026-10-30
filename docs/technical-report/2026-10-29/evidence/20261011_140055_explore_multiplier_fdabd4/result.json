@@ -1,0 +1,7642 @@
+{
+  "kind": "exploration",
+  "status": "completed",
+  "config": {
+    "plan": {
+      "intent": "run",
+      "workflow": "multiplier",
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 1,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02
+        }
+      ],
+      "objective": null,
+      "sweep": null,
+      "message": "探索8位近似乘法器，不固定压缩器类型，种子42采样4096组，要求MRED≤0.02，最小化综合面积，预算128个候选。",
+      "assumptions": []
+    },
+    "space": {
+      "compressor_id": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "compressor_ids": [
+        [
+          1,
+          1,
+          1,
+          1,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        [
+          8,
+          8,
+          8,
+          8,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          2,
+          1,
+          5,
+          4,
+          4,
+          3,
+          2,
+          2,
+          7
+        ],
+        [
+          1,
+          1,
+          2,
+          4,
+          4,
+          1,
+          4,
+          7,
+          4
+        ],
+        [
+          8,
+          5,
+          1,
+          3,
+          7,
+          6,
+          5,
+          3,
+          4
+        ],
+        [
+          6,
+          2,
+          2,
+          7,
+          2,
+          6,
+          6,
+          5,
+          1
+        ],
+        [
+          8,
+          2,
+          7,
+          2,
+          5,
+          6,
+          4,
+          2,
+          1
+        ],
+        [
+          4,
+          5,
+          2,
+          4,
+          2,
+          7,
+          5,
+          8,
+          6
+        ],
+        [
+          3,
+          6,
+          6,
+          4,
+          5,
+          2,
+          3,
+          4,
+          3
+        ],
+        [
+          8,
+          7,
+          5,
+          4,
+          6,
+          1,
+          4,
+          1,
+          6
+        ],
+        [
+          7,
+          5,
+          2,
+          4,
+          6,
+          4,
+          8,
+          7,
+          8
+        ],
+        [
+          3,
+          5,
+          3,
+          4,
+          5,
+          7,
+          7,
+          6,
+          4
+        ],
+        [
+          3,
+          8,
+          2,
+          1,
+          2,
+          3,
+          3,
+          7,
+          2
+        ],
+        [
+          7,
+          7,
+          8,
+          5,
+          1,
+          2,
+          5,
+          6,
+          2
+        ],
+        [
+          5,
+          7,
+          3,
+          8,
+          1,
+          5,
+          3,
+          2,
+          5
+        ],
+        [
+          4,
+          3,
+          6,
+          3,
+          1,
+          6,
+          8,
+          1,
+          2
+        ],
+        [
+          6,
+          5,
+          4,
+          1,
+          4,
+          2,
+          2,
+          8,
+          2
+        ],
+        [
+          3,
+          3,
+          8,
+          3,
+          5,
+          7,
+          4,
+          4,
+          5
+        ],
+        [
+          7,
+          6,
+          8,
+          8,
+          2,
+          4,
+          4,
+          2,
+          6
+        ],
+        [
+          1,
+          4,
+          4,
+          1,
+          2,
+          1,
+          4,
+          2,
+          1
+        ],
+        [
+          6,
+          2,
+          4,
+          5,
+          8,
+          4,
+          3,
+          8,
+          4
+        ],
+        [
+          8,
+          7,
+          4,
+          2,
+          2,
+          7,
+          6,
+          7,
+          7
+        ],
+        [
+          8,
+          1,
+          2,
+          1,
+          7,
+          6,
+          2,
+          4,
+          4
+        ],
+        [
+          4,
+          8,
+          3,
+          7,
+          3,
+          5,
+          8,
+          4,
+          2
+        ],
+        [
+          8,
+          2,
+          1,
+          1,
+          2,
+          4,
+          3,
+          7,
+          8
+        ],
+        [
+          8,
+          4,
+          7,
+          1,
+          3,
+          7,
+          1,
+          7,
+          5
+        ],
+        [
+          8,
+          5,
+          7,
+          8,
+          3,
+          4,
+          5,
+          4,
+          1
+        ],
+        [
+          1,
+          6,
+          1,
+          1,
+          8,
+          3,
+          1,
+          2,
+          3
+        ],
+        [
+          2,
+          2,
+          4,
+          7,
+          2,
+          4,
+          1,
+          2,
+          7
+        ],
+        [
+          6,
+          5,
+          4,
+          6,
+          4,
+          5,
+          7,
+          3,
+          5
+        ],
+        [
+          8,
+          6,
+          2,
+          1,
+          8,
+          2,
+          2,
+          4,
+          5
+        ],
+        [
+          3,
+          6,
+          2,
+          4,
+          6,
+          5,
+          3,
+          8,
+          5
+        ],
+        [
+          1,
+          5,
+          2,
+          3,
+          5,
+          2,
+          2,
+          3,
+          5
+        ],
+        [
+          5,
+          4,
+          6,
+          4,
+          5,
+          8,
+          5,
+          1,
+          2
+        ],
+        [
+          7,
+          5,
+          1,
+          1,
+          6,
+          3,
+          5,
+          3,
+          8
+        ],
+        [
+          7,
+          1,
+          2,
+          2,
+          3,
+          1,
+          6,
+          3,
+          7
+        ],
+        [
+          3,
+          1,
+          5,
+          6,
+          1,
+          6,
+          4,
+          4,
+          2
+        ],
+        [
+          6,
+          7,
+          3,
+          4,
+          3,
+          3,
+          7,
+          1,
+          3
+        ],
+        [
+          6,
+          7,
+          4,
+          5,
+          3,
+          2,
+          7,
+          1,
+          8
+        ],
+        [
+          4,
+          4,
+          8,
+          6,
+          5,
+          4,
+          4,
+          1,
+          4
+        ],
+        [
+          7,
+          6,
+          5,
+          2,
+          5,
+          6,
+          7,
+          6,
+          1
+        ],
+        [
+          2,
+          5,
+          3,
+          5,
+          1,
+          2,
+          7,
+          6,
+          6
+        ],
+        [
+          7,
+          2,
+          7,
+          4,
+          5,
+          1,
+          7,
+          1,
+          4
+        ],
+        [
+          6,
+          7,
+          2,
+          6,
+          6,
+          2,
+          5,
+          5,
+          7
+        ],
+        [
+          6,
+          7,
+          5,
+          3,
+          4,
+          7,
+          7,
+          3,
+          5
+        ],
+        [
+          7,
+          1,
+          5,
+          5,
+          4,
+          7,
+          6,
+          8,
+          8
+        ],
+        [
+          8,
+          4,
+          8,
+          3,
+          2,
+          5,
+          6,
+          2,
+          4
+        ],
+        [
+          5,
+          4,
+          4,
+          3,
+          1,
+          1,
+          4,
+          8,
+          2
+        ],
+        [
+          8,
+          7,
+          4,
+          7,
+          8,
+          7,
+          4,
+          3,
+          1
+        ],
+        [
+          2,
+          7,
+          4,
+          3,
+          8,
+          1,
+          4,
+          2,
+          8
+        ],
+        [
+          3,
+          8,
+          6,
+          8,
+          7,
+          8,
+          3,
+          8,
+          8
+        ],
+        [
+          5,
+          4,
+          5,
+          8,
+          4,
+          5,
+          8,
+          2,
+          5
+        ],
+        [
+          4,
+          5,
+          6,
+          6,
+          2,
+          3,
+          3,
+          4,
+          7
+        ],
+        [
+          3,
+          4,
+          2,
+          7,
+          7,
+          6,
+          8,
+          7,
+          1
+        ],
+        [
+          4,
+          7,
+          7,
+          1,
+          7,
+          8,
+          1,
+          6,
+          5
+        ],
+        [
+          7,
+          7,
+          4,
+          8,
+          4,
+          5,
+          7,
+          8,
+          1
+        ],
+        [
+          7,
+          6,
+          7,
+          3,
+          8,
+          3,
+          1,
+          7,
+          1
+        ],
+        [
+          2,
+          7,
+          3,
+          8,
+          3,
+          1,
+          5,
+          7,
+          6
+        ],
+        [
+          4,
+          8,
+          6,
+          6,
+          7,
+          5,
+          7,
+          5,
+          2
+        ],
+        [
+          8,
+          1,
+          1,
+          6,
+          4,
+          2,
+          1,
+          1,
+          4
+        ],
+        [
+          4,
+          1,
+          3,
+          4,
+          3,
+          8,
+          2,
+          4,
+          8
+        ],
+        [
+          5,
+          6,
+          3,
+          2,
+          3,
+          5,
+          2,
+          1,
+          5
+        ],
+        [
+          7,
+          7,
+          4,
+          2,
+          4,
+          2,
+          5,
+          2,
+          1
+        ],
+        [
+          6,
+          7,
+          6,
+          2,
+          6,
+          1,
+          7,
+          8,
+          2
+        ],
+        [
+          7,
+          6,
+          8,
+          3,
+          7,
+          3,
+          5,
+          8,
+          8
+        ],
+        [
+          7,
+          5,
+          6,
+          4,
+          2,
+          5,
+          8,
+          4,
+          8
+        ],
+        [
+          7,
+          6,
+          1,
+          8,
+          6,
+          3,
+          8,
+          4,
+          6
+        ],
+        [
+          5,
+          6,
+          5,
+          5,
+          1,
+          4,
+          2,
+          4,
+          7
+        ],
+        [
+          8,
+          4,
+          8,
+          8,
+          8,
+          1,
+          2,
+          5,
+          4
+        ],
+        [
+          7,
+          4,
+          5,
+          6,
+          8,
+          6,
+          7,
+          6,
+          6
+        ],
+        [
+          8,
+          5,
+          5,
+          5,
+          4,
+          2,
+          4,
+          6,
+          2
+        ],
+        [
+          3,
+          4,
+          4,
+          8,
+          5,
+          5,
+          2,
+          4,
+          5
+        ],
+        [
+          4,
+          6,
+          3,
+          5,
+          1,
+          3,
+          5,
+          1,
+          1
+        ],
+        [
+          5,
+          3,
+          8,
+          2,
+          1,
+          5,
+          8,
+          8,
+          8
+        ],
+        [
+          6,
+          3,
+          1,
+          5,
+          8,
+          2,
+          2,
+          7,
+          8
+        ],
+        [
+          2,
+          1,
+          3,
+          3,
+          5,
+          2,
+          4,
+          2,
+          7
+        ],
+        [
+          4,
+          7,
+          8,
+          8,
+          5,
+          7,
+          5,
+          1,
+          2
+        ],
+        [
+          4,
+          4,
+          5,
+          2,
+          3,
+          4,
+          3,
+          2,
+          3
+        ],
+        [
+          1,
+          7,
+          8,
+          8,
+          5,
+          1,
+          4,
+          5,
+          5
+        ],
+        [
+          8,
+          2,
+          4,
+          5,
+          4,
+          7,
+          2,
+          4,
+          3
+        ],
+        [
+          5,
+          3,
+          2,
+          1,
+          3,
+          5,
+          5,
+          8,
+          2
+        ],
+        [
+          8,
+          5,
+          7,
+          5,
+          8,
+          8,
+          2,
+          1,
+          7
+        ],
+        [
+          6,
+          5,
+          1,
+          2,
+          4,
+          1,
+          5,
+          1,
+          3
+        ],
+        [
+          8,
+          8,
+          5,
+          3,
+          7,
+          8,
+          2,
+          8,
+          6
+        ],
+        [
+          7,
+          6,
+          6,
+          2,
+          3,
+          6,
+          7,
+          8,
+          5
+        ],
+        [
+          7,
+          1,
+          8,
+          2,
+          6,
+          5,
+          6,
+          2,
+          7
+        ],
+        [
+          1,
+          8,
+          7,
+          1,
+          4,
+          6,
+          8,
+          8,
+          1
+        ],
+        [
+          4,
+          5,
+          3,
+          5,
+          8,
+          8,
+          2,
+          1,
+          4
+        ],
+        [
+          3,
+          5,
+          1,
+          7,
+          2,
+          4,
+          2,
+          8,
+          2
+        ],
+        [
+          3,
+          8,
+          5,
+          5,
+          7,
+          8,
+          8,
+          4,
+          8
+        ],
+        [
+          3,
+          7,
+          4,
+          3,
+          2,
+          5,
+          7,
+          6,
+          5
+        ],
+        [
+          1,
+          5,
+          5,
+          8,
+          3,
+          8,
+          8,
+          6,
+          6
+        ],
+        [
+          7,
+          8,
+          6,
+          4,
+          4,
+          7,
+          4,
+          7,
+          1
+        ],
+        [
+          6,
+          8,
+          7,
+          7,
+          3,
+          8,
+          1,
+          3,
+          6
+        ],
+        [
+          2,
+          8,
+          2,
+          8,
+          1,
+          3,
+          7,
+          3,
+          2
+        ],
+        [
+          8,
+          5,
+          6,
+          7,
+          2,
+          6,
+          7,
+          6,
+          8
+        ],
+        [
+          1,
+          2,
+          4,
+          5,
+          4,
+          2,
+          7,
+          2,
+          2
+        ],
+        [
+          8,
+          3,
+          5,
+          1,
+          1,
+          6,
+          1,
+          5,
+          6
+        ],
+        [
+          6,
+          7,
+          3,
+          4,
+          7,
+          3,
+          3,
+          3,
+          2
+        ],
+        [
+          7,
+          4,
+          8,
+          3,
+          4,
+          8,
+          5,
+          8,
+          5
+        ],
+        [
+          1,
+          8,
+          5,
+          3,
+          2,
+          8,
+          6,
+          5,
+          7
+        ],
+        [
+          5,
+          8,
+          5,
+          4,
+          7,
+          8,
+          2,
+          4,
+          7
+        ],
+        [
+          6,
+          5,
+          5,
+          1,
+          7,
+          5,
+          1,
+          1,
+          8
+        ],
+        [
+          5,
+          4,
+          6,
+          4,
+          4,
+          5,
+          3,
+          2,
+          1
+        ],
+        [
+          5,
+          8,
+          1,
+          6,
+          3,
+          2,
+          5,
+          6,
+          7
+        ],
+        [
+          3,
+          4,
+          3,
+          6,
+          5,
+          3,
+          5,
+          8,
+          5
+        ],
+        [
+          6,
+          2,
+          8,
+          2,
+          3,
+          4,
+          7,
+          6,
+          2
+        ],
+        [
+          7,
+          1,
+          5,
+          2,
+          8,
+          6,
+          5,
+          7,
+          6
+        ],
+        [
+          2,
+          4,
+          8,
+          1,
+          6,
+          4,
+          2,
+          8,
+          5
+        ],
+        [
+          7,
+          2,
+          3,
+          1,
+          1,
+          5,
+          8,
+          2,
+          2
+        ],
+        [
+          4,
+          3,
+          7,
+          8,
+          6,
+          7,
+          3,
+          7,
+          2
+        ],
+        [
+          8,
+          7,
+          5,
+          1,
+          6,
+          4,
+          8,
+          8,
+          4
+        ],
+        [
+          6,
+          2,
+          6,
+          6,
+          1,
+          7,
+          5,
+          4,
+          2
+        ],
+        [
+          8,
+          2,
+          4,
+          1,
+          1,
+          6,
+          4,
+          3,
+          4
+        ],
+        [
+          2,
+          4,
+          4,
+          4,
+          6,
+          3,
+          1,
+          5,
+          3
+        ],
+        [
+          3,
+          5,
+          3,
+          2,
+          1,
+          3,
+          1,
+          6,
+          4
+        ],
+        [
+          6,
+          1,
+          3,
+          5,
+          1,
+          3,
+          7,
+          2,
+          2
+        ],
+        [
+          8,
+          8,
+          6,
+          2,
+          8,
+          4,
+          1,
+          5,
+          8
+        ],
+        [
+          1,
+          1,
+          8,
+          7,
+          7,
+          2,
+          8,
+          8,
+          2
+        ],
+        [
+          2,
+          6,
+          3,
+          2,
+          3,
+          5,
+          6,
+          7,
+          5
+        ],
+        [
+          8,
+          7,
+          2,
+          2,
+          4,
+          7,
+          8,
+          4,
+          7
+        ],
+        [
+          6,
+          8,
+          7,
+          7,
+          2,
+          6,
+          7,
+          6,
+          5
+        ],
+        [
+          6,
+          3,
+          8,
+          2,
+          2,
+          2,
+          2,
+          7,
+          2
+        ],
+        [
+          6,
+          3,
+          1,
+          6,
+          2,
+          7,
+          6,
+          7,
+          1
+        ],
+        [
+          5,
+          5,
+          6,
+          2,
+          4,
+          3,
+          8,
+          4,
+          2
+        ],
+        [
+          6,
+          6,
+          2,
+          5,
+          4,
+          7,
+          1,
+          5,
+          1
+        ],
+        [
+          3,
+          5,
+          5,
+          6,
+          6,
+          1,
+          3,
+          3,
+          7
+        ],
+        [
+          2,
+          3,
+          1,
+          2,
+          4,
+          7,
+          7,
+          8,
+          6
+        ],
+        [
+          3,
+          6,
+          5,
+          6,
+          2,
+          1,
+          3,
+          3,
+          1
+        ],
+        [
+          2,
+          5,
+          8,
+          7,
+          8,
+          8,
+          7,
+          5,
+          4
+        ]
+      ]
+    },
+    "objectives": [
+      {
+        "metric": "synthesized_area_um2",
+        "direction": "min"
+      },
+      {
+        "metric": "mred",
+        "direction": "min"
+      }
+    ]
+  },
+  "candidates": [
+    {
+      "candidate": 1,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 1,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "task": "candidates/0001",
+      "proposed_by": "baseline",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 173,
+        "error_rate": 0.042236328125,
+        "mae": 3.849609375,
+        "max_absolute_error": 520,
+        "mred": 0.00030234441266366443,
+        "nmed": 5.9201989619377166e-05,
+        "architecture": "native",
+        "synthesized_area_um2": 322.924,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.718,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.00030234441266366443,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 2,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 3,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "task": "candidates/0002",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 544,
+        "error_rate": 0.1328125,
+        "mae": 10.765625,
+        "max_absolute_error": 520,
+        "mred": 0.00112769329556246,
+        "nmed": 0.00016556132256824297,
+        "architecture": "native",
+        "synthesized_area_um2": 314.146,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.719,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.00112769329556246,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 3,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 2,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "task": "candidates/0003",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 1542,
+        "error_rate": 0.37646484375,
+        "mae": 40.16796875,
+        "max_absolute_error": 520,
+        "mred": 0.005090372049393135,
+        "nmed": 0.0006177311610918877,
+        "architecture": "native",
+        "synthesized_area_um2": 327.978,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.718,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.005090372049393135,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 4,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 4,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "task": "candidates/0004",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3819,
+        "error_rate": 0.932373046875,
+        "mae": 108.515625,
+        "max_absolute_error": 568,
+        "mred": 0.22833315297696147,
+        "nmed": 0.0016688292964244522,
+        "architecture": "native",
+        "synthesized_area_um2": 275.044,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22833315297696147,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 5,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 6,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "task": "candidates/0005",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3591,
+        "error_rate": 0.876708984375,
+        "mae": 169.490234375,
+        "max_absolute_error": 928,
+        "mred": 0.054903571343425626,
+        "nmed": 0.002606539552095348,
+        "architecture": "native",
+        "synthesized_area_um2": 275.576,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.054903571343425626,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 6,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto"
+      },
+      "task": "candidates/0006",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2674,
+        "error_rate": 0.65283203125,
+        "mae": 89.158203125,
+        "max_absolute_error": 784,
+        "mred": 0.013639036173429289,
+        "nmed": 0.0013711373029603997,
+        "architecture": "native",
+        "synthesized_area_um2": 291.802,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.468,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.013639036173429289,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 7,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          1,
+          1,
+          1,
+          8,
+          8,
+          8,
+          8,
+          8
+        ]
+      },
+      "task": "candidates/0007",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3967,
+        "error_rate": 0.968505859375,
+        "mae": 94.376953125,
+        "max_absolute_error": 520,
+        "mred": 0.22282392651227,
+        "nmed": 0.0014513948961937717,
+        "architecture": "native",
+        "synthesized_area_um2": 262.276,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22282392651227,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 8,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          5,
+          3,
+          5,
+          1,
+          2,
+          7,
+          6,
+          6
+        ]
+      },
+      "task": "candidates/0008",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0008/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 9,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          6,
+          8,
+          8,
+          2,
+          4,
+          4,
+          2,
+          6
+        ]
+      },
+      "task": "candidates/0009",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3721,
+        "error_rate": 0.908447265625,
+        "mae": 143.93359375,
+        "max_absolute_error": 712,
+        "mred": 0.2958977058315009,
+        "nmed": 0.002213511630142253,
+        "architecture": "native",
+        "synthesized_area_um2": 281.96,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2958977058315009,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 10,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          2,
+          4,
+          5,
+          4,
+          7,
+          2,
+          4,
+          3
+        ]
+      },
+      "task": "candidates/0010",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3647,
+        "error_rate": 0.890380859375,
+        "mae": 81.61328125,
+        "max_absolute_error": 520,
+        "mred": 0.2159550860607399,
+        "nmed": 0.0012551062091503268,
+        "architecture": "native",
+        "synthesized_area_um2": 290.472,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.468,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2159550860607399,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 11,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          2,
+          2,
+          7,
+          2,
+          6,
+          6,
+          5,
+          1
+        ]
+      },
+      "task": "candidates/0011",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2825,
+        "error_rate": 0.689697265625,
+        "mae": 50.82421875,
+        "max_absolute_error": 584,
+        "mred": 0.011464597481887297,
+        "nmed": 0.0007816104382929643,
+        "architecture": "native",
+        "synthesized_area_um2": 301.91,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.011464597481887297,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 12,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          1,
+          2,
+          4,
+          4,
+          1,
+          4,
+          7,
+          4
+        ]
+      },
+      "task": "candidates/0012",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3351,
+        "error_rate": 0.818115234375,
+        "mae": 84.234375,
+        "max_absolute_error": 520,
+        "mred": 0.1555374691541796,
+        "nmed": 0.0012954152249134948,
+        "architecture": "native",
+        "synthesized_area_um2": 303.24,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.1555374691541796,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 13,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          7,
+          5,
+          4,
+          6,
+          1,
+          4,
+          1,
+          6
+        ]
+      },
+      "task": "candidates/0013",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3541,
+        "error_rate": 0.864501953125,
+        "mae": 90.869140625,
+        "max_absolute_error": 720,
+        "mred": 0.1585025746323044,
+        "nmed": 0.0013974492983467896,
+        "architecture": "native",
+        "synthesized_area_um2": 285.684,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.1585025746323044,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 14,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          7,
+          8,
+          8,
+          5,
+          1,
+          4,
+          5,
+          5
+        ]
+      },
+      "task": "candidates/0014",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3334,
+        "error_rate": 0.81396484375,
+        "mae": 114.986328125,
+        "max_absolute_error": 584,
+        "mred": 0.15102405487092224,
+        "nmed": 0.0017683403018069973,
+        "architecture": "native",
+        "synthesized_area_um2": 288.61,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.15102405487092224,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 15,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          7,
+          4,
+          3,
+          2,
+          5,
+          7,
+          6,
+          5
+        ]
+      },
+      "task": "candidates/0015",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3133,
+        "error_rate": 0.764892578125,
+        "mae": 105.5546875,
+        "max_absolute_error": 568,
+        "mred": 0.1275467851398993,
+        "nmed": 0.0016232939254133027,
+        "architecture": "native",
+        "synthesized_area_um2": 291.27,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.1275467851398993,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 16,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          5,
+          6,
+          6,
+          2,
+          3,
+          3,
+          4,
+          7
+        ]
+      },
+      "task": "candidates/0016",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0016/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 17,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          5,
+          6,
+          4,
+          2,
+          5,
+          8,
+          4,
+          8
+        ]
+      },
+      "task": "candidates/0017",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0017/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.115,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 18,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          5,
+          2,
+          4,
+          6,
+          4,
+          8,
+          7,
+          8
+        ]
+      },
+      "task": "candidates/0018",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0018/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 19,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          5,
+          6,
+          2,
+          4,
+          3,
+          8,
+          4,
+          2
+        ]
+      },
+      "task": "candidates/0019",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0019/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 20,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          2,
+          7,
+          2,
+          5,
+          6,
+          4,
+          2,
+          1
+        ]
+      },
+      "task": "candidates/0020",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3117,
+        "error_rate": 0.760986328125,
+        "mae": 46.708984375,
+        "max_absolute_error": 520,
+        "mred": 0.03498705174222997,
+        "nmed": 0.0007183234813533257,
+        "architecture": "native",
+        "synthesized_area_um2": 296.856,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.03498705174222997,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 21,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          3,
+          8,
+          2,
+          1,
+          5,
+          8,
+          8,
+          8
+        ]
+      },
+      "task": "candidates/0021",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3812,
+        "error_rate": 0.9306640625,
+        "mae": 138.787109375,
+        "max_absolute_error": 536,
+        "mred": 0.22357128202760262,
+        "nmed": 0.0021343653883121876,
+        "architecture": "native",
+        "synthesized_area_um2": 261.478,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22357128202760262,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 22,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          8,
+          6,
+          6,
+          7,
+          5,
+          7,
+          5,
+          2
+        ]
+      },
+      "task": "candidates/0022",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3691,
+        "error_rate": 0.901123046875,
+        "mae": 151.021484375,
+        "max_absolute_error": 768,
+        "mred": 0.10960122935819848,
+        "nmed": 0.0023225141772395233,
+        "architecture": "native",
+        "synthesized_area_um2": 281.694,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.517,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.10960122935819848,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 23,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          7,
+          3,
+          4,
+          7,
+          3,
+          3,
+          3,
+          2
+        ]
+      },
+      "task": "candidates/0023",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3107,
+        "error_rate": 0.758544921875,
+        "mae": 96.744140625,
+        "max_absolute_error": 592,
+        "mred": 0.142691060825815,
+        "nmed": 0.0014877991637831604,
+        "architecture": "native",
+        "synthesized_area_um2": 300.58,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.142691060825815,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 24,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          8,
+          8,
+          8,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "task": "candidates/0024",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3767,
+        "error_rate": 0.919677734375,
+        "mae": 148.134765625,
+        "max_absolute_error": 520,
+        "mred": 0.34165801959928027,
+        "nmed": 0.0022781201941560938,
+        "architecture": "native",
+        "synthesized_area_um2": 268.926,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.769,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.34165801959928027,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 25,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          1,
+          1,
+          1,
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "task": "candidates/0025",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 1723,
+        "error_rate": 0.420654296875,
+        "mae": 41.767578125,
+        "max_absolute_error": 600,
+        "mred": 0.005346804498817863,
+        "nmed": 0.0006423310745866974,
+        "architecture": "native",
+        "synthesized_area_um2": 310.422,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.005346804498817863,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 26,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          5,
+          5,
+          5,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "task": "candidates/0026",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0026/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 27,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          2,
+          2,
+          2,
+          8,
+          8,
+          8,
+          8,
+          8
+        ]
+      },
+      "task": "candidates/0027",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3970,
+        "error_rate": 0.96923828125,
+        "mae": 99.423828125,
+        "max_absolute_error": 520,
+        "mred": 0.22314730620646153,
+        "nmed": 0.001529009275278739,
+        "architecture": "native",
+        "synthesized_area_um2": 258.818,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22314730620646153,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 28,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          8,
+          8,
+          8,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "task": "candidates/0028",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3985,
+        "error_rate": 0.972900390625,
+        "mae": 231.80078125,
+        "max_absolute_error": 544,
+        "mred": 0.4812319343081249,
+        "nmed": 0.0035647947904652055,
+        "architecture": "native",
+        "synthesized_area_um2": 257.488,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.4812319343081249,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 29,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "task": "candidates/0029",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 1192,
+        "error_rate": 0.291015625,
+        "mae": 26.5546875,
+        "max_absolute_error": 520,
+        "mred": 0.003428759529705733,
+        "nmed": 0.00040837658592848906,
+        "architecture": "native",
+        "synthesized_area_um2": 323.722,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.718,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.003428759529705733,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 30,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "task": "candidates/0030",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 605,
+        "error_rate": 0.147705078125,
+        "mae": 14.998046875,
+        "max_absolute_error": 520,
+        "mred": 0.0018023523017563915,
+        "nmed": 0.0002306504709727028,
+        "architecture": "native",
+        "synthesized_area_um2": 326.914,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.0018023523017563915,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 31,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          3,
+          5,
+          1,
+          1,
+          6,
+          1,
+          5,
+          6
+        ]
+      },
+      "task": "candidates/0031",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3328,
+        "error_rate": 0.8125,
+        "mae": 89.544921875,
+        "max_absolute_error": 712,
+        "mred": 0.05688625774744942,
+        "nmed": 0.00137708453479431,
+        "architecture": "native",
+        "synthesized_area_um2": 285.684,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.05688625774744942,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 32,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          1,
+          5,
+          4,
+          4,
+          3,
+          2,
+          2,
+          7
+        ]
+      },
+      "task": "candidates/0032",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2909,
+        "error_rate": 0.710205078125,
+        "mae": 72.5625,
+        "max_absolute_error": 648,
+        "mred": 0.13520828994095882,
+        "nmed": 0.0011159169550173011,
+        "architecture": "native",
+        "synthesized_area_um2": 302.708,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.13520828994095882,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 33,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          5,
+          1,
+          3,
+          7,
+          6,
+          5,
+          3,
+          4
+        ]
+      },
+      "task": "candidates/0033",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0033/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 34,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          5,
+          2,
+          4,
+          2,
+          7,
+          5,
+          8,
+          6
+        ]
+      },
+      "task": "candidates/0034",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0034/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 35,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          6,
+          6,
+          4,
+          5,
+          2,
+          3,
+          4,
+          3
+        ]
+      },
+      "task": "candidates/0035",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3120,
+        "error_rate": 0.76171875,
+        "mae": 124.912109375,
+        "max_absolute_error": 712,
+        "mred": 0.19656252721444684,
+        "nmed": 0.001920985918877355,
+        "architecture": "native",
+        "synthesized_area_um2": 295.526,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.19656252721444684,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 36,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          5,
+          3,
+          4,
+          5,
+          7,
+          7,
+          6,
+          4
+        ]
+      },
+      "task": "candidates/0036",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0036/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 37,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          8,
+          2,
+          1,
+          2,
+          3,
+          3,
+          7,
+          2
+        ]
+      },
+      "task": "candidates/0037",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2800,
+        "error_rate": 0.68359375,
+        "mae": 59.390625,
+        "max_absolute_error": 520,
+        "mred": 0.06403194578678273,
+        "nmed": 0.0009133506343713956,
+        "architecture": "native",
+        "synthesized_area_um2": 303.772,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.06403194578678273,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 38,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          7,
+          8,
+          5,
+          1,
+          2,
+          5,
+          6,
+          2
+        ]
+      },
+      "task": "candidates/0038",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3385,
+        "error_rate": 0.826416015625,
+        "mae": 115.154296875,
+        "max_absolute_error": 552,
+        "mred": 0.14267493011650442,
+        "nmed": 0.0017709234429065745,
+        "architecture": "native",
+        "synthesized_area_um2": 292.068,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.14267493011650442,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 39,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          7,
+          3,
+          8,
+          1,
+          5,
+          3,
+          2,
+          5
+        ]
+      },
+      "task": "candidates/0039",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2727,
+        "error_rate": 0.665771484375,
+        "mae": 89.556640625,
+        "max_absolute_error": 600,
+        "mred": 0.12286065572901264,
+        "nmed": 0.001377264753940792,
+        "architecture": "native",
+        "synthesized_area_um2": 297.388,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.12286065572901264,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 40,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          3,
+          6,
+          3,
+          1,
+          6,
+          8,
+          1,
+          2
+        ]
+      },
+      "task": "candidates/0040",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3251,
+        "error_rate": 0.793701171875,
+        "mae": 92.966796875,
+        "max_absolute_error": 552,
+        "mred": 0.045067583336221996,
+        "nmed": 0.0014297085255670897,
+        "architecture": "native",
+        "synthesized_area_um2": 289.142,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.669,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.045067583336221996,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 41,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          5,
+          4,
+          1,
+          4,
+          2,
+          2,
+          8,
+          2
+        ]
+      },
+      "task": "candidates/0041",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0041/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.166,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 42,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          6,
+          3,
+          2,
+          3,
+          5,
+          2,
+          1,
+          5
+        ]
+      },
+      "task": "candidates/0042",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2048,
+        "error_rate": 0.5,
+        "mae": 54.7734375,
+        "max_absolute_error": 600,
+        "mred": 0.00973749296307839,
+        "nmed": 0.0008423442906574395,
+        "architecture": "native",
+        "synthesized_area_um2": 310.156,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.669,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.00973749296307839,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 43,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          4,
+          7,
+          1,
+          3,
+          7,
+          1,
+          7,
+          5
+        ]
+      },
+      "task": "candidates/0043",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3559,
+        "error_rate": 0.868896484375,
+        "mae": 91.3125,
+        "max_absolute_error": 520,
+        "mred": 0.09476609635611516,
+        "nmed": 0.0014042675893886968,
+        "architecture": "native",
+        "synthesized_area_um2": 286.482,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.09476609635611516,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 44,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          2,
+          4,
+          5,
+          8,
+          4,
+          3,
+          8,
+          4
+        ]
+      },
+      "task": "candidates/0044",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3811,
+        "error_rate": 0.930419921875,
+        "mae": 91.369140625,
+        "max_absolute_error": 520,
+        "mred": 0.19607551926344347,
+        "nmed": 0.0014051386485966935,
+        "architecture": "native",
+        "synthesized_area_um2": 272.65,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.19607551926344347,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 45,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          7,
+          4,
+          2,
+          2,
+          7,
+          6,
+          7,
+          7
+        ]
+      },
+      "task": "candidates/0045",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3555,
+        "error_rate": 0.867919921875,
+        "mae": 93.0546875,
+        "max_absolute_error": 808,
+        "mred": 0.15850864247750657,
+        "nmed": 0.0014310601691657056,
+        "architecture": "native",
+        "synthesized_area_um2": 292.334,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.15850864247750657,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 46,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          1,
+          2,
+          1,
+          7,
+          6,
+          2,
+          4,
+          4
+        ]
+      },
+      "task": "candidates/0046",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3596,
+        "error_rate": 0.8779296875,
+        "mae": 74.572265625,
+        "max_absolute_error": 528,
+        "mred": 0.2035225158253873,
+        "nmed": 0.001146824538638985,
+        "architecture": "native",
+        "synthesized_area_um2": 291.536,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2035225158253873,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 47,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          8,
+          3,
+          7,
+          3,
+          5,
+          8,
+          4,
+          2
+        ]
+      },
+      "task": "candidates/0047",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3450,
+        "error_rate": 0.84228515625,
+        "mae": 71.7734375,
+        "max_absolute_error": 536,
+        "mred": 0.0923794134989126,
+        "nmed": 0.0011037821991541714,
+        "architecture": "native",
+        "synthesized_area_um2": 280.098,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.0923794134989126,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 48,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          2,
+          1,
+          1,
+          2,
+          4,
+          3,
+          7,
+          8
+        ]
+      },
+      "task": "candidates/0048",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3647,
+        "error_rate": 0.890380859375,
+        "mae": 82.32421875,
+        "max_absolute_error": 520,
+        "mred": 0.16242793440478295,
+        "nmed": 0.0012660395040369088,
+        "architecture": "native",
+        "synthesized_area_um2": 288.876,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.16242793440478295,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 49,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          5,
+          7,
+          8,
+          3,
+          4,
+          5,
+          4,
+          1
+        ]
+      },
+      "task": "candidates/0049",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0049/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 50,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          6,
+          1,
+          1,
+          8,
+          3,
+          1,
+          2,
+          3
+        ]
+      },
+      "task": "candidates/0050",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2864,
+        "error_rate": 0.69921875,
+        "mae": 37.193359375,
+        "max_absolute_error": 584,
+        "mred": 0.013666226870239783,
+        "nmed": 0.0005719855344098423,
+        "architecture": "native",
+        "synthesized_area_um2": 305.9,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.667,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.013666226870239783,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 51,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          2,
+          4,
+          7,
+          2,
+          4,
+          1,
+          2,
+          7
+        ]
+      },
+      "task": "candidates/0051",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2941,
+        "error_rate": 0.718017578125,
+        "mae": 78.3046875,
+        "max_absolute_error": 528,
+        "mred": 0.14068631913049442,
+        "nmed": 0.001204224336793541,
+        "architecture": "native",
+        "synthesized_area_um2": 304.57,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.14068631913049442,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 52,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          5,
+          4,
+          6,
+          4,
+          5,
+          7,
+          3,
+          5
+        ]
+      },
+      "task": "candidates/0052",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0052/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 53,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          6,
+          2,
+          4,
+          6,
+          5,
+          3,
+          8,
+          5
+        ]
+      },
+      "task": "candidates/0053",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3439,
+        "error_rate": 0.839599609375,
+        "mae": 94.744140625,
+        "max_absolute_error": 544,
+        "mred": 0.18055359770304197,
+        "nmed": 0.0014570417627835447,
+        "architecture": "native",
+        "synthesized_area_um2": 281.428,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.517,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.18055359770304197,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 54,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          7,
+          5,
+          3,
+          4,
+          7,
+          7,
+          3,
+          5
+        ]
+      },
+      "task": "candidates/0054",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3420,
+        "error_rate": 0.8349609375,
+        "mae": 68.02734375,
+        "max_absolute_error": 584,
+        "mred": 0.017597012595961827,
+        "nmed": 0.0010461721453287197,
+        "architecture": "native",
+        "synthesized_area_um2": 293.93,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.017597012595961827,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 55,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          5,
+          2,
+          3,
+          5,
+          2,
+          2,
+          3,
+          5
+        ]
+      },
+      "task": "candidates/0055",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0055/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 56,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          4,
+          6,
+          4,
+          5,
+          8,
+          5,
+          1,
+          2
+        ]
+      },
+      "task": "candidates/0056",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3749,
+        "error_rate": 0.915283203125,
+        "mae": 157.365234375,
+        "max_absolute_error": 600,
+        "mred": 0.22421783165179243,
+        "nmed": 0.0024200728085351786,
+        "architecture": "native",
+        "synthesized_area_um2": 289.408,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22421783165179243,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 57,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          5,
+          1,
+          1,
+          6,
+          3,
+          5,
+          3,
+          8
+        ]
+      },
+      "task": "candidates/0057",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0057/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 58,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          1,
+          2,
+          2,
+          3,
+          1,
+          6,
+          3,
+          7
+        ]
+      },
+      "task": "candidates/0058",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2038,
+        "error_rate": 0.49755859375,
+        "mae": 42.50390625,
+        "max_absolute_error": 648,
+        "mred": 0.008468645703848247,
+        "nmed": 0.0006536548442906574,
+        "architecture": "native",
+        "synthesized_area_um2": 309.358,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.008468645703848247,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 59,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          1,
+          5,
+          6,
+          1,
+          6,
+          4,
+          4,
+          2
+        ]
+      },
+      "task": "candidates/0059",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3341,
+        "error_rate": 0.815673828125,
+        "mae": 106.318359375,
+        "max_absolute_error": 648,
+        "mred": 0.0970645576650642,
+        "nmed": 0.0016350382064590542,
+        "architecture": "native",
+        "synthesized_area_um2": 298.984,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.0970645576650642,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 60,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          7,
+          3,
+          4,
+          3,
+          3,
+          7,
+          1,
+          3
+        ]
+      },
+      "task": "candidates/0060",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2870,
+        "error_rate": 0.70068359375,
+        "mae": 69.171875,
+        "max_absolute_error": 584,
+        "mred": 0.12969318409078492,
+        "nmed": 0.0010637735486351404,
+        "architecture": "native",
+        "synthesized_area_um2": 305.102,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.12969318409078492,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 61,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          7,
+          4,
+          5,
+          3,
+          2,
+          7,
+          1,
+          8
+        ]
+      },
+      "task": "candidates/0061",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3391,
+        "error_rate": 0.827880859375,
+        "mae": 113.83203125,
+        "max_absolute_error": 584,
+        "mred": 0.1430331920979516,
+        "nmed": 0.0017505887158785084,
+        "architecture": "native",
+        "synthesized_area_um2": 284.62,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.1430331920979516,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 62,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          7,
+          4,
+          3,
+          8,
+          1,
+          4,
+          2,
+          8
+        ]
+      },
+      "task": "candidates/0062",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3745,
+        "error_rate": 0.914306640625,
+        "mae": 118.072265625,
+        "max_absolute_error": 584,
+        "mred": 0.17428043447511188,
+        "nmed": 0.0018157980103806228,
+        "architecture": "native",
+        "synthesized_area_um2": 281.96,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.17428043447511188,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 63,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          4,
+          5,
+          2,
+          3,
+          4,
+          3,
+          2,
+          3
+        ]
+      },
+      "task": "candidates/0063",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3109,
+        "error_rate": 0.759033203125,
+        "mae": 59.5390625,
+        "max_absolute_error": 520,
+        "mred": 0.10655328269310707,
+        "nmed": 0.0009156334102268358,
+        "architecture": "native",
+        "synthesized_area_um2": 303.24,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.10655328269310707,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 64,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          6,
+          8,
+          3,
+          7,
+          3,
+          5,
+          8,
+          8
+        ]
+      },
+      "task": "candidates/0064",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3642,
+        "error_rate": 0.88916015625,
+        "mae": 125.392578125,
+        "max_absolute_error": 560,
+        "mred": 0.19589111078339738,
+        "nmed": 0.0019283749038831218,
+        "architecture": "native",
+        "synthesized_area_um2": 277.704,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.19589111078339738,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 65,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          4,
+          8,
+          6,
+          5,
+          4,
+          4,
+          1,
+          4
+        ]
+      },
+      "task": "candidates/0065",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3789,
+        "error_rate": 0.925048828125,
+        "mae": 128.345703125,
+        "max_absolute_error": 648,
+        "mred": 0.2272588158888111,
+        "nmed": 0.0019737901287966166,
+        "architecture": "native",
+        "synthesized_area_um2": 287.812,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2272588158888111,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 66,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          6,
+          5,
+          2,
+          5,
+          6,
+          7,
+          6,
+          1
+        ]
+      },
+      "task": "candidates/0066",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2901,
+        "error_rate": 0.708251953125,
+        "mae": 63.595703125,
+        "max_absolute_error": 520,
+        "mred": 0.015668631050571764,
+        "nmed": 0.000978019271434064,
+        "architecture": "native",
+        "synthesized_area_um2": 295.526,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.467,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.015668631050571764,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 67,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          6,
+          3,
+          5,
+          1,
+          3,
+          5,
+          1,
+          1
+        ]
+      },
+      "task": "candidates/0067",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2600,
+        "error_rate": 0.634765625,
+        "mae": 48.376953125,
+        "max_absolute_error": 584,
+        "mred": 0.03625055630731795,
+        "nmed": 0.0007439746732026144,
+        "architecture": "native",
+        "synthesized_area_um2": 301.112,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.03625055630731795,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 68,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          8,
+          5,
+          4,
+          7,
+          8,
+          2,
+          4,
+          7
+        ]
+      },
+      "task": "candidates/0068",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3665,
+        "error_rate": 0.894775390625,
+        "mae": 91.021484375,
+        "max_absolute_error": 656,
+        "mred": 0.20008358806197304,
+        "nmed": 0.0013997921472510572,
+        "architecture": "native",
+        "synthesized_area_um2": 272.916,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.517,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.20008358806197304,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 69,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          2,
+          7,
+          4,
+          5,
+          1,
+          7,
+          1,
+          4
+        ]
+      },
+      "task": "candidates/0069",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2887,
+        "error_rate": 0.704833984375,
+        "mae": 89.693359375,
+        "max_absolute_error": 520,
+        "mred": 0.12287639053430385,
+        "nmed": 0.0013793673106497501,
+        "architecture": "native",
+        "synthesized_area_um2": 297.654,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.12287639053430385,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 70,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          8,
+          6,
+          8,
+          7,
+          8,
+          3,
+          8,
+          8
+        ]
+      },
+      "task": "candidates/0070",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3905,
+        "error_rate": 0.953369140625,
+        "mae": 180.701171875,
+        "max_absolute_error": 656,
+        "mred": 0.22726308714992785,
+        "nmed": 0.0027789492022299114,
+        "architecture": "native",
+        "synthesized_area_um2": 255.36,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22726308714992785,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 71,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          8,
+          2,
+          8,
+          1,
+          3,
+          7,
+          3,
+          2
+        ]
+      },
+      "task": "candidates/0071",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3669,
+        "error_rate": 0.895751953125,
+        "mae": 130.478515625,
+        "max_absolute_error": 552,
+        "mred": 0.20335667000347063,
+        "nmed": 0.002006590013456363,
+        "architecture": "native",
+        "synthesized_area_um2": 294.994,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.20335667000347063,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 72,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          7,
+          3,
+          8,
+          3,
+          1,
+          5,
+          7,
+          6
+        ]
+      },
+      "task": "candidates/0072",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2954,
+        "error_rate": 0.72119140625,
+        "mae": 87.53515625,
+        "max_absolute_error": 776,
+        "mred": 0.13024538716177428,
+        "nmed": 0.0013461769511726258,
+        "architecture": "native",
+        "synthesized_area_um2": 299.516,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.13024538716177428,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 73,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          7,
+          4,
+          8,
+          4,
+          5,
+          7,
+          8,
+          1
+        ]
+      },
+      "task": "candidates/0073",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3813,
+        "error_rate": 0.930908203125,
+        "mae": 122.7890625,
+        "max_absolute_error": 536,
+        "mred": 0.3118011285462668,
+        "nmed": 0.001888336216839677,
+        "architecture": "native",
+        "synthesized_area_um2": 279.3,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.3118011285462668,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 74,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          5,
+          8,
+          7,
+          8,
+          8,
+          7,
+          5,
+          4
+        ]
+      },
+      "task": "candidates/0074",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0074/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 75,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          4,
+          3,
+          6,
+          5,
+          3,
+          5,
+          8,
+          5
+        ]
+      },
+      "task": "candidates/0075",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3156,
+        "error_rate": 0.7705078125,
+        "mae": 100.291015625,
+        "max_absolute_error": 648,
+        "mred": 0.07317331870158345,
+        "nmed": 0.001542345492118416,
+        "architecture": "native",
+        "synthesized_area_um2": 287.812,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.07317331870158345,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 76,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          8,
+          5,
+          3,
+          2,
+          8,
+          6,
+          5,
+          7
+        ]
+      },
+      "task": "candidates/0076",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3486,
+        "error_rate": 0.85107421875,
+        "mae": 62.0234375,
+        "max_absolute_error": 744,
+        "mred": 0.07870808085964369,
+        "nmed": 0.0009538398692810457,
+        "architecture": "native",
+        "synthesized_area_um2": 279.3,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.07870808085964369,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 77,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          4,
+          8,
+          3,
+          2,
+          5,
+          6,
+          2,
+          4
+        ]
+      },
+      "task": "candidates/0077",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3668,
+        "error_rate": 0.8955078125,
+        "mae": 105.77734375,
+        "max_absolute_error": 568,
+        "mred": 0.2124825544776619,
+        "nmed": 0.0016267180891964628,
+        "architecture": "native",
+        "synthesized_area_um2": 284.354,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2124825544776619,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 78,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          7,
+          4,
+          2,
+          4,
+          2,
+          5,
+          2,
+          1
+        ]
+      },
+      "task": "candidates/0078",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3263,
+        "error_rate": 0.796630859375,
+        "mae": 70.25,
+        "max_absolute_error": 616,
+        "mred": 0.13368032895089155,
+        "nmed": 0.0010803537101114955,
+        "architecture": "native",
+        "synthesized_area_um2": 301.378,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.13368032895089155,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 79,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          3,
+          8,
+          3,
+          5,
+          7,
+          4,
+          4,
+          5
+        ]
+      },
+      "task": "candidates/0079",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3421,
+        "error_rate": 0.835205078125,
+        "mae": 97.537109375,
+        "max_absolute_error": 520,
+        "mred": 0.20323692838707297,
+        "nmed": 0.0014999939926951173,
+        "architecture": "native",
+        "synthesized_area_um2": 287.014,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.517,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.20323692838707297,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 80,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          5,
+          5,
+          1,
+          7,
+          5,
+          1,
+          1,
+          8
+        ]
+      },
+      "task": "candidates/0080",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0080/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 81,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          8,
+          6,
+          4,
+          4,
+          7,
+          4,
+          7,
+          1
+        ]
+      },
+      "task": "candidates/0081",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3761,
+        "error_rate": 0.918212890625,
+        "mae": 127.12890625,
+        "max_absolute_error": 616,
+        "mred": 0.22675971654588245,
+        "nmed": 0.0019550773740868894,
+        "architecture": "native",
+        "synthesized_area_um2": 283.29,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.22675971654588245,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 82,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          8,
+          7,
+          7,
+          2,
+          6,
+          7,
+          6,
+          5
+        ]
+      },
+      "task": "candidates/0082",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3507,
+        "error_rate": 0.856201171875,
+        "mae": 125.8984375,
+        "max_absolute_error": 680,
+        "mred": 0.07213998567332747,
+        "nmed": 0.0019361543637062668,
+        "architecture": "native",
+        "synthesized_area_um2": 284.62,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.467,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.07213998567332747,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 83,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          5,
+          1,
+          2,
+          4,
+          1,
+          5,
+          1,
+          3
+        ]
+      },
+      "task": "candidates/0083",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0083/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.115,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 84,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          7,
+          4,
+          7,
+          8,
+          7,
+          4,
+          3,
+          1
+        ]
+      },
+      "task": "candidates/0084",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3707,
+        "error_rate": 0.905029296875,
+        "mae": 82.177734375,
+        "max_absolute_error": 584,
+        "mred": 0.1619365450000831,
+        "nmed": 0.0012637867647058824,
+        "architecture": "native",
+        "synthesized_area_um2": 277.172,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.1619365450000831,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 85,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          4,
+          5,
+          6,
+          8,
+          6,
+          7,
+          6,
+          6
+        ]
+      },
+      "task": "candidates/0085",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3843,
+        "error_rate": 0.938232421875,
+        "mae": 136.001953125,
+        "max_absolute_error": 864,
+        "mred": 0.09930353914526593,
+        "nmed": 0.00209153330449827,
+        "architecture": "native",
+        "synthesized_area_um2": 267.33,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.467,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.09930353914526593,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 86,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          7,
+          8,
+          8,
+          5,
+          7,
+          5,
+          1,
+          2
+        ]
+      },
+      "task": "candidates/0086",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3887,
+        "error_rate": 0.948974609375,
+        "mae": 201.142578125,
+        "max_absolute_error": 584,
+        "mred": 0.41741816436368184,
+        "nmed": 0.00309331146674356,
+        "architecture": "native",
+        "synthesized_area_um2": 272.916,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.41741816436368184,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 87,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          1,
+          3,
+          4,
+          3,
+          8,
+          2,
+          4,
+          8
+        ]
+      },
+      "task": "candidates/0087",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3776,
+        "error_rate": 0.921875,
+        "mae": 123.0,
+        "max_absolute_error": 520,
+        "mred": 0.23841520208881084,
+        "nmed": 0.0018915801614763552,
+        "architecture": "native",
+        "synthesized_area_um2": 284.088,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.23841520208881084,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 88,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          8,
+          7,
+          7,
+          3,
+          8,
+          1,
+          3,
+          6
+        ]
+      },
+      "task": "candidates/0088",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3688,
+        "error_rate": 0.900390625,
+        "mae": 112.8515625,
+        "max_absolute_error": 904,
+        "mred": 0.10274037385237625,
+        "nmed": 0.0017355103806228373,
+        "architecture": "native",
+        "synthesized_area_um2": 287.812,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.517,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.10274037385237625,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 89,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          7,
+          7,
+          1,
+          7,
+          8,
+          1,
+          6,
+          5
+        ]
+      },
+      "task": "candidates/0089",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3737,
+        "error_rate": 0.912353515625,
+        "mae": 101.501953125,
+        "max_absolute_error": 560,
+        "mred": 0.05581761296143667,
+        "nmed": 0.001560968137254902,
+        "architecture": "native",
+        "synthesized_area_um2": 286.216,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.467,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.05581761296143667,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 90,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          4,
+          8,
+          3,
+          4,
+          8,
+          5,
+          8,
+          5
+        ]
+      },
+      "task": "candidates/0090",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3873,
+        "error_rate": 0.945556640625,
+        "mae": 106.94140625,
+        "max_absolute_error": 552,
+        "mred": 0.19965246685271085,
+        "nmed": 0.0016446198577470203,
+        "architecture": "native",
+        "synthesized_area_um2": 259.084,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.19965246685271085,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 91,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          2,
+          4,
+          5,
+          4,
+          2,
+          7,
+          2,
+          2
+        ]
+      },
+      "task": "candidates/0091",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3218,
+        "error_rate": 0.78564453125,
+        "mae": 91.36328125,
+        "max_absolute_error": 552,
+        "mred": 0.14325112815938484,
+        "nmed": 0.0014050485390234525,
+        "architecture": "native",
+        "synthesized_area_um2": 308.294,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.14325112815938484,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 92,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          5,
+          6,
+          7,
+          2,
+          6,
+          7,
+          6,
+          8
+        ]
+      },
+      "task": "candidates/0092",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0092/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.164,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 93,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          5,
+          7,
+          5,
+          8,
+          8,
+          2,
+          1,
+          7
+        ]
+      },
+      "task": "candidates/0093",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0093/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 94,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          8,
+          1,
+          6,
+          3,
+          2,
+          5,
+          6,
+          7
+        ]
+      },
+      "task": "candidates/0094",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3080,
+        "error_rate": 0.751953125,
+        "mae": 104.953125,
+        "max_absolute_error": 784,
+        "mred": 0.07253320464719755,
+        "nmed": 0.0016140426758938869,
+        "architecture": "native",
+        "synthesized_area_um2": 296.058,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.07253320464719755,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 95,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          4,
+          8,
+          8,
+          8,
+          1,
+          2,
+          5,
+          4
+        ]
+      },
+      "task": "candidates/0095",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3866,
+        "error_rate": 0.94384765625,
+        "mae": 115.119140625,
+        "max_absolute_error": 584,
+        "mred": 0.21589145431690743,
+        "nmed": 0.001770382785467128,
+        "architecture": "native",
+        "synthesized_area_um2": 255.626,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.518,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.21589145431690743,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 96,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          8,
+          7,
+          1,
+          4,
+          6,
+          8,
+          8,
+          1
+        ]
+      },
+      "task": "candidates/0096",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3786,
+        "error_rate": 0.92431640625,
+        "mae": 68.69921875,
+        "max_absolute_error": 520,
+        "mred": 0.09964976079021703,
+        "nmed": 0.001056504709727028,
+        "architecture": "native",
+        "synthesized_area_um2": 275.31,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.09964976079021703,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 97,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          1,
+          1,
+          6,
+          4,
+          2,
+          1,
+          1,
+          4
+        ]
+      },
+      "task": "candidates/0097",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3509,
+        "error_rate": 0.856689453125,
+        "mae": 97.125,
+        "max_absolute_error": 648,
+        "mred": 0.15892742150992656,
+        "nmed": 0.0014936562860438294,
+        "architecture": "native",
+        "synthesized_area_um2": 303.506,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.15892742150992656,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 98,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          1,
+          3,
+          3,
+          5,
+          2,
+          4,
+          2,
+          7
+        ]
+      },
+      "task": "candidates/0098",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2231,
+        "error_rate": 0.544677734375,
+        "mae": 37.701171875,
+        "max_absolute_error": 648,
+        "mred": 0.031866346049892254,
+        "nmed": 0.000579795030757401,
+        "architecture": "native",
+        "synthesized_area_um2": 316.54,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.031866346049892254,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 99,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          4,
+          4,
+          8,
+          5,
+          5,
+          2,
+          4,
+          5
+        ]
+      },
+      "task": "candidates/0099",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3338,
+        "error_rate": 0.81494140625,
+        "mae": 108.513671875,
+        "max_absolute_error": 536,
+        "mred": 0.18130878605269873,
+        "nmed": 0.0016687992599000384,
+        "architecture": "native",
+        "synthesized_area_um2": 288.078,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.718,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.18130878605269873,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 100,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          4,
+          4,
+          1,
+          2,
+          1,
+          4,
+          2,
+          1
+        ]
+      },
+      "task": "candidates/0100",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3045,
+        "error_rate": 0.743408203125,
+        "mae": 87.58984375,
+        "max_absolute_error": 520,
+        "mred": 0.21549686193766046,
+        "nmed": 0.001347017973856209,
+        "architecture": "native",
+        "synthesized_area_um2": 312.816,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.21549686193766046,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 101,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          5,
+          5,
+          5,
+          4,
+          2,
+          4,
+          6,
+          2
+        ]
+      },
+      "task": "candidates/0101",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0101/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 102,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          3,
+          7,
+          8,
+          6,
+          7,
+          3,
+          7,
+          2
+        ]
+      },
+      "task": "candidates/0102",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3772,
+        "error_rate": 0.9208984375,
+        "mae": 116.642578125,
+        "max_absolute_error": 528,
+        "mred": 0.17033035914864264,
+        "nmed": 0.001793811274509804,
+        "architecture": "native",
+        "synthesized_area_um2": 287.812,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.17033035914864264,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 103,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          6,
+          2,
+          1,
+          8,
+          2,
+          2,
+          4,
+          5
+        ]
+      },
+      "task": "candidates/0103",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3725,
+        "error_rate": 0.909423828125,
+        "mae": 71.474609375,
+        "max_absolute_error": 584,
+        "mred": 0.0994730838311952,
+        "nmed": 0.0010991866109188774,
+        "architecture": "native",
+        "synthesized_area_um2": 284.088,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.667,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.0994730838311952,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 104,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          1,
+          5,
+          5,
+          8,
+          3,
+          8,
+          8,
+          6,
+          6
+        ]
+      },
+      "task": "candidates/0104",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0104/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 105,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          3,
+          1,
+          6,
+          2,
+          7,
+          6,
+          7,
+          1
+        ]
+      },
+      "task": "candidates/0105",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2748,
+        "error_rate": 0.6708984375,
+        "mae": 79.98828125,
+        "max_absolute_error": 672,
+        "mred": 0.016902404181880146,
+        "nmed": 0.0012301158208381392,
+        "architecture": "native",
+        "synthesized_area_um2": 302.974,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.016902404181880146,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 106,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          3,
+          1,
+          5,
+          8,
+          2,
+          2,
+          7,
+          8
+        ]
+      },
+      "task": "candidates/0106",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3533,
+        "error_rate": 0.862548828125,
+        "mae": 82.716796875,
+        "max_absolute_error": 520,
+        "mred": 0.1301957448984879,
+        "nmed": 0.00127207684544406,
+        "architecture": "native",
+        "synthesized_area_um2": 285.418,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.1301957448984879,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 107,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          6,
+          2,
+          5,
+          4,
+          7,
+          1,
+          5,
+          1
+        ]
+      },
+      "task": "candidates/0107",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3278,
+        "error_rate": 0.80029296875,
+        "mae": 57.04296875,
+        "max_absolute_error": 584,
+        "mred": 0.01812444521425976,
+        "nmed": 0.0008772467320261438,
+        "architecture": "native",
+        "synthesized_area_um2": 300.846,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.01812444521425976,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 108,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          7,
+          6,
+          2,
+          6,
+          1,
+          7,
+          8,
+          2
+        ]
+      },
+      "task": "candidates/0108",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3460,
+        "error_rate": 0.8447265625,
+        "mae": 113.607421875,
+        "max_absolute_error": 640,
+        "mred": 0.07614121896806958,
+        "nmed": 0.0017471345155709343,
+        "architecture": "native",
+        "synthesized_area_um2": 283.29,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.517,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.07614121896806958,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 109,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          3,
+          8,
+          2,
+          2,
+          2,
+          2,
+          7,
+          2
+        ]
+      },
+      "task": "candidates/0109",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3335,
+        "error_rate": 0.814208984375,
+        "mae": 116.06640625,
+        "max_absolute_error": 520,
+        "mred": 0.14140609547005933,
+        "nmed": 0.0017849504998077663,
+        "architecture": "native",
+        "synthesized_area_um2": 296.856,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.14140609547005933,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 110,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          3,
+          1,
+          2,
+          4,
+          7,
+          7,
+          8,
+          6
+        ]
+      },
+      "task": "candidates/0110",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3605,
+        "error_rate": 0.880126953125,
+        "mae": 93.78125,
+        "max_absolute_error": 680,
+        "mred": 0.0897679961924259,
+        "nmed": 0.0014422337562475971,
+        "architecture": "native",
+        "synthesized_area_um2": 298.718,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.0897679961924259,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 111,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          5,
+          3,
+          2,
+          1,
+          3,
+          1,
+          6,
+          4
+        ]
+      },
+      "task": "candidates/0111",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0111/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 112,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          6,
+          1,
+          3,
+          5,
+          1,
+          3,
+          7,
+          2,
+          2
+        ]
+      },
+      "task": "candidates/0112",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2223,
+        "error_rate": 0.542724609375,
+        "mae": 44.931640625,
+        "max_absolute_error": 520,
+        "mred": 0.007656307854172024,
+        "nmed": 0.0006909902441368704,
+        "architecture": "native",
+        "synthesized_area_um2": 317.338,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.669,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.007656307854172024,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 113,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          4,
+          5,
+          8,
+          4,
+          5,
+          8,
+          2,
+          5
+        ]
+      },
+      "task": "candidates/0113",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3780,
+        "error_rate": 0.9228515625,
+        "mae": 108.56640625,
+        "max_absolute_error": 536,
+        "mred": 0.216030826585854,
+        "nmed": 0.001669610246059208,
+        "architecture": "native",
+        "synthesized_area_um2": 274.512,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.216030826585854,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 114,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          3,
+          2,
+          1,
+          3,
+          5,
+          5,
+          8,
+          2
+        ]
+      },
+      "task": "candidates/0114",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2680,
+        "error_rate": 0.654296875,
+        "mae": 53.9921875,
+        "max_absolute_error": 536,
+        "mred": 0.06182444256062369,
+        "nmed": 0.0008303296808919646,
+        "architecture": "native",
+        "synthesized_area_um2": 295.792,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.06182444256062369,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 115,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          1,
+          5,
+          2,
+          8,
+          6,
+          5,
+          7,
+          6
+        ]
+      },
+      "task": "candidates/0115",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3518,
+        "error_rate": 0.85888671875,
+        "mae": 86.189453125,
+        "max_absolute_error": 680,
+        "mred": 0.03571592948800911,
+        "nmed": 0.0013254817858515955,
+        "architecture": "native",
+        "synthesized_area_um2": 281.96,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.03571592948800911,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 116,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          5,
+          5,
+          6,
+          6,
+          1,
+          3,
+          3,
+          7
+        ]
+      },
+      "task": "candidates/0116",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0116/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.165,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 117,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          4,
+          5,
+          3,
+          5,
+          8,
+          8,
+          2,
+          1,
+          4
+        ]
+      },
+      "task": "candidates/0117",
+      "proposed_by": "deepseek",
+      "status": "failed",
+      "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4/candidates/0117/logs/rtl_compile.log",
+      "metrics": {},
+      "elapsed_s": 0.164,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": null,
+          "passed": null
+        }
+      ]
+    },
+    {
+      "candidate": 118,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          4,
+          6,
+          4,
+          4,
+          5,
+          3,
+          2,
+          1
+        ]
+      },
+      "task": "candidates/0118",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3465,
+        "error_rate": 0.845947265625,
+        "mae": 121.73828125,
+        "max_absolute_error": 568,
+        "mred": 0.20485442481735558,
+        "nmed": 0.0018721765667051133,
+        "architecture": "native",
+        "synthesized_area_um2": 300.58,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.468,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.20485442481735558,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 119,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          4,
+          4,
+          4,
+          6,
+          3,
+          1,
+          5,
+          3
+        ]
+      },
+      "task": "candidates/0119",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3453,
+        "error_rate": 0.843017578125,
+        "mae": 112.435546875,
+        "max_absolute_error": 592,
+        "mred": 0.3090066167311966,
+        "nmed": 0.001729112600922722,
+        "architecture": "native",
+        "synthesized_area_um2": 301.91,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.3090066167311966,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 120,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          5,
+          6,
+          5,
+          5,
+          1,
+          4,
+          2,
+          4,
+          7
+        ]
+      },
+      "task": "candidates/0120",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3003,
+        "error_rate": 0.733154296875,
+        "mae": 62.943359375,
+        "max_absolute_error": 712,
+        "mred": 0.07546758963781622,
+        "nmed": 0.0009679870722798924,
+        "architecture": "native",
+        "synthesized_area_um2": 290.472,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.568,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.07546758963781622,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 121,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          2,
+          6,
+          3,
+          2,
+          3,
+          5,
+          6,
+          7,
+          5
+        ]
+      },
+      "task": "candidates/0121",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2701,
+        "error_rate": 0.659423828125,
+        "mae": 69.37890625,
+        "max_absolute_error": 696,
+        "mred": 0.014147613580286373,
+        "nmed": 0.001066957420222991,
+        "architecture": "native",
+        "synthesized_area_um2": 296.058,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.014147613580286373,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 122,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          2,
+          3,
+          1,
+          1,
+          5,
+          8,
+          2,
+          2
+        ]
+      },
+      "task": "candidates/0122",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 2803,
+        "error_rate": 0.684326171875,
+        "mae": 43.279296875,
+        "max_absolute_error": 536,
+        "mred": 0.03223367127176499,
+        "nmed": 0.0006655793444828912,
+        "architecture": "native",
+        "synthesized_area_um2": 297.122,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.668,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.03223367127176499,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 123,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          2,
+          4,
+          1,
+          1,
+          6,
+          4,
+          3,
+          4
+        ]
+      },
+      "task": "candidates/0123",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3393,
+        "error_rate": 0.828369140625,
+        "mae": 74.306640625,
+        "max_absolute_error": 520,
+        "mred": 0.15005813532508092,
+        "nmed": 0.0011427395713187235,
+        "architecture": "native",
+        "synthesized_area_um2": 287.546,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.618,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.15005813532508092,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 124,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          8,
+          5,
+          3,
+          7,
+          8,
+          2,
+          8,
+          6
+        ]
+      },
+      "task": "candidates/0124",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3874,
+        "error_rate": 0.94580078125,
+        "mae": 115.111328125,
+        "max_absolute_error": 656,
+        "mred": 0.12876773486230733,
+        "nmed": 0.0017702626393694733,
+        "architecture": "native",
+        "synthesized_area_um2": 269.99,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.468,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.12876773486230733,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 125,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          3,
+          8,
+          5,
+          5,
+          7,
+          8,
+          8,
+          4,
+          8
+        ]
+      },
+      "task": "candidates/0125",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3893,
+        "error_rate": 0.950439453125,
+        "mae": 97.330078125,
+        "max_absolute_error": 528,
+        "mred": 0.2191022742595221,
+        "nmed": 0.0014968101211072665,
+        "architecture": "native",
+        "synthesized_area_um2": 253.498,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.468,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2191022742595221,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 126,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          7,
+          6,
+          7,
+          3,
+          8,
+          3,
+          1,
+          7,
+          1
+        ]
+      },
+      "task": "candidates/0126",
+      "proposed_by": "deepseek",
+      "status": "completed",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3249,
+        "error_rate": 0.793212890625,
+        "mae": 59.474609375,
+        "max_absolute_error": 648,
+        "mred": 0.01688366439991565,
+        "nmed": 0.0009146422049211842,
+        "architecture": "native",
+        "synthesized_area_um2": 293.132,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.617,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.01688366439991565,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "candidate": 127,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          7,
+          2,
+          2,
+          4,
+          7,
+          8,
+          4,
+          7
+        ]
+      },
+      "task": "candidates/0127",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3604,
+        "error_rate": 0.8798828125,
+        "mae": 57.60546875,
+        "max_absolute_error": 712,
+        "mred": 0.09415138812571469,
+        "nmed": 0.0008858972510572857,
+        "architecture": "native",
+        "synthesized_area_um2": 285.684,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.567,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.09415138812571469,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "candidate": 128,
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "auto",
+        "compressor_ids": [
+          8,
+          7,
+          5,
+          1,
+          6,
+          4,
+          8,
+          8,
+          4
+        ]
+      },
+      "task": "candidates/0128",
+      "proposed_by": "deepseek",
+      "status": "infeasible",
+      "metrics": {
+        "sample_count": 4096,
+        "error_count": 3838,
+        "error_rate": 0.93701171875,
+        "mae": 92.822265625,
+        "max_absolute_error": 528,
+        "mred": 0.2164761784637613,
+        "nmed": 0.0014274858227604768,
+        "architecture": "native",
+        "synthesized_area_um2": 271.32,
+        "synthesis_library": "Nangate45_typical",
+        "post_synth_functional_checks": 4096
+      },
+      "elapsed_s": 1.467,
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02,
+          "actual": 0.2164761784637613,
+          "passed": false
+        }
+      ]
+    }
+  ],
+  "budget": 128,
+  "sessions": [
+    {
+      "started": "2026-10-10T23:00:57.071633",
+      "max_seconds": 7200,
+      "use_model": true,
+      "elapsed_s": 4464.947
+    }
+  ],
+  "stop_reason": "candidate_budget",
+  "best_feasible_candidate": 6,
+  "pareto_candidates": [
+    6,
+    11,
+    58,
+    25,
+    2,
+    1
+  ]
+}

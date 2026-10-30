@@ -26,6 +26,19 @@ def command(args, cwd, log, timeout=180):
         raise RuntimeError(f"退出码 {result.returncode}，详见 {log}")
 
 
+def arithmetic_vector_text(params):
+    n = params["bit_width"]
+    maximum = (1 << n) - 1
+    rng = random.Random(params["seed"])
+    if params["exhaustive"]:
+        pairs = [(a, b) for a in range(maximum + 1) for b in range(maximum + 1)]
+    else:
+        corners = [0, 1, 2, maximum // 2, maximum - 1, maximum]
+        pairs = list(dict.fromkeys((a, b) for a in corners for b in corners))[:params["samples"]]
+        pairs += [(rng.randrange(maximum + 1), rng.randrange(maximum + 1)) for _ in range(params["samples"] - len(pairs))]
+    return "\n".join(f"{(a << n) | b:x}" for a, b in pairs) + "\n"
+
+
 def multiplier(job, params, repo):
     sys.path.insert(0, str(repo / "openacm/multiplier_compiler"))
     from nbit_exact import generate_Exact
@@ -54,17 +67,11 @@ def multiplier(job, params, repo):
         design = generate_Appro_4_2([n], compressor_config={n: ids}, output_dir=rtl, prompt_for_missing=False)[0]
     top = design.stem
     maximum = (1 << n) - 1
-    rng = random.Random(params["seed"])
-    if params["exhaustive"]:
-        pairs = [(a, b) for a in range(maximum + 1) for b in range(maximum + 1)]
-    else:
-        corners = [0, 1, 2, maximum // 2, maximum - 1, maximum]
-        pairs = list(dict.fromkeys((a, b) for a in corners for b in corners))
-        pairs = pairs[:params["samples"]]
-        pairs += [(rng.randrange(maximum + 1), rng.randrange(maximum + 1)) for _ in range(params["samples"] - len(pairs))]
     # Drive each pair from a file: one observed RTL result for every reference value.
     vectors = job / "inputs/vectors.hex"
-    vectors.write_text("\n".join(f"{(a << n) | b:x}" for a, b in pairs) + "\n")
+    vector_text = arithmetic_vector_text(params)
+    pairs = [(int(v, 16) >> n, int(v, 16) & ((1 << n) - 1)) for v in vector_text.splitlines()]
+    vectors.write_text(vector_text)
     tb = job / "artifacts/testbench.v"
     tb.write_text(f'''`timescale 1ns/1ps
 module tb;
@@ -311,6 +318,7 @@ def sram(job, params, repo):
             if arr.size != params["mc_runs"] or not np.isfinite(arr).all() or (arr <= 0).any():
                 raise RuntimeError(f"{operation} 测量缺失或非正数")
             metrics[f"{operation}_v"] = float(arr.min())
+            dump(sim_dir / "samples.json", {"operation": operation, "snm_v": arr.reshape(-1).tolist(), "unit": "V"})
         else:
             delay, average, static, dynamic = [np.asarray(x, dtype=float) for x in outputs]
             # Built-in PAVG/PSTC measure V(VDD)*I(VVDD), the source's signed

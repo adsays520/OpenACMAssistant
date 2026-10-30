@@ -1,0 +1,14 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "plan",
+  "topic": "general",
+  "model_used": true,
+  "model_operation": "explore",
+  "fallback_mode": "plan",
+  "resolution": null,
+  "selected_facts": [],
+  "executed": false,
+  "final_mode": "plan",
+  "response_complete": true,
+  "execution_started": false
+}

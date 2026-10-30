@@ -1,0 +1,32 @@
+[
+  {
+    "method": "random",
+    "planned_repeats": 5,
+    "attempted": 5,
+    "completed": 5,
+    "completed_with_measured_feasible": 5,
+    "measured_median_pdp_fj": 59.9958901583139,
+    "measured_stdev_pdp_fj": 0.8801094810997813,
+    "total_trial_elapsed_s": 64.539
+  },
+  {
+    "method": "nsga2",
+    "planned_repeats": 5,
+    "attempted": 5,
+    "completed": 4,
+    "completed_with_measured_feasible": 4,
+    "measured_median_pdp_fj": 61.26573734979378,
+    "measured_stdev_pdp_fj": 1.427182043646163,
+    "total_trial_elapsed_s": 65.554
+  },
+  {
+    "method": "llm",
+    "planned_repeats": 5,
+    "attempted": 5,
+    "completed": 5,
+    "completed_with_measured_feasible": 5,
+    "measured_median_pdp_fj": 61.42953671066331,
+    "measured_stdev_pdp_fj": 1.2809004643273922,
+    "total_trial_elapsed_s": 4371.554
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "questions",
+    "source": "README.md：语言交流",
+    "turns": [
+      {"text": "你能干什么？", "mode": "consult", "contains": ["仿真", "SRAM"]},
+      {"text": "8位乘法器有哪些参数？MRED是什么意思？", "mode": "consult", "contains": ["位宽", "压缩器", "MRED", "平均相对误差"]},
+      {"text": "MRED和NMED分别是什么？", "mode": "consult", "contains": ["MRED", "NMED", "平均相对误差", "归一化"]}
+    ]
+  },
+  {
+    "id": "e1_multiplier",
+    "source": "README.md、实验计划 E1：明确需求与参数继承",
+    "turns": [
+      {"text": "做8位近似乘法器，所有近似位置用sabetz，固定种子采样4096组，要求MRED≤0.02。", "preview": true, "mode": "plan", "fields": {"workflow": "multiplier", "parameters.bit_width": 8, "parameters.kind": "approx", "parameters.compressor_id": 8, "parameters.samples": 4096, "parameters.seed": 42, "constraints": [{"metric": "mred", "op": "le", "value": 0.02}]}},
+      {"text": "其余不变，改为固定种子42采样8192组，并重新验证。", "preview": true, "mode": "plan", "fields": {"parameters.bit_width": 8, "parameters.compressor_id": 8, "parameters.samples": 8192, "parameters.seed": 42, "constraints": [{"metric": "mred", "op": "le", "value": 0.02}]}},
+      {"text": "这个计划是否达标？", "mode": "consult", "contains": ["还未", "仿真"]}
+    ]
+  },
+  {
+    "id": "sram_followup",
+    "source": "README.md：SRAM与电压修改示例",
+    "turns": [
+      {"text": "做16行8列SRAM，1V、TT，PU90nm、PD90nm、PG135nm、L50nm，跑读写和三种SNM。", "preview": true, "mode": "plan", "fields": {"workflow": "sram", "parameters.rows": 16, "parameters.cols": 8, "parameters.vdd_v": 1.0, "parameters.corner": "TT", "parameters.pu_width_nm": 90.0, "parameters.pd_width_nm": 90.0, "parameters.pg_width_nm": 135.0, "parameters.length_nm": 50.0, "parameters.operations": ["read", "write", "hold_snm", "read_snm", "write_snm"], "constraints": []}},
+      {"text": "其余不变，只把电压改为0.9V，重新仿真。", "preview": true, "mode": "plan", "fields": {"workflow": "sram", "parameters.rows": 16, "parameters.cols": 8, "parameters.vdd_v": 0.9, "parameters.operations": ["read", "write", "hold_snm", "read_snm", "write_snm"], "constraints": []}}
+    ]
+  },
+  {
+    "id": "floating",
+    "source": "README.md：浮点示例",
+    "turns": [{"text": "做FP16的Exact浮点乘法器，采样256组。", "preview": true, "mode": "plan", "fields": {"workflow": "floating", "parameters.fp_width": 16, "parameters.exp_width": 5, "parameters.variant": "Exact", "parameters.samples": 256, "constraints": []}}]
+  },
+  {
+    "id": "e1_clarification",
+    "source": "conversation-guide.md：缺类型后补充",
+    "turns": [
+      {"text": "帮我跑仿真", "mode": "clarify", "contains": ["电路"]},
+      {"text": "MRED是什么？", "mode": "consult", "contains": ["平均相对误差"]},
+      {"text": "8位精确乘法器，穷举所有输入。", "preview": true, "mode": "plan", "fields": {"workflow": "multiplier", "parameters.bit_width": 8, "parameters.kind": "exact", "parameters.exhaustive": true, "constraints": []}}
+    ]
+  },
+  {
+    "id": "acco_multiplier",
+    "source": "README.md：两级探索示例",
+    "turns": [{"text": "探索8位近似乘法器，预算64个候选，要求MRED≤0.02。", "preview": true, "mode": "plan", "fields": {"workflow": "multiplier", "plan.parameters.bit_width": 8, "budgets.architecture": 64, "plan.constraints": [{"metric": "mred", "op": "le", "value": 0.02}]}}]
+  },
+  {
+    "id": "e1_bank",
+    "source": "实验计划 E1：容量与接口澄清",
+    "turns": [
+      {"text": "探索SRAM，总容量4KB，预算32个候选。", "preview": true, "mode": "clarify", "contains": ["输出字宽"]},
+      {"text": "输出字宽8位，先看计划。", "mode": "plan", "fields": {"workflow": "sram", "capacity_bits": 32768, "output_width": 8, "budgets.architecture": 32, "plan.constraints": []}},
+      {"text": "这里的bank是什么意思？", "mode": "consult", "contains": ["存储", "子阵列"]}
+    ]
+  },
+  {
+    "id": "e2_comparison",
+    "source": "用户粘贴的E2对照原话",
+    "turns": [
+      {"text": "开展8位近似乘法器的架构搜索对照实验。", "mode": "clarify", "contains": ["多少", "重复"]},
+      {"text": "算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。先给我看计划，不执行。", "mode": "plan", "fields": {"kind": "search_comparison", "methods": ["random", "nsga2", "llm"], "candidate_budget": 32, "search_seeds": [1, 2, 3, 4, 5], "experiment.plan.parameters.seed": 42, "experiment.plan.parameters.samples": 4096, "experiment.physical_evaluation": {"clock_period_ns": 5.0, "output_load_ff": 10.0}, "experiment.plan.constraints": []}}
+    ]
+  },
+  {
+    "id": "e2_full_method_list",
+    "source": "2026-10-27用户完整E2任务书：方法声明与只比较架构选点共存",
+    "turns": [
+      {"text_file": "verification/fixtures/benchmark_full_request.txt", "preview": true, "mode": "plan", "fields": {"kind": "search_comparison", "methods": ["random", "nsga2", "llm"], "candidate_budget": 32, "search_seeds": [1, 2, 3, 4, 5], "validation_top_k": 3, "experiment.plan.parameters.bit_width": 8, "experiment.plan.parameters.compressor_id": 7, "experiment.plan.parameters.seed": 42, "experiment.plan.parameters.samples": 4096, "experiment.plan.constraints": [{"metric": "mred", "op": "le", "value": 0.02}], "experiment.plan.objective": {"metric": "pdp_fj", "direction": "min"}, "experiment.physical_evaluation": {"clock_period_ns": 5.0, "output_load_ff": 10.0}}, "contains": ["随机搜索", "NSGA-II", "DeepSeek", "5次", "32", "0.02"]}
+    ]
+  },
+  {
+    "id": "e2_retry_after_method_error",
+    "source": "2026-10-27用户带空格的重发原话，磁盘恢复失败pending后再提交",
+    "restart": true,
+    "initial_pending_file": "verification/fixtures/benchmark_full_request.txt",
+    "turns": [
+      {"text_file": "verification/fixtures/benchmark_reported_request.txt", "preview": true, "mode": "plan", "fields": {"kind": "search_comparison", "methods": ["random", "nsga2", "llm"], "candidate_budget": 32, "search_seeds": [1, 2, 3, 4, 5], "experiment.plan.parameters.compressor_id": 7, "experiment.plan.parameters.seed": 42, "experiment.plan.parameters.samples": 4096, "experiment.plan.constraints": [{"metric": "mred", "op": "le", "value": 0.02}], "experiment.plan.objective": {"metric": "pdp_fj", "direction": "min"}, "experiment.physical_evaluation": {"clock_period_ns": 5.0, "output_load_ff": 10.0}}, "contains": ["随机搜索", "NSGA-II", "DeepSeek", "5次", "32", "0.02"], "excludes": ["至少选择两个", "我可以回答"]}
+    ]
+  },
+  {
+    "id": "e2_conditions_first",
+    "restart": true,
+    "source": "用户无/plan直接粘贴的E2评价条件，隔轮重启",
+    "turns": [
+      {"text": "算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构", "mode": "clarify", "contains": ["哪种电路", "4096", "32"], "excludes": ["50000", "公开", "我可以回答"]},
+      {"text": "8位近似乘法器", "mode": "plan", "fields": {"kind": "search_comparison", "candidate_budget": 32, "search_seeds": [1, 2, 3, 4, 5], "experiment.plan.parameters.bit_width": 8, "experiment.plan.parameters.samples": 4096, "experiment.plan.parameters.seed": 42, "experiment.plan.constraints": []}}
+    ]
+  },
+  {
+    "id": "e3_unsupported",
+    "source": "实验计划 E3：经验消融必须如实说明边界",
+    "turns": [{"text": "开展8位近似乘法器的经验消融实验，只比较LLM无经验与LLM有经验，冻结经验快照，其余评价条件保持一致，每种方法重复5次，每次32个候选。", "mode": "clarify", "contains": ["经验", "快照", "尚未"], "excludes": ["我可以回答", "支持五类"]}]
+  },
+  {
+    "id": "e5_fixed_retest",
+    "initial_comparison": "examples/compare-multiplier-8bit.json",
+    "source": "用户E5原话，继承乘法器对照上下文后切换到SRAM",
+    "turns": [{"text_file": "verification/fixtures/sram_device_retest.txt", "preview": true, "mode": "plan", "fields": {"workflow": "sram", "experiment_mode": "sram_device_retest", "capacity_bits": 32768, "output_width": 8, "architecture_space": {"rows": [32], "cols": [32], "mux_ratio": [1]}, "device_space": {"pd_width_nm": [90.0, 135.0, 180.0]}, "robustness.mc_runs": 2, "robustness.vth_std": 0.05, "plan.parameters.seed": 42, "plan.constraints": [], "bank_constraints": []}, "contains": ["32行×32列×32个子阵列", "TT/27℃/1V", "SS/85℃/0.9V", "FF/-40℃/1.1V", "MC=2"]}]
+  },
+  {
+    "id": "e6_reference_backend",
+    "source": "实验1至6_可复制输入.md：E6参考PE完整后端",
+    "turns": [
+      {"text": "做16×8精确DCiM全流程，穷举乘法输入，时钟周期10ns，要求setup slack不低于0ns、hold slack不低于0ns、布线DRC不超过0。", "preview": true, "mode": "plan", "fields": {"workflow": "dcim", "parameters.rows": 16, "parameters.bit_width": 8, "parameters.kind": "exact", "parameters.exhaustive": true, "parameters.backend": "asic", "parameters.clock_period_ns": 10.0, "constraints": [{"metric": "setup_wns_ns", "op": "ge", "value": 0.0}, {"metric": "hold_wns_ns", "op": "ge", "value": 0.0}, {"metric": "route_drc_count", "op": "le", "value": 0.0}]}, "contains": ["完整后端", "10", "setup", "hold", "DRC"]}
+    ]
+  },
+  {
+    "id": "no_execution",
+    "source": "conversation-guide.md：讨论与明确否定",
+    "turns": [
+      {"text": "如何开展8位近似乘法器架构搜索对照实验？", "mode": "consult", "contains": ["候选", "种子"]},
+      {"text": "先不要开展仿真，我只是想了解SRAM能调整哪些参数。", "mode": "consult", "contains": ["供电", "PU", "SNM"]}
+    ]
+  },
+  {
+    "id": "video_20261030_intro",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：开场交流",
+    "turns": [
+      {"text": "你能干什么？", "mode": "consult", "contains": ["仿真", "SRAM"]},
+      {"text": "8位乘法器有哪些参数？MRED是什么意思？", "mode": "consult", "contains": ["位宽", "压缩器", "MRED", "平均相对误差"]}
+    ]
+  },
+  {
+    "id": "video_20261030_exact",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：短仿真计划",
+    "turns": [
+      {"text": "做4位精确乘法器，穷举所有输入。", "preview": true, "mode": "plan", "fields": {"workflow": "multiplier", "parameters.bit_width": 4, "parameters.kind": "exact", "parameters.exhaustive": true, "constraints": []}}
+    ]
+  },
+  {
+    "id": "video_20261030_free",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：目标驱动自由探索",
+    "restart": true,
+    "turns": [
+      {"text": "探索8位近似乘法器，采用LLM，预算8个候选，限时10分钟，固定种子42、采样4096组，要求MRED≤0.02，优先减小综合面积。先给我看计划，不执行。", "mode": "plan", "fields": {"workflow": "multiplier", "plan.parameters.bit_width": 8, "plan.parameters.kind": "approx", "plan.parameters.seed": 42, "plan.parameters.samples": 4096, "plan.constraints": [{"metric": "mred", "op": "le", "value": 0.02}], "budgets.architecture": 8, "budgets.max_seconds": 600, "solvers.architecture": "llm", "solvers.device": "llm", "architecture_objectives": [{"metric": "predicted_area_um2", "direction": "min"}]}},
+      {"text": "这个计划是否已经达标？", "mode": "consult", "contains": ["还未", "仿真"]}
+    ]
+  },
+  {
+    "id": "video_20261030_history",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：历史探索结果与连续追问",
+    "turns": [
+      {"text": "总结任务20261011_140055_explore_multiplier_fdabd4的探索结果：执行了多少个候选，最佳达标项的MRED和综合面积是多少？", "mode": "consult", "contains": ["128", "291.802", "MRED", "42", "4096"], "excludes": ["result_empty", "暂无完整结果"]},
+      {"text": "之前这些探索数值可以做什么？先不要启动新实验。", "mode": "consult", "contains": ["Pareto", "复测", "训练", "291.802"], "excludes": ["请指定电路", "我可以回答OpenACM能力"]}
+    ]
+  },
+  {
+    "id": "video_20261030_memory",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：持久经验",
+    "turns": [
+      {"text": "经验库怎样记录和利用设计结果？会自动训练模型权重吗？", "mode": "consult", "contains": ["配置", "指标", "失败", "检索", "不更新模型权重"], "excludes": ["已训练", "自动更新了权重"]}
+    ]
+  },
+  {
+    "id": "video_20261030_bank",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：容量约束与两级SRAM",
+    "restart": true,
+    "turns": [
+      {"text": "探索SRAM，总容量4KB，输出字宽8位，架构用LLM，器件用随机，预算4个候选，限时10分钟。先给我看计划，不执行。", "mode": "plan", "fields": {"workflow": "sram", "capacity_bits": 32768, "output_width": 8, "budgets.architecture": 4, "budgets.max_seconds": 600, "solvers.architecture": "llm", "solvers.device": "random", "plan.constraints": []}},
+      {"text": "这里的bank是什么意思？", "mode": "consult", "contains": ["存储", "子阵列"]}
+    ]
+  },
+  {
+    "id": "video_20261030_backend",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：参考DCiM后端",
+    "turns": [
+      {"text": "做16×8精确DCiM全流程，穷举乘法输入，时钟周期10ns，要求setup slack不低于0ns、hold slack不低于0ns、布线DRC不超过0。", "preview": true, "mode": "plan", "fields": {"workflow": "dcim", "parameters.rows": 16, "parameters.bit_width": 8, "parameters.kind": "exact", "parameters.exhaustive": true, "parameters.backend": "asic", "parameters.clock_period_ns": 10.0, "constraints": [{"metric": "setup_wns_ns", "op": "ge", "value": 0.0}, {"metric": "hold_wns_ns", "op": "ge", "value": 0.0}, {"metric": "route_drc_count", "op": "le", "value": 0.0}]}}
+    ]
+  }
+]

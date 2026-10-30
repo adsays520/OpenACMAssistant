@@ -1,0 +1,14 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "update",
+  "topic": "requirements",
+  "model_used": true,
+  "model_operation": "run",
+  "fallback_mode": "update",
+  "resolution": "requirements_preserved",
+  "selected_facts": [],
+  "executed": false,
+  "final_mode": "plan",
+  "response_complete": true,
+  "execution_started": false
+}

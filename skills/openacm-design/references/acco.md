@@ -15,6 +15,8 @@
 
 `--without-model`只把llm求解器切换为random，原nsga2选择仍运行原NSGA-II。不能把它标成DeepSeek决策。`/plan`探索需求保存完整实验；“开始运行”使用该实验。缺少SRAM总容量/输出字宽时先补充规格，不把默认16×8当总容量。
 
+固定组织的器件复验见[SRAM复验](sram-retest.md)。自然语言没有直接写SRAM，但明确子阵列、PU/PD/PG、总容量和SNM时，也应进入SRAM流程；切换电路清除上一轮乘法器上下文。example `examples/sram-device-retest-4kb.json`锁定本机4KB任务第13项，`examples/sram-device-retest-smoke.json`用于小阵列实际链路验证。
+
 自然语言支持“架构用NSGA-II，器件用随机”“采用LLM”及“限时10分钟”。预算和求解器写入完整实验配置；用户没有给阈值时，不能由模型自行添加验收上限。
 
 ## 配置与预算

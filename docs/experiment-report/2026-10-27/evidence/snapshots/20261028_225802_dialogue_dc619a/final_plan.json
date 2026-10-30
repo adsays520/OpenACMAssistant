@@ -1,0 +1,106 @@
+{
+  "kind": "search_comparison",
+  "experiment": {
+    "workflow": "multiplier",
+    "plan": {
+      "intent": "run",
+      "workflow": "multiplier",
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "native"
+      },
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02
+        }
+      ],
+      "objective": {
+        "metric": "pdp_fj",
+        "direction": "min"
+      },
+      "sweep": null,
+      "message": "",
+      "assumptions": []
+    },
+    "physical_evaluation": {
+      "clock_period_ns": 5.0,
+      "output_load_ff": 10.0
+    },
+    "schema_version": 1,
+    "search_seed": 42,
+    "budgets": {
+      "architecture": 64,
+      "shortlist": 3,
+      "validation": 3,
+      "device_per_parent": 8,
+      "max_seconds": 7200
+    },
+    "solvers": {
+      "architecture": "llm",
+      "device": "llm"
+    },
+    "architecture_space": {
+      "compressor_types": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "device_space": {
+      "width_scale": [
+        0.8,
+        1,
+        1.2
+      ]
+    },
+    "architecture_objectives": [
+      {
+        "metric": "predicted_pdp_fj",
+        "direction": "min"
+      }
+    ],
+    "device_objectives": [
+      {
+        "metric": "pdp_fj",
+        "direction": "min"
+      },
+      {
+        "metric": "estimated_area_um2",
+        "direction": "min"
+      }
+    ]
+  },
+  "methods": [
+    "random",
+    "nsga2",
+    "llm"
+  ],
+  "candidate_budget": 32,
+  "search_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "request": "开展8位近似乘法器的架构搜索对照实验。以MRED≤0.02为硬约束，在可行候选中最小化PDP。预先固定相同的合法候选池和AKbar2初始配置，分别使用随机搜索、NSGA-II和LLM选择候选。算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。本组固定器件尺寸，只比较架构选点。每次按相同规则选取最多3项进行RTL、综合和STA实测复核。分别记录预测可行与实测可行情况、最佳PDP、面积、候选数、EDA次数、LLM次数以及包含模型等待的总耗时。输出搜索曲线和重复实验结果分布，不预设LLM一定更优。",
+  "schema_version": 1,
+  "pool_seed": 1729,
+  "validation_top_k": 3,
+  "trial_max_seconds": 1800,
+  "max_seconds": 7200,
+  "pool_size": 256
+}

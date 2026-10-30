@@ -1,0 +1,126 @@
+{
+  "workflow": "sram",
+  "plan": {
+    "intent": "run",
+    "workflow": "sram",
+    "parameters": {
+      "rows": 16,
+      "cols": 64,
+      "vdd_v": 1.0,
+      "temperature_c": 27.0,
+      "corner": "TT",
+      "operations": [
+        "read",
+        "write"
+      ],
+      "mc_runs": 1,
+      "variation": false,
+      "vth_std": 0.05,
+      "seed": 42,
+      "pu_width_nm": 90.0,
+      "pd_width_nm": 90.0,
+      "pg_width_nm": 135.0,
+      "length_nm": 50.0,
+      "pu_model": "PMOS_VTG",
+      "pd_model": "NMOS_VTG",
+      "pg_model": "NMOS_VTG",
+      "wire_rc": true,
+      "wire_res_ohm": 100.0,
+      "wire_cap_pf": 0.001,
+      "column_mux": true,
+      "full_array": true,
+      "decoder_scale": 1.0,
+      "wordline_scale": 1.0,
+      "precharge_scale": 1.0,
+      "senseamp_scale": 1.0,
+      "write_driver_scale": 1.0,
+      "mux_scale": 1.0
+    },
+    "constraints": [],
+    "objective": null,
+    "sweep": null,
+    "message": "探索SRAM，总容量4KB，输出字宽8位，架构用LLM，器件用随机，预算4个候选，限时10分钟。",
+    "assumptions": []
+  },
+  "budgets": {
+    "architecture": 4,
+    "shortlist": 3,
+    "validation": 3,
+    "device_per_parent": 4,
+    "max_seconds": 600
+  },
+  "solvers": {
+    "architecture": "llm",
+    "device": "random"
+  },
+  "capacity_bits": 32768,
+  "output_width": 8,
+  "schema_version": 1,
+  "search_seed": 42,
+  "architecture_space": {
+    "rows": [
+      16,
+      32,
+      64,
+      128,
+      256,
+      512
+    ],
+    "cols": [
+      8,
+      16,
+      32,
+      64,
+      128,
+      256
+    ],
+    "mux_ratio": [
+      1,
+      2
+    ]
+  },
+  "device_space": {
+    "pu_width_nm": [
+      60,
+      90,
+      120
+    ],
+    "pd_width_nm": [
+      90,
+      135,
+      180
+    ],
+    "pg_width_nm": [
+      90,
+      135,
+      180
+    ]
+  },
+  "bank_constraints": [],
+  "architecture_objectives": [
+    {
+      "metric": "fom_arch_estimate",
+      "direction": "max"
+    }
+  ],
+  "device_objectives": [
+    {
+      "metric": "fom_robust_estimate",
+      "direction": "max"
+    }
+  ],
+  "robustness": {
+    "cases": [
+      {
+        "corner": "TT",
+        "temperature_c": 27.0,
+        "vdd_v": 1.0
+      }
+    ],
+    "mc_runs": 5,
+    "vth_std": 0.05
+  },
+  "physical_evaluation": {
+    "bank_model": "openyield_hybrid_v1"
+  }
+}

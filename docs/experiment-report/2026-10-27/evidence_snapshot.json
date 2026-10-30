@@ -1,0 +1,3945 @@
+{
+  "schema": "openacm-experiment-report/v1",
+  "report_date": "2026-10-28",
+  "collected_at": "2026-10-28T23:08:24.229358+08:00",
+  "dialogue": [
+    {
+      "audit": "runs/20261028_225314_dialogue_5a628d",
+      "request": "你能干什么？",
+      "reply": "我是一个OpenACM设计助手，可以回答关于OpenACM能力、参数和指标的问题，也可以把电路需求整理成配置，在独立副本中仿真、总结结果，并进行有预算的设计空间探索。\n\n我可以回答OpenACM能力、参数和指标问题，也可以把电路需求整理成配置，在独立副本中仿真、总结结果，并进行有预算的设计空间探索。\n\n支持五类工作流：SRAM与压缩器SPICE；整数乘法器RTL/综合；浮点乘法器RTL/综合；DCiM功能验证、综合和完整ASIC后端。\n\n你可以先问参数，再说“做8位精确乘法器，穷举所有输入”；只看计划用“/plan 需求”，确定后说“开始运行”；结果出来后可问“是否达标”“为什么失败”“下一步怎么优化”。\n\n原始OpenACM内置程序只读，调整在runs中的普通副本执行；任务保留配置、RTL/网表、日志、报告和源完整性校验。无需sudo。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "respond",
+        "topic": "general",
+        "model_used": true,
+        "model_operation": "respond",
+        "fallback_mode": "consult",
+        "resolution": null,
+        "selected_facts": [
+          "capabilities",
+          "circuits",
+          "usage",
+          "protection"
+        ],
+        "executed": false,
+        "final_mode": "consult",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225457_dialogue_55f4e1",
+      "request": "8位乘法器有哪些参数？MRED是什么意思？",
+      "reply": "整数乘法器可以设置位宽、精确/近似/对数类型、统一或逐位置压缩器、原生或分块架构、采样数/穷举、测试种子，以及功能验证或综合流程。\n\nMRED是输出相对于精确参考的平均相对误差；本助手排除精确参考为零的输入。MRED≤0.02是相对误差约束，不表示所有输出都正确。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "respond",
+        "topic": "metrics",
+        "model_used": true,
+        "model_operation": "respond",
+        "fallback_mode": "consult",
+        "resolution": null,
+        "selected_facts": [
+          "parameters",
+          "mred"
+        ],
+        "executed": false,
+        "final_mode": "consult",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225619_dialogue_3796ef",
+      "request": "做8位近似乘法器，所有近似位置用sabetz，固定种子采样4096组，要求MRED≤0.02。",
+      "reply": "8 位近似乘法器，固定种子采样验证：仿真完成，但要求未全部达标。\n\n已验证 4,096 组输入，其中 4,059 组输出与精确参考乘积不一致。\n\n错误率：99.0967 %。\n\n平均相对误差 MRED：0.492823。\n\n归一化平均误差 NMED：0.00340665。\n\n最大绝对误差：568。\n\n要求验收：\n  • 平均相对误差 MRED ≤ 0.02：未达标（平均相对误差 MRED：0.492823）\n\n误差以精确乘积为参考；MRED 排除参考乘积为零的输入。采样结果不代表完整穷举。\n\n原始 OpenACM 完整性校验通过，文件未发生变化。\n\n当前设计未满足全部要求；可以给出参数候选范围，比较其它设计。\n\n详细报告：/data2/huangjj/OpenACMAssistant/runs/20261028_225710_multiplier_08fe9b/reports/report.md",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "run",
+        "topic": "metrics",
+        "model_used": true,
+        "model_operation": "plan",
+        "fallback_mode": "action",
+        "resolution": "explicit_task_preserved",
+        "selected_facts": [],
+        "executed": true,
+        "final_mode": "run",
+        "response_complete": true,
+        "execution_started": true,
+        "task": "/data2/huangjj/OpenACMAssistant/runs/20261028_225710_multiplier_08fe9b"
+      }
+    },
+    {
+      "audit": "runs/20261028_225722_dialogue_0c431c",
+      "request": "其余不变，改为固定种子42采样8192组，并重新验证。",
+      "reply": "准备运行：8 位近似乘法器，固定种子采样验证。\n\n验证输入：8192组采样，测试种子42。\n\n评价流程：RTL功能验证。\n\n压缩器：所有近似位置使用sabetz。\n\n架构：按尺寸自动选择。\n\n验收要求：平均相对误差 MRED：0.02及以下。\n\n输入“开始运行”启动这项计划，也可以继续调整条件。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "update",
+        "topic": "requirements",
+        "model_used": true,
+        "model_operation": "run",
+        "fallback_mode": "update",
+        "resolution": "requirements_preserved",
+        "selected_facts": [],
+        "executed": false,
+        "final_mode": "plan",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225751_dialogue_3d5f28",
+      "request": "结果达标了吗？",
+      "reply": "当前只有待运行计划，还未进行该计划的仿真，不能判断是否达标；可以继续调整参数，或说“开始运行”。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "respond",
+        "topic": "result",
+        "model_used": true,
+        "model_operation": "respond",
+        "fallback_mode": "consult",
+        "resolution": null,
+        "selected_facts": [
+          "result_pending"
+        ],
+        "executed": false,
+        "final_mode": "consult",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225802_dialogue_dc619a",
+      "request": "开展8位近似乘法器的架构搜索对照实验。以MRED≤0.02为硬约束，在可行候选中最小化PDP。预先固定相同的合法候选池和AKbar2初始配置，分别使用随机搜索、NSGA-II和LLM选择候选。算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。本组固定器件尺寸，只比较架构选点。每次按相同规则选取最多3项进行RTL、综合和STA实测复核。分别记录预测可行与实测可行情况、最佳PDP、面积、候选数、EDA次数、LLM次数以及包含模型等待的总耗时。输出搜索曲线和重复实验结果分布，不预设LLM一定更优。",
+      "reply": "这次将比较随机搜索、NSGA-II、DeepSeek，每种方法运行5次。\n\n每轮最多评价32个不同架构，包含同一个初始配置；从中选最多3个进行RTL、综合和STA复核。\n\n测试输入固定为种子42、4096组采样；搜索种子为[1, 2, 3, 4, 5]。\n\n各组使用同一候选池和Nangate45 typical库，输入活动周期5ns、输出负载10fF，器件尺寸固定。\n\n验收要求：平均相对误差 MRED：0.02及以下。\n\n输入“开始运行”启动这项计划，也可以继续调整条件。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "plan",
+        "topic": "requirements",
+        "model_used": true,
+        "model_operation": "explore",
+        "fallback_mode": "plan",
+        "resolution": null,
+        "selected_facts": [],
+        "executed": false,
+        "final_mode": "plan",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225812_dialogue_c5172f",
+      "request": "任务20261027_204422_search_comparison_d356cf的结果如何？",
+      "reply": "当前只有待运行计划，还未进行该计划的仿真，不能判断是否达标；可以继续调整参数，或说“开始运行”。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "respond",
+        "topic": "result",
+        "model_used": true,
+        "model_operation": "respond",
+        "fallback_mode": "consult",
+        "resolution": null,
+        "selected_facts": [
+          "result_pending"
+        ],
+        "executed": false,
+        "final_mode": "consult",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225835_dialogue_790487",
+      "request": "开展8位近似乘法器的经验消融实验，只比较LLM无经验与LLM有经验。两组均以MRED≤0.02为硬约束、以PDP最小为目标，固定相同合法候选池、AKbar2初始配置、器件尺寸、综合库、5ns输入活动周期和10fF输出负载。测试种子42、采样4096组；使用搜索种子1、2、3、4、5进行5组配对重复，每组最多评价32个不同架构，入选项使用相同规则实测复核。冻结并记录经验库快照和哈希，排除待测配置及本轮未来结果。保存逐轮模型请求、经验ID、经验是否实际注入、重复提案、失败、实测PDP和总耗时。若经验开关消融入口尚未接通，直接说明缺少什么并保留要求，不启动普通搜索替代，也不使用旧任务结果冒充本实验完成。",
+      "reply": "经验开关消融尚未接入，暂时不能直接运行这组实验；需要先支持冻结经验快照和逐轮注入审计。我会保留你给出的条件，不替换成普通搜索。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "run",
+        "topic": "result",
+        "model_used": true,
+        "model_operation": "plan",
+        "fallback_mode": "action",
+        "resolution": "explicit_task_preserved",
+        "selected_facts": [
+          "result_status",
+          "result_path",
+          "result_sample_count",
+          "result_error_count",
+          "result_error_rate",
+          "result_mae",
+          "result_max_absolute_error",
+          "result_mred",
+          "result_nmed",
+          "result_constraint_0"
+        ],
+        "executed": false,
+        "final_mode": "clarify",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225846_dialogue_b8fb9a",
+      "request": "先不要运行仿真。请讨论8位近似乘法器PEA-GNN的独立验证要求：预先固定20个互不重复的合法配置，不按预测好坏挑选全部测试样本；记录它们与训练、经验检索数据的交叉情况，不能把来源不明的配置称为独立留出。每个配置保存完整压缩器分配、模型与缩放文件哈希、预测值和本机RTL、综合、STA及活动功耗结果。所有配置使用测试种子42、采样4096组、同一Nangate45 typical库、5ns输入活动周期和10fF输出负载，器件尺寸固定。分别评价MRED、NMED、延迟、面积、功耗和PDP的一致性，报告误差、排序和MRED≤0.02的可行性误判，保留全部失败与缺测。区分冷启动、加载后推理和完整EDA耗时。若没有独立配置批量验收入口，只说明需要补齐的功能，不生成普通探索任务替代；训练PPA条件无法对齐时，只能称跨条件一致性检查。",
+      "reply": "任务20261027_204422_search_comparison_d356cf：incomplete。\n\n任务及证据目录：/data2/huangjj/OpenACMAssistant/runs/20261027_204422_search_comparison_d356cf\n\nsample_count：4096。\n\nerror_count：4059。\n\n错误率：99.0967 %。\n\n平均绝对误差：221.518。\n\n最大绝对误差：568。\n\n平均相对误差 MRED：0.492823。\n\n归一化平均误差 NMED：0.00340665。\n\n验收mred le 0.02：不通过；实际值0.4928234136998939。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "respond",
+        "topic": "result",
+        "model_used": true,
+        "model_operation": "respond",
+        "fallback_mode": "consult",
+        "resolution": null,
+        "selected_facts": [
+          "result_status",
+          "result_path",
+          "result_sample_count",
+          "result_error_count",
+          "result_error_rate",
+          "result_mae",
+          "result_max_absolute_error",
+          "result_mred",
+          "result_nmed",
+          "result_constraint_0"
+        ],
+        "executed": false,
+        "final_mode": "consult",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225915_dialogue_eb8fb4",
+      "request": "基于4KB任务20261025_143705_acco_sram_324799中的第13号架构，新建器件复验实验。固定总容量32768bit、输出字宽8bit，组织为32行×32列×32个子阵列，列复用比1。架构阶段只复核这一个组织，不重新搜索其他组织。基线保持PU=90nm、PD=90nm、PG=135nm、沟道长50nm。只比较PD=90、135、180nm三种尺寸，其余条件保持一致。分别评价TT/27℃/1V、SS/85℃/0.9V、FF/−40℃/1.1V三个代表性PVT组合。先采用每组合MC=2、种子42、相对标准差5%进行小批次验证。输出读写延迟、功耗、hold/read/write SNM、面积估算、每角原始样本、失败记录，以及相同条件下的基线对照。不擅自增加性能验收阈值，不用少量MC宣称宏级良率。为器件阶段预留运行时间；若预算耗尽，标记未完成，不能将未执行的候选判为不可行。",
+      "reply": "固定SRAM组织为32行×32列×32个子阵列，列复用比1。\n\n架构阶段只做容量与接口校验，SPICE时间留给器件复验。\n\n基线PU=90nm、PD=90nm、PG=135nm、沟道长50nm；只比较PD=90/135/180nm。\n\n逐个评价这些PVT组合：TT/27℃/1V、SS/85℃/0.9V、FF/-40℃/1.1V。\n\n每个组合MC=2，种子42，相对标准差5%；总时限7200秒。\n\n保留读写、三种SNM、原始样本、失败记录和同条件基线比较；bank外围/面积为估算，小样本不代表良率。\n\n总容量32768bit，输出字宽8bit。\n\n尚未设置数值验收上限；如有精度要求，可以继续补充。\n\n输入“开始运行”启动这项计划，也可以继续调整条件。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "plan",
+        "topic": "requirements",
+        "model_used": true,
+        "model_operation": "plan",
+        "fallback_mode": "plan",
+        "resolution": null,
+        "selected_facts": [],
+        "executed": false,
+        "final_mode": "plan",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225924_dialogue_c7193e",
+      "request": "任务20261026_144653_acco_sram_e635c9为什么失败？",
+      "reply": "当前只有待运行计划，还未进行该计划的仿真，不能判断是否达标；可以继续调整参数，或说“开始运行”。",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "respond",
+        "topic": "result",
+        "model_used": true,
+        "model_operation": "respond",
+        "fallback_mode": "consult",
+        "resolution": null,
+        "selected_facts": [
+          "result_pending"
+        ],
+        "executed": false,
+        "final_mode": "consult",
+        "response_complete": true,
+        "execution_started": false
+      }
+    },
+    {
+      "audit": "runs/20261028_225947_dialogue_c7d94c",
+      "request": "做16×8精确DCiM全流程，穷举乘法输入，时钟周期10ns，要求setup slack不低于0ns、hold slack不低于0ns、布线DRC不超过0。",
+      "reply": "16×8 精确DCiM，完整后端：仿真完成。\n\n已验证 65,536 组输入，其中 0 组输出与精确参考乘积不一致。\n\n当前测试负载下的后端模型功耗：251.24 µW。\n\n后端面积：7800 µm²。\n\n有效输出检查：PE 常数输入 16 次；综合后 306 次；布线后功能 306 次；SDF 后仿真 306 次。\n\n最差 setup slack：4.64506 ns。\n\n最差 hold slack：0.0331819 ns。\n\n详细布线 DRC 数量：0。\n\n后端阶段：已完成 12/12 个已启动阶段。\n\n要求验收：\n  • 最差 setup slack ≥ 0ns：通过（最差 setup slack：4.64506 ns）\n  • 最差 hold slack ≥ 0ns：通过（最差 hold slack：0.0331819 ns）\n  • 详细布线 DRC 数量 ≤ 0：通过（详细布线 DRC 数量：0）\n\n结论：在本次位宽的全部输入组合上，乘法器输出与精确乘积一致，穷举功能验证通过。\n\n本次覆盖给定测试序列与参考宏库；功能/后端完成不代表覆盖所有输入流或流片签核。\n\n原始 OpenACM 完整性校验通过，文件未发生变化。\n\n可以继续提出参数修改，我会按同样流程重新验证。\n\n详细报告：/data2/huangjj/OpenACMAssistant/runs/20261028_230027_dcim_0026b3/reports/report.md",
+      "metadata": {
+        "interface": "contextual_dialogue",
+        "operation": "run",
+        "topic": "metrics",
+        "model_used": true,
+        "model_operation": "plan",
+        "fallback_mode": "action",
+        "resolution": "explicit_task_preserved",
+        "selected_facts": [],
+        "executed": true,
+        "final_mode": "run",
+        "response_complete": true,
+        "execution_started": true,
+        "task": "/data2/huangjj/OpenACMAssistant/runs/20261028_230027_dcim_0026b3"
+      }
+    }
+  ],
+  "new_jobs": [
+    {
+      "task": "20261028_225710_multiplier_08fe9b",
+      "plan": {
+        "intent": "run",
+        "workflow": "multiplier",
+        "parameters": {
+          "bit_width": 8,
+          "kind": "approx",
+          "compressor_id": 8,
+          "samples": 4096,
+          "exhaustive": false,
+          "seed": 42,
+          "backend": "functional",
+          "architecture": "auto"
+        },
+        "constraints": [
+          {
+            "metric": "mred",
+            "op": "le",
+            "value": 0.02
+          }
+        ],
+        "objective": null,
+        "sweep": null,
+        "message": "生成sabetz近似乘法器，采样验证并按实测MRED验收。",
+        "assumptions": []
+      },
+      "result": {
+        "status": "infeasible",
+        "metrics": {
+          "sample_count": 4096,
+          "error_count": 4059,
+          "error_rate": 0.990966796875,
+          "mae": 221.517578125,
+          "max_absolute_error": 568,
+          "mred": 0.4928234136998939,
+          "nmed": 0.0034066524894271434,
+          "architecture": "native"
+        },
+        "elapsed_s": 0.466,
+        "constraints": [
+          {
+            "metric": "mred",
+            "op": "le",
+            "value": 0.02,
+            "actual": 0.4928234136998939,
+            "passed": false
+          }
+        ]
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "changes": [],
+        "excluded_directory": ".git",
+        "protection": "Landlock worker write confinement"
+      }
+    },
+    {
+      "task": "20261028_230027_dcim_0026b3",
+      "plan": {
+        "intent": "run",
+        "workflow": "dcim",
+        "parameters": {
+          "bit_width": 8,
+          "rows": 16,
+          "kind": "exact",
+          "compressor_id": 1,
+          "samples": 4096,
+          "exhaustive": true,
+          "seed": 42,
+          "backend": "asic",
+          "clock_period_ns": 10.0,
+          "memory_impl": "auto",
+          "architecture": "auto"
+        },
+        "constraints": [
+          {
+            "metric": "setup_wns_ns",
+            "op": "ge",
+            "value": 0.0
+          },
+          {
+            "metric": "hold_wns_ns",
+            "op": "ge",
+            "value": 0.0
+          },
+          {
+            "metric": "route_drc_count",
+            "op": "le",
+            "value": 0.0
+          }
+        ],
+        "objective": null,
+        "sweep": null,
+        "message": "使用穷举乘法输入进行16×8精确DCiM全流程仿真，时钟周期10ns，要求setup slack不低于0ns、hold slack不低于0ns、布线DRC不超过0。",
+        "assumptions": []
+      },
+      "result": {
+        "status": "completed",
+        "metrics": {
+          "sample_count": 65536,
+          "error_count": 0,
+          "error_rate": 0.0,
+          "mae": 0.0,
+          "max_absolute_error": 0,
+          "mred": 0.0,
+          "nmed": 0.0,
+          "architecture": "native",
+          "pe_constant_input_checks": 16,
+          "post_synth_functional_checks": 306,
+          "route_drc_count": 0,
+          "routed_area_um2": 7800.0,
+          "post_route_functional_checks": 306,
+          "setup_wns_ns": 4.64506388,
+          "hold_wns_ns": 0.03318188,
+          "routed_power_uw": 251.239864,
+          "sdf_annotated_timing_checks": 294,
+          "sdf_annotated_iopaths": 1485,
+          "post_route_sdf_checks": 306
+        },
+        "elapsed_s": 76.885,
+        "constraints": [
+          {
+            "metric": "setup_wns_ns",
+            "op": "ge",
+            "value": 0.0,
+            "actual": 4.64506388,
+            "passed": true
+          },
+          {
+            "metric": "hold_wns_ns",
+            "op": "ge",
+            "value": 0.0,
+            "actual": 0.03318188,
+            "passed": true
+          },
+          {
+            "metric": "route_drc_count",
+            "op": "le",
+            "value": 0.0,
+            "actual": 0,
+            "passed": true
+          }
+        ]
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "changes": [],
+        "excluded_directory": ".git",
+        "protection": "Landlock worker write confinement"
+      }
+    },
+    {
+      "task": "20261028_230235_multiplier_5cf3f6",
+      "plan": {
+        "intent": "run",
+        "workflow": "multiplier",
+        "parameters": {
+          "bit_width": 8,
+          "kind": "approx",
+          "compressor_id": 8,
+          "samples": 8192,
+          "exhaustive": false,
+          "seed": 42,
+          "backend": "functional",
+          "architecture": "auto",
+          "compressor_ids": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        "constraints": [
+          {
+            "metric": "mred",
+            "op": "le",
+            "value": 0.02
+          }
+        ],
+        "objective": null,
+        "sweep": null,
+        "message": "固定种子42采样8192组，重新验证乘法器设计。",
+        "assumptions": []
+      },
+      "result": {
+        "status": "infeasible",
+        "metrics": {
+          "sample_count": 8192,
+          "error_count": 8128,
+          "error_rate": 0.9921875,
+          "mae": 224.0205078125,
+          "max_absolute_error": 568,
+          "mred": 0.32794041826851267,
+          "nmed": 0.0034451442954632834,
+          "architecture": "native"
+        },
+        "elapsed_s": 0.817,
+        "constraints": [
+          {
+            "metric": "mred",
+            "op": "le",
+            "value": 0.02,
+            "actual": 0.32794041826851267,
+            "passed": false
+          }
+        ]
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "changes": [],
+        "excluded_directory": ".git",
+        "protection": "Landlock worker write confinement"
+      }
+    }
+  ],
+  "tasks": {
+    "E2": {
+      "task": "20261027_204422_search_comparison_d356cf",
+      "result": {
+        "kind": "search_comparison",
+        "workflow": "multiplier",
+        "config": {
+          "kind": "search_comparison",
+          "experiment": {
+            "workflow": "multiplier",
+            "plan": {
+              "intent": "run",
+              "workflow": "multiplier",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native"
+              },
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02
+                }
+              ],
+              "objective": {
+                "metric": "pdp_fj",
+                "direction": "min"
+              },
+              "sweep": null,
+              "message": "",
+              "assumptions": []
+            },
+            "physical_evaluation": {
+              "clock_period_ns": 5.0,
+              "output_load_ff": 10.0
+            },
+            "schema_version": 1,
+            "search_seed": 42,
+            "budgets": {
+              "architecture": 64,
+              "shortlist": 3,
+              "validation": 3,
+              "device_per_parent": 8,
+              "max_seconds": 7200
+            },
+            "solvers": {
+              "architecture": "llm",
+              "device": "llm"
+            },
+            "architecture_space": {
+              "compressor_types": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ]
+            },
+            "device_space": {
+              "width_scale": [
+                0.8,
+                1,
+                1.2
+              ]
+            },
+            "architecture_objectives": [
+              {
+                "metric": "predicted_pdp_fj",
+                "direction": "min"
+              }
+            ],
+            "device_objectives": [
+              {
+                "metric": "pdp_fj",
+                "direction": "min"
+              },
+              {
+                "metric": "estimated_area_um2",
+                "direction": "min"
+              }
+            ]
+          },
+          "candidate_budget": 32,
+          "search_seeds": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "request": "原始待澄清需求：原始待澄清需求：原始待澄清需求：开展8位近似乘法器的架构搜索对照实验。以MRED≤0.02为硬约束，在可行候选中最小化PDP。预先固定相同的合法候选池和AKbar2初始配置，分别使用随机搜索、NSGA-II和LLM选择候选。算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。本组固定器件尺寸，只比较架构选点。每次按相同规则选取最多3项进行RTL、综合和STA实测复核。分别记录预测可行与实测可行情况、最佳PDP、面积、候选数、EDA次数、LLM次数以及包含模型等待的总耗时。输出搜索曲线和重复实验结果分布，不预设LLM一定更优。。用户补充：开展8位近似乘法器的架构搜索对照实验。以MRED≤0.02为硬约束，在可行候选中最小化PDP。预先固定相同的合法候选池和AKbar2初始配置，分别使用随机搜索、NSGA-II和LLM选择候选。算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。本组固定器件尺寸，只比较架构选点。每次按相同规则选取最多3项进行RTL、综合和STA实测复核。分别记录预测可行与实测可行情况、最佳PDP、面积、候选数、EDA次数、LLM次数以及包含模型等待的总耗时。输出搜索曲线和重复实验结果分布，不预设LLM一定更优。。用户补充：开展8位近似乘法器的架构搜索对照实验。以MRED≤0.02为硬约束，在可行候选中最小化PDP。预先固定相同的合法候选池和AKbar2初始配置，分别使用随机搜索、NSGA-II和LLM选择候选。算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。。用户补充：你 › 开展8位近似乘法器的架构搜索对照实验。以MRED≤0.02为硬约束，在可行候选中最小化PDP。预先固定相同的合法候选池和AKbar2初始配置，分别使用随机搜 索、NSGA-II和LLM选择候选。算术测试固定为种子42、采样4096组；所有方法使用相同的综合库、5ns输入活动周期和10fF输出负载。将搜索随机种子与测试输入种子分开，每种方法重复5次，每次最多评价32个不同架构。至少选择两个不同方法：random/nsga2/llm",
+          "schema_version": 1,
+          "methods": [
+            "random",
+            "nsga2",
+            "llm"
+          ],
+          "pool_seed": 1729,
+          "validation_top_k": 3,
+          "trial_max_seconds": 1800,
+          "max_seconds": 7200,
+          "pool_size": 256
+        },
+        "status": "incomplete",
+        "trials": [
+          {
+            "search_seed": 1,
+            "method": "random",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_1/random",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 10,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.97746032660146,
+            "best_measured_pdp_fj": 59.505057013983354,
+            "best_measured_mred": 0.012663597310548955,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2621,
+                "error_rate": 0.639892578125,
+                "mae": 77.970703125,
+                "max_absolute_error": 656,
+                "mred": 0.012663597310548955,
+                "nmed": 0.0011990880911188005,
+                "architecture": "native",
+                "synthesized_area_um2": 286.216,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 79.6980894,
+                "sta_total_power_uw": 86.33686229999999,
+                "pdp_fj": 59.505057013983354,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 915
+              },
+              "elapsed_s": 1.518,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.012663597310548955,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0003",
+              "parent": "architecture/0018",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  5,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0003",
+              "prediction_reference": {
+                "predicted_mred": 0.013287342321502266,
+                "predicted_nmed": 0.0011587688669270277,
+                "predicted_delay_ns": 1.309628364443779,
+                "predicted_area_um2": 458.1284966481924,
+                "predicted_power_uw": 158.78227710723877,
+                "predicted_pdp_fj": 207.945773870612
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 12.241,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 1,
+            "method": "nsga2",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_1/nsga2",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 17,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.97746032660146,
+            "best_measured_pdp_fj": 60.68379376880458,
+            "best_measured_mred": 0.016588719237370667,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2915,
+                "error_rate": 0.711669921875,
+                "mae": 126.376953125,
+                "max_absolute_error": 784,
+                "mred": 0.016588719237370667,
+                "nmed": 0.0019435133121876202,
+                "architecture": "native",
+                "synthesized_area_um2": 287.812,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 81.2768303,
+                "sta_total_power_uw": 88.0346779,
+                "pdp_fj": 60.68379376880458,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 901
+              },
+              "elapsed_s": 1.568,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.016588719237370667,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0002",
+              "parent": "architecture/0002",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  5
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0002",
+              "prediction_reference": {
+                "predicted_mred": 0.011541243485478532,
+                "predicted_nmed": 0.0011663446667125822,
+                "predicted_delay_ns": 1.3097918635606767,
+                "predicted_area_um2": 458.24835591477154,
+                "predicted_power_uw": 158.2614095211029,
+                "predicted_pdp_fj": 207.2895065063848
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 12.516,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 1,
+            "method": "llm",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_1/llm",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 13,
+            "validation_count": 3,
+            "measured_feasible": 2,
+            "best_predicted_pdp_fj": 205.28793152583327,
+            "best_measured_pdp_fj": 59.9958901583139,
+            "best_measured_mred": 0.011522489545320268,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2588,
+                "error_rate": 0.6318359375,
+                "mae": 79.064453125,
+                "max_absolute_error": 784,
+                "mred": 0.011522489545320268,
+                "nmed": 0.0012159085447904653,
+                "architecture": "native",
+                "synthesized_area_um2": 290.738,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 80.3554867,
+                "sta_total_power_uw": 87.1080119,
+                "pdp_fj": 59.9958901583139,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 928
+              },
+              "elapsed_s": 1.618,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.011522489545320268,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0003",
+              "parent": "architecture/0010",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0003",
+              "prediction_reference": {
+                "predicted_mred": 0.012065593645406589,
+                "predicted_nmed": 0.0012793457396870851,
+                "predicted_delay_ns": 1.3097345173358919,
+                "predicted_area_um2": 459.18810535025597,
+                "predicted_power_uw": 158.4568226337433,
+                "predicted_pdp_fj": 207.5363701107848
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 738.425,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 31
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 2,
+            "method": "nsga2",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_2/nsga2",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 18,
+            "validation_count": 3,
+            "measured_feasible": 2,
+            "best_predicted_pdp_fj": 204.03831466090054,
+            "best_measured_pdp_fj": 58.824708898126154,
+            "best_measured_mred": 0.019431558147462603,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 3505,
+                "error_rate": 0.855712890625,
+                "mae": 88.787109375,
+                "max_absolute_error": 776,
+                "mred": 0.019431558147462603,
+                "nmed": 0.0013654303633217992,
+                "architecture": "native",
+                "synthesized_area_um2": 282.226,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.73725879,
+                "sta_dynamic_power_uw": 79.7884131,
+                "sta_total_power_uw": 86.38013240000001,
+                "pdp_fj": 58.824708898126154,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 883
+              },
+              "elapsed_s": 1.568,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.019431558147462603,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0001",
+              "parent": "architecture/0010",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  8,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0001",
+              "prediction_reference": {
+                "predicted_mred": 0.014739118302455244,
+                "predicted_nmed": 0.0013012576038575173,
+                "predicted_delay_ns": 1.3097958087921142,
+                "predicted_area_um2": 454.1065507321954,
+                "predicted_power_uw": 155.7787200808525,
+                "predicted_pdp_fj": 204.03831466090054
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 12.056,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 2,
+            "method": "llm",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_2/llm",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 11,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.37584276362048,
+            "best_measured_pdp_fj": 61.42953671066331,
+            "best_measured_mred": 0.016731902436639624,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2814,
+                "error_rate": 0.68701171875,
+                "mae": 94.568359375,
+                "max_absolute_error": 880,
+                "mred": 0.016731902436639624,
+                "nmed": 0.0014543384755863129,
+                "architecture": "native",
+                "synthesized_area_um2": 288.61,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 82.275641,
+                "sta_total_power_uw": 89.0109877,
+                "pdp_fj": 61.42953671066331,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 898
+              },
+              "elapsed_s": 1.618,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.016731902436639624,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0002",
+              "parent": "architecture/0004",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  6,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0002",
+              "prediction_reference": {
+                "predicted_mred": 0.018519828933881596,
+                "predicted_nmed": 0.001448903404185772,
+                "predicted_delay_ns": 1.3096898007392883,
+                "predicted_area_um2": 455.6003496776819,
+                "predicted_power_uw": 156.9795019030571,
+                "predicted_pdp_fj": 205.5944525675676
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 903.942,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 31
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 2,
+            "method": "random",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_2/random",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 10,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.97746032660146,
+            "best_measured_pdp_fj": 61.22911715689328,
+            "best_measured_mred": 0.011578727539862943,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2604,
+                "error_rate": 0.6357421875,
+                "mae": 70.650390625,
+                "max_absolute_error": 656,
+                "mred": 0.011578727539862943,
+                "nmed": 0.0010865111976163014,
+                "architecture": "native",
+                "synthesized_area_um2": 288.344,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 82.0072091,
+                "sta_total_power_uw": 88.7882197,
+                "pdp_fj": 61.22911715689328,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 921
+              },
+              "elapsed_s": 1.568,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.011578727539862943,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0003",
+              "parent": "architecture/0008",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  2,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0003",
+              "prediction_reference": {
+                "predicted_mred": 0.011630661411361244,
+                "predicted_nmed": 0.0010217607653266192,
+                "predicted_delay_ns": 1.3097147274017336,
+                "predicted_area_um2": 459.2814231544733,
+                "predicted_power_uw": 159.55145293474197,
+                "predicted_pdp_fj": 208.96688768697612
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 12.411,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 3,
+            "method": "llm",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_3/llm",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 18,
+            "validation_count": 3,
+            "measured_feasible": 2,
+            "best_predicted_pdp_fj": 204.03831466090054,
+            "best_measured_pdp_fj": 58.824708898126154,
+            "best_measured_mred": 0.019431558147462603,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 3505,
+                "error_rate": 0.855712890625,
+                "mae": 88.787109375,
+                "max_absolute_error": 776,
+                "mred": 0.019431558147462603,
+                "nmed": 0.0013654303633217992,
+                "architecture": "native",
+                "synthesized_area_um2": 282.226,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.73725879,
+                "sta_dynamic_power_uw": 79.7884131,
+                "sta_total_power_uw": 86.38013240000001,
+                "pdp_fj": 58.824708898126154,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 883
+              },
+              "elapsed_s": 1.669,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.019431558147462603,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0001",
+              "parent": "architecture/0031",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  8,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0001",
+              "prediction_reference": {
+                "predicted_mred": 0.014739118302455244,
+                "predicted_nmed": 0.0013012576038575173,
+                "predicted_delay_ns": 1.3097958087921142,
+                "predicted_area_um2": 454.1065507321954,
+                "predicted_power_uw": 155.7787200808525,
+                "predicted_pdp_fj": 204.03831466090054
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 994.2,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 31
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 3,
+            "method": "random",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_3/random",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 8,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 204.03831466090054,
+            "best_measured_pdp_fj": 58.824708898126154,
+            "best_measured_mred": 0.019431558147462603,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 3505,
+                "error_rate": 0.855712890625,
+                "mae": 88.787109375,
+                "max_absolute_error": 776,
+                "mred": 0.019431558147462603,
+                "nmed": 0.0013654303633217992,
+                "architecture": "native",
+                "synthesized_area_um2": 282.226,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.73725879,
+                "sta_dynamic_power_uw": 79.7884131,
+                "sta_total_power_uw": 86.38013240000001,
+                "pdp_fj": 58.824708898126154,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 883
+              },
+              "elapsed_s": 1.819,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.019431558147462603,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0001",
+              "parent": "architecture/0031",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  8,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0001",
+              "prediction_reference": {
+                "predicted_mred": 0.014739118302455244,
+                "predicted_nmed": 0.0013012576038575173,
+                "predicted_delay_ns": 1.3097958087921142,
+                "predicted_area_um2": 454.1065507321954,
+                "predicted_power_uw": 155.7787200808525,
+                "predicted_pdp_fj": 204.03831466090054
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 13.288,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 3,
+            "method": "nsga2",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_3/nsga2",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 16,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.37584276362048,
+            "best_measured_pdp_fj": 61.847680930782985,
+            "best_measured_mred": 0.01944345455875131,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 3453,
+                "error_rate": 0.843017578125,
+                "mae": 89.16015625,
+                "max_absolute_error": 776,
+                "mred": 0.01944345455875131,
+                "nmed": 0.0013711673394848135,
+                "architecture": "native",
+                "synthesized_area_um2": 292.068,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 82.8356824,
+                "sta_total_power_uw": 89.60189729999999,
+                "pdp_fj": 61.847680930782985,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 916
+              },
+              "elapsed_s": 1.669,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.01944345455875131,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0001",
+              "parent": "architecture/0023",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  4,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0001",
+              "prediction_reference": {
+                "predicted_mred": 0.014408140523083358,
+                "predicted_nmed": 0.001285671679545045,
+                "predicted_delay_ns": 1.3096894335746765,
+                "predicted_area_um2": 456.8980652133822,
+                "predicted_power_uw": 156.81262862682343,
+                "predicted_pdp_fj": 205.37584276362048
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 13.175,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 4,
+            "method": "random",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_4/random",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 14,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.97746032660146,
+            "best_measured_pdp_fj": 60.0054403889468,
+            "best_measured_mred": 0.011417630031086283,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2781,
+                "error_rate": 0.678955078125,
+                "mae": 72.095703125,
+                "max_absolute_error": 784,
+                "mred": 0.011417630031086283,
+                "nmed": 0.0011087382256824297,
+                "architecture": "native",
+                "synthesized_area_um2": 293.132,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 80.3682778,
+                "sta_total_power_uw": 87.264285,
+                "pdp_fj": 60.0054403889468,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 941
+              },
+              "elapsed_s": 1.669,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.011417630031086283,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0003",
+              "parent": "architecture/0029",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  2
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0003",
+              "prediction_reference": {
+                "predicted_mred": 0.01175618251008734,
+                "predicted_nmed": 0.0011588104897147418,
+                "predicted_delay_ns": 1.3098210448026657,
+                "predicted_area_um2": 458.94806260156633,
+                "predicted_power_uw": 158.474183678627,
+                "predicted_pdp_fj": 207.57282084018883
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 13.227,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 4,
+            "method": "nsga2",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_4/nsga2",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 19,
+            "validation_count": 3,
+            "measured_feasible": 2,
+            "best_predicted_pdp_fj": 205.28793152583327,
+            "best_measured_pdp_fj": 61.847680930782985,
+            "best_measured_mred": 0.01944345455875131,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 3453,
+                "error_rate": 0.843017578125,
+                "mae": 89.16015625,
+                "max_absolute_error": 776,
+                "mred": 0.01944345455875131,
+                "nmed": 0.0013711673394848135,
+                "architecture": "native",
+                "synthesized_area_um2": 292.068,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 82.8356824,
+                "sta_total_power_uw": 89.60189729999999,
+                "pdp_fj": 61.847680930782985,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 916
+              },
+              "elapsed_s": 2.074,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.01944345455875131,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0002",
+              "parent": "architecture/0031",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  4,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0002",
+              "prediction_reference": {
+                "predicted_mred": 0.014408140523083358,
+                "predicted_nmed": 0.001285671679545045,
+                "predicted_delay_ns": 1.3096894335746765,
+                "predicted_area_um2": 456.8980652133822,
+                "predicted_power_uw": 156.81262862682343,
+                "predicted_pdp_fj": 205.37584276362048
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 17.762,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 4,
+            "method": "llm",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_4/llm",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 16,
+            "validation_count": 3,
+            "measured_feasible": 2,
+            "best_predicted_pdp_fj": 205.28793152583327,
+            "best_measured_pdp_fj": 61.847680930782985,
+            "best_measured_mred": 0.01944345455875131,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 3453,
+                "error_rate": 0.843017578125,
+                "mae": 89.16015625,
+                "max_absolute_error": 776,
+                "mred": 0.01944345455875131,
+                "nmed": 0.0013711673394848135,
+                "architecture": "native",
+                "synthesized_area_um2": 292.068,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 82.8356824,
+                "sta_total_power_uw": 89.60189729999999,
+                "pdp_fj": 61.847680930782985,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 916
+              },
+              "elapsed_s": 1.768,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.01944345455875131,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0002",
+              "parent": "architecture/0032",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  4,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0002",
+              "prediction_reference": {
+                "predicted_mred": 0.014408140523083358,
+                "predicted_nmed": 0.001285671679545045,
+                "predicted_delay_ns": 1.3096894335746765,
+                "predicted_area_um2": 456.8980652133822,
+                "predicted_power_uw": 156.81262862682343,
+                "predicted_pdp_fj": 205.37584276362048
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 847.836,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 31
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 5,
+            "method": "nsga2",
+            "status": "failed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_5/nsga2",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 16,
+            "validation_count": 3,
+            "measured_feasible": 2,
+            "best_predicted_pdp_fj": 205.97746032660146,
+            "best_measured_pdp_fj": 62.16853802338329,
+            "best_measured_mred": 0.01438600892219579,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2825,
+                "error_rate": 0.689697265625,
+                "mae": 88.708984375,
+                "max_absolute_error": 784,
+                "mred": 0.01438600892219579,
+                "nmed": 0.0013642289023452518,
+                "architecture": "native",
+                "synthesized_area_um2": 288.078,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 83.2654223,
+                "sta_total_power_uw": 90.0453015,
+                "pdp_fj": 62.16853802338329,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 895
+              },
+              "elapsed_s": 1.669,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.01438600892219579,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0002",
+              "parent": "architecture/0018",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  6,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0002",
+              "prediction_reference": {
+                "predicted_mred": 0.01511434348345287,
+                "predicted_nmed": 0.0013201971485635637,
+                "predicted_delay_ns": 1.3099102747440339,
+                "predicted_area_um2": 455.1782558889389,
+                "predicted_power_uw": 157.51368868350983,
+                "predicted_pdp_fj": 206.32879921936257
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 10.045,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 2,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 5,
+            "method": "llm",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_5/llm",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 18,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.40033700226422,
+            "best_measured_pdp_fj": 61.539470571188616,
+            "best_measured_mred": 0.014112903261469282,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2743,
+                "error_rate": 0.669677734375,
+                "mae": 86.775390625,
+                "max_absolute_error": 784,
+                "mred": 0.014112903261469282,
+                "nmed": 0.0013344927431757016,
+                "architecture": "native",
+                "synthesized_area_um2": 290.206,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 82.4228809,
+                "sta_total_power_uw": 89.1518794,
+                "pdp_fj": 61.539470571188616,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 904
+              },
+              "elapsed_s": 1.669,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.014112903261469282,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0003",
+              "parent": "architecture/0028",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  6,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0003",
+              "prediction_reference": {
+                "predicted_mred": 0.014563833466482011,
+                "predicted_nmed": 0.0012905241727179289,
+                "predicted_delay_ns": 1.3097658693790437,
+                "predicted_area_um2": 455.48004963874814,
+                "predicted_power_uw": 157.89384800195694,
+                "predicted_pdp_fj": 206.80397309788572
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 887.151,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 31
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          },
+          {
+            "search_seed": 5,
+            "method": "random",
+            "status": "completed",
+            "stop_reason": "stages_finished",
+            "task": "trials/seed_5/random",
+            "evaluated_architectures": 32,
+            "unique_architectures": 32,
+            "prediction_feasible": 10,
+            "validation_count": 3,
+            "measured_feasible": 3,
+            "best_predicted_pdp_fj": 205.97746032660146,
+            "best_measured_pdp_fj": 59.9958901583139,
+            "best_measured_mred": 0.011522489545320268,
+            "best_design": {
+              "status": "completed",
+              "metrics": {
+                "sample_count": 4096,
+                "error_count": 2588,
+                "error_rate": 0.6318359375,
+                "mae": 79.064453125,
+                "max_absolute_error": 784,
+                "mred": 0.011522489545320268,
+                "nmed": 0.0012159085447904653,
+                "architecture": "native",
+                "synthesized_area_um2": 290.738,
+                "synthesis_library": "Nangate45_typical",
+                "post_synth_functional_checks": 4096,
+                "sta_delay_ns": 0.74663091,
+                "sta_dynamic_power_uw": 80.3554867,
+                "sta_total_power_uw": 87.1080119,
+                "pdp_fj": 59.9958901583139,
+                "output_load_ff": 10.0,
+                "sta_clock_period_ns": 5.0,
+                "activity_sample_period_ns": 5.0,
+                "sta_vcd_annotated_pins": 928
+              },
+              "elapsed_s": 1.718,
+              "constraints": [
+                {
+                  "metric": "mred",
+                  "op": "le",
+                  "value": 0.02,
+                  "actual": 0.011522489545320268,
+                  "passed": true
+                }
+              ],
+              "candidate": "validation/0002",
+              "parent": "architecture/0003",
+              "parameters": {
+                "bit_width": 8,
+                "kind": "approx",
+                "compressor_id": 7,
+                "samples": 4096,
+                "exhaustive": false,
+                "seed": 42,
+                "backend": "synthesis",
+                "architecture": "native",
+                "compressor_ids": [
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  7,
+                  3
+                ]
+              },
+              "evidence_kind": "RTL_synthesis_STA_activity",
+              "task": "stages/validation/0002",
+              "prediction_reference": {
+                "predicted_mred": 0.012065593645406589,
+                "predicted_nmed": 0.0012793457396870851,
+                "predicted_delay_ns": 1.3097345173358919,
+                "predicted_area_um2": 459.18810535025597,
+                "predicted_power_uw": 158.4568226337433,
+                "predicted_pdp_fj": 207.5363701107848
+              },
+              "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+              "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+            },
+            "elapsed_s": 13.372,
+            "counters": {
+              "gnn_queries": 32,
+              "array_or_rtl_tasks": 3,
+              "sta_activity_evaluations": 3,
+              "device_candidates": 0,
+              "llm_calls": 0
+            },
+            "error": null,
+            "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+            "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1"
+          }
+        ],
+        "planned_trials": 15,
+        "active_trial": null,
+        "implementation_limit": "有限冻结池内的搜索策略对照；搜索轨迹为GNN预测，只有每轮入选项做RTL/综合/STA复核。固定器件，未作版图或经验消融。",
+        "candidate_pool_sha256": "48493e6ef47f07c2eba3af2e50f7d684d11576f4ba4e5515c64e7d94ba8a2e03",
+        "test_vectors_sha256": "5ad3ba175d9743f25d541bcde06213cdf778289d702a6b1f017ca7acf11a03b1",
+        "synthesis_lib_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+        "shared_initialization_s": 2.293,
+        "stop_reason": "trials_finished",
+        "elapsed_s": 4504.359
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "reference_changes": [],
+        "protection": "Landlock pipeline and nested workers"
+      },
+      "result_sha256": "b671a510f492be1e80def14d8fd167968871efdd1ab0b39721e68eea3abe027c"
+    },
+    "E5_4KB": {
+      "task": "20261026_144653_acco_sram_e635c9",
+      "result": {
+        "kind": "acco",
+        "workflow": "sram",
+        "status": "failed",
+        "config": {
+          "workflow": "sram",
+          "experiment_mode": "sram_device_retest",
+          "plan": {
+            "intent": "run",
+            "workflow": "sram",
+            "parameters": {
+              "rows": 32,
+              "cols": 32,
+              "vdd_v": 1.0,
+              "temperature_c": 27.0,
+              "corner": "TT",
+              "operations": [
+                "read",
+                "write",
+                "hold_snm",
+                "read_snm",
+                "write_snm"
+              ],
+              "mc_runs": 2,
+              "variation": true,
+              "vth_std": 0.05,
+              "seed": 42,
+              "pu_width_nm": 90.0,
+              "pd_width_nm": 90.0,
+              "pg_width_nm": 135.0,
+              "length_nm": 50.0,
+              "pu_model": "PMOS_VTG",
+              "pd_model": "NMOS_VTG",
+              "pg_model": "NMOS_VTG",
+              "wire_rc": true,
+              "wire_res_ohm": 100.0,
+              "wire_cap_pf": 0.001,
+              "column_mux": false,
+              "full_array": true,
+              "decoder_scale": 1.0,
+              "wordline_scale": 1.0,
+              "precharge_scale": 1.0,
+              "senseamp_scale": 1.0,
+              "write_driver_scale": 1.0,
+              "mux_scale": 1.0
+            },
+            "constraints": [],
+            "objective": null,
+            "sweep": null,
+            "message": "",
+            "assumptions": []
+          },
+          "capacity_bits": 32768,
+          "output_width": 8,
+          "architecture_space": {
+            "rows": [
+              32
+            ],
+            "cols": [
+              32
+            ],
+            "mux_ratio": [
+              1
+            ]
+          },
+          "device_space": {
+            "pd_width_nm": [
+              90.0,
+              135.0,
+              180.0
+            ]
+          },
+          "solvers": {
+            "architecture": "random",
+            "device": "random"
+          },
+          "budgets": {
+            "architecture": 1,
+            "shortlist": 1,
+            "validation": 1,
+            "device_per_parent": 3,
+            "max_seconds": 7200
+          },
+          "robustness": {
+            "cases": [
+              {
+                "corner": "TT",
+                "temperature_c": 27.0,
+                "vdd_v": 1.0
+              },
+              {
+                "corner": "SS",
+                "temperature_c": 85.0,
+                "vdd_v": 0.9
+              },
+              {
+                "corner": "FF",
+                "temperature_c": -40.0,
+                "vdd_v": 1.1
+              }
+            ],
+            "mc_runs": 2,
+            "vth_std": 0.05
+          },
+          "reference_design": {
+            "task": "20261025_143705_acco_sram_324799",
+            "candidate": "architecture/0013",
+            "record_sha256": "40942999587c496f31923bf37167cac6ceb109baffb20bcee31ab0315ad4bfca"
+          },
+          "schema_version": 1,
+          "search_seed": 42,
+          "bank_constraints": [],
+          "architecture_objectives": [
+            {
+              "metric": "fom_arch_estimate",
+              "direction": "max"
+            }
+          ],
+          "device_objectives": [
+            {
+              "metric": "fom_robust_estimate",
+              "direction": "max"
+            }
+          ],
+          "physical_evaluation": {
+            "bank_model": "openyield_hybrid_v1"
+          }
+        },
+        "stages": {
+          "architecture": {
+            "status": "completed",
+            "stop_reason": "fixed_architecture",
+            "evidence_kind": "capacity_and_interface_check",
+            "budget": 1,
+            "records": [
+              {
+                "candidate": "architecture/0001",
+                "status": "completed",
+                "evidence_kind": "capacity_and_interface_check",
+                "parameters": {
+                  "architecture": {
+                    "rows": 32,
+                    "cols": 32,
+                    "mux_ratio": 1,
+                    "num_arrays": 32
+                  }
+                },
+                "metrics": {
+                  "capacity_bits": 32768,
+                  "output_width": 8
+                }
+              }
+            ]
+          },
+          "device_fixed_architecture": {
+            "name": "device_fixed_architecture",
+            "parent": "architecture/0001",
+            "solver": "random",
+            "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+            "budget": 3,
+            "records": [
+              {
+                "candidate": "device_fixed_architecture/0001",
+                "parameters": {
+                  "architecture": {
+                    "rows": 32,
+                    "cols": 32,
+                    "mux_ratio": 1,
+                    "num_arrays": 32
+                  },
+                  "devices": {
+                    "pd_width_nm": 90.0
+                  }
+                },
+                "parent": "architecture/0001",
+                "task": "stages/device_fixed_architecture/0001",
+                "proposed_by": "baseline",
+                "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+                "status": "failed",
+                "error": "存在失败PVT案例，详见coverage.json及逐角日志；其它案例结果已保留",
+                "metrics": {},
+                "elapsed_s": 1802.927
+              },
+              {
+                "candidate": "device_fixed_architecture/0002",
+                "parameters": {
+                  "architecture": {
+                    "rows": 32,
+                    "cols": 32,
+                    "mux_ratio": 1,
+                    "num_arrays": 32
+                  },
+                  "devices": {
+                    "pd_width_nm": 135.0
+                  }
+                },
+                "parent": "architecture/0001",
+                "task": "stages/device_fixed_architecture/0002",
+                "proposed_by": "random",
+                "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+                "status": "failed",
+                "error": "存在失败PVT案例，详见coverage.json及逐角日志；其它案例结果已保留",
+                "metrics": {},
+                "elapsed_s": 1803.069
+              },
+              {
+                "candidate": "device_fixed_architecture/0003",
+                "parameters": {
+                  "architecture": {
+                    "rows": 32,
+                    "cols": 32,
+                    "mux_ratio": 1,
+                    "num_arrays": 32
+                  },
+                  "devices": {
+                    "pd_width_nm": 180.0
+                  }
+                },
+                "parent": "architecture/0001",
+                "task": "stages/device_fixed_architecture/0003",
+                "proposed_by": "random",
+                "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+                "status": "failed",
+                "error": "存在失败PVT案例，详见coverage.json及逐角日志；其它案例结果已保留",
+                "metrics": {},
+                "elapsed_s": 1804.794
+              }
+            ],
+            "status": "infeasible",
+            "stop_reason": "candidate_budget",
+            "pareto_candidates": [],
+            "best_candidate": null,
+            "pending_candidates": []
+          }
+        },
+        "best_design": null,
+        "counters": {
+          "gnn_queries": 0,
+          "array_or_rtl_tasks": 9,
+          "sta_activity_evaluations": 0,
+          "device_candidates": 3,
+          "llm_calls": 0
+        },
+        "budget_reservation": {
+          "device_seconds": 7199.994378027972,
+          "architecture_spice_tasks": 0
+        },
+        "shortlist": [
+          "architecture/0001"
+        ],
+        "active_case": null,
+        "implementation_limit": "固定组织只做容量/接口校验；所有器件在相同PVT/MC下重新SPICE评价。bank外围/面积为估算，少量MC不证明良率。",
+        "stop_reason": "stages_finished"
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "reference_changes": [],
+        "protection": "Landlock pipeline + nested worker confinement",
+        "openyield_scope": "reused source files in reference_manifest.json"
+      },
+      "result_sha256": "0ff1381864fbb14c52fd1f289c6e5aa7276578781963a65ed809c9b045929ce2"
+    },
+    "E5_64bit": {
+      "task": "20261026_144235_acco_sram_27ed9c",
+      "result": {
+        "kind": "acco",
+        "workflow": "sram",
+        "status": "completed",
+        "config": {
+          "workflow": "sram",
+          "experiment_mode": "sram_device_retest",
+          "plan": {
+            "intent": "run",
+            "workflow": "sram",
+            "parameters": {
+              "rows": 4,
+              "cols": 4,
+              "vdd_v": 1.0,
+              "temperature_c": 27.0,
+              "corner": "TT",
+              "operations": [
+                "read",
+                "write",
+                "hold_snm",
+                "read_snm",
+                "write_snm"
+              ],
+              "mc_runs": 2,
+              "variation": true,
+              "vth_std": 0.05,
+              "seed": 42,
+              "pu_width_nm": 90.0,
+              "pd_width_nm": 90.0,
+              "pg_width_nm": 135.0,
+              "length_nm": 50.0,
+              "pu_model": "PMOS_VTG",
+              "pd_model": "NMOS_VTG",
+              "pg_model": "NMOS_VTG",
+              "wire_rc": true,
+              "wire_res_ohm": 100.0,
+              "wire_cap_pf": 0.001,
+              "column_mux": false,
+              "full_array": true,
+              "decoder_scale": 1.0,
+              "wordline_scale": 1.0,
+              "precharge_scale": 1.0,
+              "senseamp_scale": 1.0,
+              "write_driver_scale": 1.0,
+              "mux_scale": 1.0
+            },
+            "constraints": [],
+            "objective": null,
+            "sweep": null,
+            "message": "",
+            "assumptions": []
+          },
+          "capacity_bits": 64,
+          "output_width": 4,
+          "architecture_space": {
+            "rows": [
+              4
+            ],
+            "cols": [
+              4
+            ],
+            "mux_ratio": [
+              1
+            ]
+          },
+          "device_space": {
+            "pd_width_nm": [
+              90.0,
+              135.0,
+              180.0
+            ]
+          },
+          "solvers": {
+            "architecture": "random",
+            "device": "random"
+          },
+          "budgets": {
+            "architecture": 1,
+            "shortlist": 1,
+            "validation": 1,
+            "device_per_parent": 3,
+            "max_seconds": 900
+          },
+          "robustness": {
+            "cases": [
+              {
+                "corner": "TT",
+                "temperature_c": 27.0,
+                "vdd_v": 1.0
+              },
+              {
+                "corner": "SS",
+                "temperature_c": 85.0,
+                "vdd_v": 0.9
+              },
+              {
+                "corner": "FF",
+                "temperature_c": -40.0,
+                "vdd_v": 1.1
+              }
+            ],
+            "mc_runs": 2,
+            "vth_std": 0.05
+          },
+          "schema_version": 1,
+          "search_seed": 42,
+          "bank_constraints": [],
+          "architecture_objectives": [
+            {
+              "metric": "fom_arch_estimate",
+              "direction": "max"
+            }
+          ],
+          "device_objectives": [
+            {
+              "metric": "fom_robust_estimate",
+              "direction": "max"
+            }
+          ],
+          "physical_evaluation": {
+            "bank_model": "openyield_hybrid_v1"
+          }
+        },
+        "stages": {
+          "architecture": {
+            "status": "completed",
+            "stop_reason": "fixed_architecture",
+            "evidence_kind": "capacity_and_interface_check",
+            "budget": 1,
+            "records": [
+              {
+                "candidate": "architecture/0001",
+                "status": "completed",
+                "evidence_kind": "capacity_and_interface_check",
+                "parameters": {
+                  "architecture": {
+                    "rows": 4,
+                    "cols": 4,
+                    "mux_ratio": 1,
+                    "num_arrays": 4
+                  }
+                },
+                "metrics": {
+                  "capacity_bits": 64,
+                  "output_width": 4
+                }
+              }
+            ]
+          },
+          "device_fixed_architecture": {
+            "name": "device_fixed_architecture",
+            "parent": "architecture/0001",
+            "solver": "random",
+            "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+            "budget": 3,
+            "records": [
+              {
+                "candidate": "device_fixed_architecture/0001",
+                "parameters": {
+                  "architecture": {
+                    "rows": 4,
+                    "cols": 4,
+                    "mux_ratio": 1,
+                    "num_arrays": 4
+                  },
+                  "devices": {
+                    "pd_width_nm": 90.0
+                  }
+                },
+                "parent": "architecture/0001",
+                "task": "stages/device_fixed_architecture/0001",
+                "proposed_by": "baseline",
+                "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+                "status": "completed",
+                "metrics": {
+                  "write_snm_v": 0.7480611,
+                  "bank_pmax_uw_estimate": 18.208365699999998,
+                  "hold_snm_v": 0.3388034,
+                  "bank_area_um2_estimate": 967.3212126315786,
+                  "bank_write_power_uw_estimate": 14.355201000000001,
+                  "min_snm_v": 0.1951154,
+                  "fom_arch_estimate": 18.251203834363636,
+                  "serialization_cycles_estimate": 1,
+                  "bank_read_power_uw_estimate": 18.208365699999998,
+                  "fom_robust_estimate": 17.541495382953823,
+                  "bank_read_delay_ns_estimate": 0.9902385799999999,
+                  "bank_dmax_ns_estimate": 0.9902385799999999,
+                  "bank_write_delay_ns_estimate": 0.61086507,
+                  "read_snm_v": 0.1951154
+                },
+                "constraints": [],
+                "acceptance": "specified_model_and_cases",
+                "elapsed_s": 30.772
+              },
+              {
+                "candidate": "device_fixed_architecture/0002",
+                "parameters": {
+                  "architecture": {
+                    "rows": 4,
+                    "cols": 4,
+                    "mux_ratio": 1,
+                    "num_arrays": 4
+                  },
+                  "devices": {
+                    "pd_width_nm": 135.0
+                  }
+                },
+                "parent": "architecture/0001",
+                "task": "stages/device_fixed_architecture/0002",
+                "proposed_by": "random",
+                "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+                "status": "completed",
+                "metrics": {
+                  "write_snm_v": 0.7084209,
+                  "bank_pmax_uw_estimate": 18.309500200000002,
+                  "hold_snm_v": 0.3345158,
+                  "bank_area_um2_estimate": 979.765844210526,
+                  "bank_write_power_uw_estimate": 15.589886900000002,
+                  "min_snm_v": 0.1554802,
+                  "fom_arch_estimate": 18.255869288733425,
+                  "serialization_cycles_estimate": 1,
+                  "bank_read_power_uw_estimate": 18.309500200000002,
+                  "fom_robust_estimate": 17.447544379342258,
+                  "bank_read_delay_ns_estimate": 0.96803949,
+                  "bank_dmax_ns_estimate": 0.96803949,
+                  "bank_write_delay_ns_estimate": 0.62909267,
+                  "read_snm_v": 0.1554802
+                },
+                "constraints": [],
+                "acceptance": "specified_model_and_cases",
+                "elapsed_s": 30.803
+              },
+              {
+                "candidate": "device_fixed_architecture/0003",
+                "parameters": {
+                  "architecture": {
+                    "rows": 4,
+                    "cols": 4,
+                    "mux_ratio": 1,
+                    "num_arrays": 4
+                  },
+                  "devices": {
+                    "pd_width_nm": 180.0
+                  }
+                },
+                "parent": "architecture/0001",
+                "task": "stages/device_fixed_architecture/0003",
+                "proposed_by": "random",
+                "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+                "status": "completed",
+                "metrics": {
+                  "write_snm_v": 0.6825216,
+                  "bank_pmax_uw_estimate": 18.4543204,
+                  "hold_snm_v": 0.3303099,
+                  "bank_area_um2_estimate": 992.2104757894735,
+                  "bank_write_power_uw_estimate": 16.8872063,
+                  "min_snm_v": 0.1694452,
+                  "fom_arch_estimate": 18.254777170743395,
+                  "serialization_cycles_estimate": 1,
+                  "bank_read_power_uw_estimate": 18.4543204,
+                  "fom_robust_estimate": 17.483806441508772,
+                  "bank_read_delay_ns_estimate": 0.95680375,
+                  "bank_dmax_ns_estimate": 0.95680375,
+                  "bank_write_delay_ns_estimate": 0.6499090700000001,
+                  "read_snm_v": 0.1694452
+                },
+                "constraints": [],
+                "acceptance": "specified_model_and_cases",
+                "elapsed_s": 30.756
+              }
+            ],
+            "status": "completed",
+            "stop_reason": "candidate_budget",
+            "pareto_candidates": [
+              "device_fixed_architecture/0001"
+            ],
+            "best_candidate": "device_fixed_architecture/0001",
+            "baseline_comparison": {
+              "fom_robust_estimate": {
+                "baseline": 17.541495382953823,
+                "best": 17.541495382953823,
+                "difference": 0.0
+              }
+            },
+            "pending_candidates": []
+          }
+        },
+        "best_design": {
+          "candidate": "device_fixed_architecture/0001",
+          "parameters": {
+            "architecture": {
+              "rows": 4,
+              "cols": 4,
+              "mux_ratio": 1,
+              "num_arrays": 4
+            },
+            "devices": {
+              "pd_width_nm": 90.0
+            }
+          },
+          "parent": "architecture/0001",
+          "task": "stages/device_fixed_architecture/0001",
+          "proposed_by": "baseline",
+          "evidence_kind": "pvt_mc_array_spice_plus_bank_estimate",
+          "status": "completed",
+          "metrics": {
+            "write_snm_v": 0.7480611,
+            "bank_pmax_uw_estimate": 18.208365699999998,
+            "hold_snm_v": 0.3388034,
+            "bank_area_um2_estimate": 967.3212126315786,
+            "bank_write_power_uw_estimate": 14.355201000000001,
+            "min_snm_v": 0.1951154,
+            "fom_arch_estimate": 18.251203834363636,
+            "serialization_cycles_estimate": 1,
+            "bank_read_power_uw_estimate": 18.208365699999998,
+            "fom_robust_estimate": 17.541495382953823,
+            "bank_read_delay_ns_estimate": 0.9902385799999999,
+            "bank_dmax_ns_estimate": 0.9902385799999999,
+            "bank_write_delay_ns_estimate": 0.61086507,
+            "read_snm_v": 0.1951154
+          },
+          "constraints": [],
+          "acceptance": "specified_model_and_cases",
+          "elapsed_s": 30.772
+        },
+        "counters": {
+          "gnn_queries": 0,
+          "array_or_rtl_tasks": 9,
+          "sta_activity_evaluations": 0,
+          "device_candidates": 3,
+          "llm_calls": 0
+        },
+        "budget_reservation": {
+          "device_seconds": 899.994103200268,
+          "architecture_spice_tasks": 0
+        },
+        "shortlist": [
+          "architecture/0001"
+        ],
+        "implementation_limit": "固定组织只做容量/接口校验；所有器件在相同PVT/MC下重新SPICE评价。bank外围/面积为估算，少量MC不证明良率。",
+        "stop_reason": "stages_finished"
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "reference_changes": [],
+        "protection": "Landlock pipeline + nested worker confinement",
+        "openyield_scope": "reused source files in reference_manifest.json"
+      },
+      "result_sha256": "07aba202c4e0ca737268a6a8fb15ad5ac34b4cbba96ae1a8d7fbfe5703932615"
+    },
+    "E6_history": {
+      "task": "20261010_142841_dcim_4af72b",
+      "result": {
+        "status": "completed",
+        "metrics": {
+          "sample_count": 256,
+          "error_count": 0,
+          "error_rate": 0.0,
+          "mae": 0.0,
+          "max_absolute_error": 0,
+          "mred": 0.0,
+          "nmed": 0.0,
+          "pe_constant_input_checks": 16,
+          "post_synth_functional_checks": 246,
+          "route_drc_count": 0,
+          "routed_area_um2": 19307.0,
+          "post_route_functional_checks": 246,
+          "setup_wns_ns": 24.62,
+          "hold_wns_ns": 0.0,
+          "routed_power_uw": 172.414366,
+          "sdf_annotated_timing_checks": 516,
+          "sdf_annotated_iopaths": 5201,
+          "post_route_sdf_checks": 246
+        },
+        "elapsed_s": 57.442,
+        "constraints": [
+          {
+            "metric": "setup_wns_ns",
+            "op": "ge",
+            "value": 0,
+            "actual": 24.62,
+            "passed": true
+          },
+          {
+            "metric": "hold_wns_ns",
+            "op": "ge",
+            "value": 0,
+            "actual": 0.0,
+            "passed": true
+          },
+          {
+            "metric": "route_drc_count",
+            "op": "le",
+            "value": 0,
+            "actual": 0,
+            "passed": true
+          }
+        ]
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "changes": [],
+        "excluded_directory": ".git",
+        "protection": "Landlock worker write confinement"
+      },
+      "result_sha256": "c68df961dad5612de52fc4dfad5decffb461274ec0afaed6826be222fd09c1c2"
+    },
+    "E6": {
+      "task": "20261028_230027_dcim_0026b3",
+      "result": {
+        "status": "completed",
+        "metrics": {
+          "sample_count": 65536,
+          "error_count": 0,
+          "error_rate": 0.0,
+          "mae": 0.0,
+          "max_absolute_error": 0,
+          "mred": 0.0,
+          "nmed": 0.0,
+          "architecture": "native",
+          "pe_constant_input_checks": 16,
+          "post_synth_functional_checks": 306,
+          "route_drc_count": 0,
+          "routed_area_um2": 7800.0,
+          "post_route_functional_checks": 306,
+          "setup_wns_ns": 4.64506388,
+          "hold_wns_ns": 0.03318188,
+          "routed_power_uw": 251.239864,
+          "sdf_annotated_timing_checks": 294,
+          "sdf_annotated_iopaths": 1485,
+          "post_route_sdf_checks": 306
+        },
+        "elapsed_s": 76.885,
+        "constraints": [
+          {
+            "metric": "setup_wns_ns",
+            "op": "ge",
+            "value": 0.0,
+            "actual": 4.64506388,
+            "passed": true
+          },
+          {
+            "metric": "hold_wns_ns",
+            "op": "ge",
+            "value": 0.0,
+            "actual": 0.03318188,
+            "passed": true
+          },
+          {
+            "metric": "route_drc_count",
+            "op": "le",
+            "value": 0.0,
+            "actual": 0,
+            "passed": true
+          }
+        ]
+      },
+      "integrity": {
+        "unchanged": true,
+        "checked_files": 2631,
+        "changes": [],
+        "excluded_directory": ".git",
+        "protection": "Landlock worker write confinement"
+      },
+      "result_sha256": "7f1c70d979fda172e2dfe9c287557e0593f524350c474b25c1f3e3356cd8b248"
+    }
+  },
+  "scope": "Native CLI real-model dialogue; fresh E1/E6 tasks if present; historical E2/E5 reused without rerunning.",
+  "E2_statistics": [
+    {
+      "method": "random",
+      "planned_repeats": 5,
+      "attempted": 5,
+      "completed": 5,
+      "completed_with_measured_feasible": 5,
+      "measured_median_pdp_fj": 59.9958901583139,
+      "measured_stdev_pdp_fj": 0.8801094810997813,
+      "total_trial_elapsed_s": 64.539
+    },
+    {
+      "method": "nsga2",
+      "planned_repeats": 5,
+      "attempted": 5,
+      "completed": 4,
+      "completed_with_measured_feasible": 4,
+      "measured_median_pdp_fj": 61.26573734979378,
+      "measured_stdev_pdp_fj": 1.427182043646163,
+      "total_trial_elapsed_s": 65.554
+    },
+    {
+      "method": "llm",
+      "planned_repeats": 5,
+      "attempted": 5,
+      "completed": 5,
+      "completed_with_measured_feasible": 5,
+      "measured_median_pdp_fj": 61.42953671066331,
+      "measured_stdev_pdp_fj": 1.2809004643273922,
+      "total_trial_elapsed_s": 4371.554
+    }
+  ],
+  "E2_trials": [
+    {
+      "method": "random",
+      "search_seed": "1",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "10",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.97746032660146",
+      "best_measured_pdp_fj": "59.505057013983354",
+      "best_measured_mred": "0.012663597310548955",
+      "elapsed_s": "12.241",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "nsga2",
+      "search_seed": "1",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "17",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.97746032660146",
+      "best_measured_pdp_fj": "60.68379376880458",
+      "best_measured_mred": "0.016588719237370667",
+      "elapsed_s": "12.516",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "llm",
+      "search_seed": "1",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "13",
+      "validation_count": "3",
+      "measured_feasible": "2",
+      "best_predicted_pdp_fj": "205.28793152583327",
+      "best_measured_pdp_fj": "59.9958901583139",
+      "best_measured_mred": "0.011522489545320268",
+      "elapsed_s": "738.425",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "nsga2",
+      "search_seed": "2",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "18",
+      "validation_count": "3",
+      "measured_feasible": "2",
+      "best_predicted_pdp_fj": "204.03831466090054",
+      "best_measured_pdp_fj": "58.824708898126154",
+      "best_measured_mred": "0.019431558147462603",
+      "elapsed_s": "12.056",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "llm",
+      "search_seed": "2",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "11",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.37584276362048",
+      "best_measured_pdp_fj": "61.42953671066331",
+      "best_measured_mred": "0.016731902436639624",
+      "elapsed_s": "903.942",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "random",
+      "search_seed": "2",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "10",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.97746032660146",
+      "best_measured_pdp_fj": "61.22911715689328",
+      "best_measured_mred": "0.011578727539862943",
+      "elapsed_s": "12.411",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "llm",
+      "search_seed": "3",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "18",
+      "validation_count": "3",
+      "measured_feasible": "2",
+      "best_predicted_pdp_fj": "204.03831466090054",
+      "best_measured_pdp_fj": "58.824708898126154",
+      "best_measured_mred": "0.019431558147462603",
+      "elapsed_s": "994.2",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "random",
+      "search_seed": "3",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "8",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "204.03831466090054",
+      "best_measured_pdp_fj": "58.824708898126154",
+      "best_measured_mred": "0.019431558147462603",
+      "elapsed_s": "13.288",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "nsga2",
+      "search_seed": "3",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "16",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.37584276362048",
+      "best_measured_pdp_fj": "61.847680930782985",
+      "best_measured_mred": "0.01944345455875131",
+      "elapsed_s": "13.175",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "random",
+      "search_seed": "4",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "14",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.97746032660146",
+      "best_measured_pdp_fj": "60.0054403889468",
+      "best_measured_mred": "0.011417630031086283",
+      "elapsed_s": "13.227",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "nsga2",
+      "search_seed": "4",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "19",
+      "validation_count": "3",
+      "measured_feasible": "2",
+      "best_predicted_pdp_fj": "205.28793152583327",
+      "best_measured_pdp_fj": "61.847680930782985",
+      "best_measured_mred": "0.01944345455875131",
+      "elapsed_s": "17.762",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "llm",
+      "search_seed": "4",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "16",
+      "validation_count": "3",
+      "measured_feasible": "2",
+      "best_predicted_pdp_fj": "205.28793152583327",
+      "best_measured_pdp_fj": "61.847680930782985",
+      "best_measured_mred": "0.01944345455875131",
+      "elapsed_s": "847.836",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "nsga2",
+      "search_seed": "5",
+      "status": "failed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "16",
+      "validation_count": "3",
+      "measured_feasible": "2",
+      "best_predicted_pdp_fj": "205.97746032660146",
+      "best_measured_pdp_fj": "62.16853802338329",
+      "best_measured_mred": "0.01438600892219579",
+      "elapsed_s": "10.045",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "llm",
+      "search_seed": "5",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "18",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.40033700226422",
+      "best_measured_pdp_fj": "61.539470571188616",
+      "best_measured_mred": "0.014112903261469282",
+      "elapsed_s": "887.151",
+      "stop_reason": "stages_finished"
+    },
+    {
+      "method": "random",
+      "search_seed": "5",
+      "status": "completed",
+      "evaluated_architectures": "32",
+      "unique_architectures": "32",
+      "prediction_feasible": "10",
+      "validation_count": "3",
+      "measured_feasible": "3",
+      "best_predicted_pdp_fj": "205.97746032660146",
+      "best_measured_pdp_fj": "59.9958901583139",
+      "best_measured_mred": "0.011522489545320268",
+      "elapsed_s": "13.372",
+      "stop_reason": "stages_finished"
+    }
+  ],
+  "E2_counters": {
+    "random": {
+      "gnn_queries": 160,
+      "array_or_rtl_tasks": 15,
+      "sta_activity_evaluations": 15,
+      "device_candidates": 0,
+      "llm_calls": 0
+    },
+    "nsga2": {
+      "gnn_queries": 160,
+      "array_or_rtl_tasks": 15,
+      "sta_activity_evaluations": 14,
+      "device_candidates": 0,
+      "llm_calls": 0
+    },
+    "llm": {
+      "gnn_queries": 160,
+      "array_or_rtl_tasks": 15,
+      "sta_activity_evaluations": 15,
+      "device_candidates": 0,
+      "llm_calls": 155
+    }
+  },
+  "E1_repeat_check": {
+    "rtl_sha256_equal": true,
+    "first_test_is_prefix_of_second": true,
+    "sample_counts": [
+      4096,
+      8192
+    ],
+    "second_execution": "Official run CLI executing the model-generated 8192-sample draft; not automatic execution in turn 4."
+  },
+  "E4_supplement": {
+    "scope": "E2-selected samples only; not the planned independent 20-design test",
+    "successful_observations": 44,
+    "unique_designs": 17,
+    "duplicates_aggregation": "median per exact compressor_ids",
+    "pairs": [
+      {
+        "compressor_ids": "5,7,7,7,7,7,7,7,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.011908766546233667,
+        "meas_MRED": 0.013411658023140883,
+        "pred_NMED": 0.0012590614170005917,
+        "meas_NMED": 0.001343383554402153,
+        "pred_delay_ns": 1.3099860119819642,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 457.9433615413904,
+        "meas_area_um2": 291.004,
+        "pred_power_uw": 159.21011871099472,
+        "meas_power_uw": 82.83249190000001,
+        "pred_PDP_fJ": 208.56302847739107,
+        "meas_PDP_fJ": 61.84529880486464
+      },
+      {
+        "compressor_ids": "6,7,7,7,7,7,7,7,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.014563833466482011,
+        "meas_MRED": 0.014112903261469282,
+        "pred_NMED": 0.0012905241727179289,
+        "meas_NMED": 0.0013344927431757016,
+        "pred_delay_ns": 1.3097658693790437,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 455.48004963874814,
+        "meas_area_um2": 290.206,
+        "pred_power_uw": 157.89384800195694,
+        "meas_power_uw": 82.4228809,
+        "pred_PDP_fJ": 206.80397309788572,
+        "meas_PDP_fJ": 61.539470571188616
+      },
+      {
+        "compressor_ids": "7,1,7,7,7,7,7,7,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.013339901363677454,
+        "meas_MRED": 0.013392790936568736,
+        "pred_NMED": 0.00129631010214746,
+        "meas_NMED": 0.0013189938965782392,
+        "pred_delay_ns": 1.3096599388122558,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 459.98959293842313,
+        "meas_area_um2": 295.792,
+        "pred_power_uw": 158.92586416006088,
+        "meas_power_uw": 84.87847660000001,
+        "pred_PDP_fJ": 208.13883753155022,
+        "meas_PDP_fJ": 63.37289422327172
+      },
+      {
+        "compressor_ids": "7,6,7,7,7,7,7,7,7",
+        "repeat_measurements": 2,
+        "pred_MRED": 0.01820451712325029,
+        "meas_MRED": 0.014411433811843875,
+        "pred_NMED": 0.0013544203999495505,
+        "meas_NMED": 0.0013503520280661284,
+        "pred_delay_ns": 1.3099296408891679,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 455.0612998250723,
+        "meas_area_um2": 287.28,
+        "pred_power_uw": 156.80257213115692,
+        "meas_power_uw": 82.6235373,
+        "pred_PDP_fJ": 205.40033700226422,
+        "meas_PDP_fJ": 61.689286841717944
+      },
+      {
+        "compressor_ids": "7,7,2,7,7,7,7,7,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.011630661411361244,
+        "meas_MRED": 0.011578727539862943,
+        "pred_NMED": 0.0010217607653266192,
+        "meas_NMED": 0.0010865111976163014,
+        "pred_delay_ns": 1.3097147274017336,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 459.2814231544733,
+        "meas_area_um2": 288.344,
+        "pred_power_uw": 159.55145293474197,
+        "meas_power_uw": 82.0072091,
+        "pred_PDP_fJ": 208.96688768697612,
+        "meas_PDP_fJ": 61.22911715689328
+      },
+      {
+        "compressor_ids": "7,7,5,7,7,7,7,7,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.013287342321502266,
+        "meas_MRED": 0.012663597310548955,
+        "pred_NMED": 0.0011587688669270277,
+        "meas_NMED": 0.0011990880911188005,
+        "pred_delay_ns": 1.309628364443779,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 458.1284966481924,
+        "meas_area_um2": 286.216,
+        "pred_power_uw": 158.78227710723877,
+        "meas_power_uw": 79.6980894,
+        "pred_PDP_fJ": 207.945773870612,
+        "meas_PDP_fJ": 59.505057013983354
+      },
+      {
+        "compressor_ids": "7,7,7,7,4,7,7,7,7",
+        "repeat_measurements": 4,
+        "pred_MRED": 0.014408140523083358,
+        "meas_MRED": 0.01944345455875131,
+        "pred_NMED": 0.001285671679545045,
+        "meas_NMED": 0.0013711673394848135,
+        "pred_delay_ns": 1.3096894335746765,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 456.8980652133822,
+        "meas_area_um2": 292.068,
+        "pred_power_uw": 156.81262862682343,
+        "meas_power_uw": 82.8356824,
+        "pred_PDP_fJ": 205.37584276362048,
+        "meas_PDP_fJ": 61.847680930782985
+      },
+      {
+        "compressor_ids": "7,7,7,7,6,7,7,7,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.013412494406967086,
+        "meas_MRED": 0.014283820150280771,
+        "pred_NMED": 0.001288252201898992,
+        "meas_NMED": 0.0013615856881968474,
+        "pred_delay_ns": 1.309719086289406,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 455.7411382625699,
+        "meas_area_um2": 288.61,
+        "pred_power_uw": 158.26635962724686,
+        "meas_power_uw": 83.50362249999999,
+        "pred_PDP_fJ": 207.28447192134826,
+        "meas_PDP_fJ": 62.34638565547147
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,4,7,7,7",
+        "repeat_measurements": 5,
+        "pred_MRED": 0.017698945376183464,
+        "meas_MRED": 0.025296316556431202,
+        "pred_NMED": 0.001325968510017395,
+        "meas_NMED": 0.0013680735774702038,
+        "pred_delay_ns": 1.3098867851495744,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 456.5883040678501,
+        "meas_area_um2": 288.61,
+        "pred_power_uw": 156.72188913822174,
+        "meas_power_uw": 82.8446827,
+        "pred_PDP_fJ": 205.28793152583327,
+        "meas_PDP_fJ": 61.85440083296226
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,6,7,7,7",
+        "repeat_measurements": 2,
+        "pred_MRED": 0.01511434348345287,
+        "meas_MRED": 0.01438600892219579,
+        "pred_NMED": 0.0013201971485635637,
+        "meas_NMED": 0.0013642289023452518,
+        "pred_delay_ns": 1.3099102747440339,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 455.1782558889389,
+        "meas_area_um2": 288.078,
+        "pred_power_uw": 157.51368868350983,
+        "meas_power_uw": 83.2654223,
+        "pred_PDP_fJ": 206.32879921936257,
+        "meas_PDP_fJ": 62.16853802338329
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,7,7,6,7",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.018519828933881596,
+        "meas_MRED": 0.016731902436639624,
+        "pred_NMED": 0.001448903404185772,
+        "meas_NMED": 0.0014543384755863129,
+        "pred_delay_ns": 1.3096898007392883,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 455.6003496776819,
+        "meas_area_um2": 288.61,
+        "pred_power_uw": 156.9795019030571,
+        "meas_power_uw": 82.275641,
+        "pred_PDP_fJ": 205.5944525675676,
+        "meas_PDP_fJ": 61.42953671066331
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,7,7,7,1",
+        "repeat_measurements": 1,
+        "pred_MRED": 0.011727360570156498,
+        "meas_MRED": 0.011518305671009638,
+        "pred_NMED": 0.0011572435727259516,
+        "meas_NMED": 0.0012135056228373701,
+        "pred_delay_ns": 1.3098176360130311,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 459.03900103890896,
+        "meas_area_um2": 298.186,
+        "pred_power_uw": 158.49536913633347,
+        "meas_power_uw": 84.0324865,
+        "pred_PDP_fJ": 207.60002972116504,
+        "meas_PDP_fJ": 62.74125186505772
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,7,7,7,2",
+        "repeat_measurements": 2,
+        "pred_MRED": 0.01175618251008734,
+        "meas_MRED": 0.011417630031086283,
+        "pred_NMED": 0.0011588104897147418,
+        "meas_NMED": 0.0011087382256824297,
+        "pred_delay_ns": 1.3098210448026657,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 458.94806260156633,
+        "meas_area_um2": 293.132,
+        "pred_power_uw": 158.474183678627,
+        "meas_power_uw": 80.3682778,
+        "pred_PDP_fJ": 207.57282084018883,
+        "meas_PDP_fJ": 60.0054403889468
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,7,7,7,3",
+        "repeat_measurements": 2,
+        "pred_MRED": 0.012065593645406589,
+        "meas_MRED": 0.011522489545320268,
+        "pred_NMED": 0.0012793457396870851,
+        "meas_NMED": 0.0012159085447904653,
+        "pred_delay_ns": 1.3097345173358919,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 459.18810535025597,
+        "meas_area_um2": 290.738,
+        "pred_power_uw": 158.4568226337433,
+        "meas_power_uw": 80.3554867,
+        "pred_PDP_fJ": 207.5363701107848,
+        "meas_PDP_fJ": 59.9958901583139
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,7,7,7,5",
+        "repeat_measurements": 2,
+        "pred_MRED": 0.011541243485478532,
+        "meas_MRED": 0.016588719237370667,
+        "pred_NMED": 0.0011663446667125822,
+        "meas_NMED": 0.0019435133121876202,
+        "pred_delay_ns": 1.3097918635606767,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 458.24835591477154,
+        "meas_area_um2": 287.812,
+        "pred_power_uw": 158.2614095211029,
+        "meas_power_uw": 81.2768303,
+        "pred_PDP_fJ": 207.2895065063848,
+        "meas_PDP_fJ": 60.68379376880458
+      },
+      {
+        "compressor_ids": "7,7,7,7,7,7,7,7,7",
+        "repeat_measurements": 14,
+        "pred_MRED": 0.013224258738166093,
+        "meas_MRED": 0.013639036173429289,
+        "pred_NMED": 0.0012928201218819619,
+        "meas_NMED": 0.0013711373029603997,
+        "pred_delay_ns": 1.3097172379493713,
+        "meas_delay_ns": 0.74663091,
+        "pred_area_um2": 457.2271989067793,
+        "meas_area_um2": 291.802,
+        "pred_power_uw": 157.2686488032341,
+        "meas_power_uw": 84.5899522,
+        "pred_PDP_fJ": 205.97746032660146,
+        "meas_PDP_fJ": 63.157472987942505
+      },
+      {
+        "compressor_ids": "7,7,7,7,8,7,7,7,7",
+        "repeat_measurements": 3,
+        "pred_MRED": 0.014739118302455244,
+        "meas_MRED": 0.019431558147462603,
+        "pred_NMED": 0.0013012576038575173,
+        "meas_NMED": 0.0013654303633217992,
+        "pred_delay_ns": 1.3097958087921142,
+        "meas_delay_ns": 0.73725879,
+        "pred_area_um2": 454.1065507321954,
+        "meas_area_um2": 282.226,
+        "pred_power_uw": 155.7787200808525,
+        "meas_power_uw": 79.7884131,
+        "pred_PDP_fJ": 204.03831466090054,
+        "meas_PDP_fJ": 58.824708898126154
+      }
+    ],
+    "diagnostics": [
+      {
+        "metric": "MRED",
+        "n_unique": 17,
+        "mae": 0.001984773528046742,
+        "mape_percent": 11.25762680363664,
+        "spearman_rho": 0.6740196078431374,
+        "zero_denominator_count": 0
+      },
+      {
+        "metric": "NMED",
+        "n_unique": 17,
+        "mae": 9.411433321092709e-05,
+        "mape_percent": 6.116706660413502,
+        "spearman_rho": 0.5980392156862745,
+        "zero_denominator_count": 0
+      },
+      {
+        "metric": "delay_ns",
+        "n_unique": 17,
+        "mae": 0.5637002759916866,
+        "mape_percent": 75.55652938446585,
+        "spearman_rho": -0.10206207261596575,
+        "zero_denominator_count": 0
+      },
+      {
+        "metric": "area_um2",
+        "n_unique": 17,
+        "mae": 167.2902124353647,
+        "mape_percent": 57.72064346290895,
+        "spearman_rho": 0.5258001128920381,
+        "zero_denominator_count": 0
+      },
+      {
+        "metric": "power_uw",
+        "n_unique": 17,
+        "mae": 75.56448071640602,
+        "mape_percent": 91.84881334870653,
+        "spearman_rho": -0.004901960784313726,
+        "zero_denominator_count": 0
+      },
+      {
+        "metric": "PDP_fJ",
+        "n_unique": 17,
+        "mae": 145.38050664694484,
+        "mape_percent": 236.8075013565595,
+        "spearman_rho": 0.0,
+        "zero_denominator_count": 0
+      }
+    ],
+    "confusion_mred_002": {
+      "pred_feasible_meas_feasible": 16,
+      "pred_feasible_meas_infeasible": 1,
+      "pred_infeasible_meas_feasible": 0,
+      "pred_infeasible_meas_infeasible": 0
+    },
+    "failed_measurements": [
+      {
+        "method": "nsga2",
+        "seed": 5,
+        "candidate": "validation/0003",
+        "error": "退出码 1，详见 /data2/huangjj/OpenACMAssistant/runs/20261027_204422_search_comparison_d356cf/trials/seed_5/nsga2/stages/validation/0003/logs/rtl_compile.log"
+      }
+    ]
+  },
+  "E5_small_cases": [
+    {
+      "candidate": "device_fixed_architecture/0001",
+      "pd_width_nm": "90.0",
+      "case_index": "0",
+      "corner": "TT",
+      "temperature_c": "27.0",
+      "vdd_v": "1.0",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0001/pvt_00",
+      "error": "",
+      "bank_area_um2_estimate": "967.3212126315786",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "12.2784098",
+      "bank_read_delay_ns_estimate": "0.7271086499999999",
+      "bank_write_power_uw_estimate": "9.3764983",
+      "bank_write_delay_ns_estimate": "0.3767946",
+      "bank_pmax_uw_estimate": "12.2784098",
+      "bank_dmax_ns_estimate": "0.7271086499999999",
+      "hold_snm_v": "0.3628373",
+      "read_snm_v": "0.2328964",
+      "write_snm_v": "0.8586384",
+      "fom_arch_estimate": "18.556473208804086",
+      "min_snm_v": "0.2328964",
+      "fom_robust_estimate": "17.92363598427643"
+    },
+    {
+      "candidate": "device_fixed_architecture/0001",
+      "pd_width_nm": "90.0",
+      "case_index": "1",
+      "corner": "SS",
+      "temperature_c": "85.0",
+      "vdd_v": "0.9",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0001/pvt_01",
+      "error": "",
+      "bank_area_um2_estimate": "967.3212126315786",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "9.8198642",
+      "bank_read_delay_ns_estimate": "0.9902385799999999",
+      "bank_write_power_uw_estimate": "7.2235806",
+      "bank_write_delay_ns_estimate": "0.61086507",
+      "bank_pmax_uw_estimate": "9.8198642",
+      "bank_dmax_ns_estimate": "0.9902385799999999",
+      "hold_snm_v": "0.3388034",
+      "read_snm_v": "0.1951154",
+      "write_snm_v": "0.7480611",
+      "fom_arch_estimate": "18.519369319690977",
+      "min_snm_v": "0.1951154",
+      "fom_robust_estimate": "17.809660868281163"
+    },
+    {
+      "candidate": "device_fixed_architecture/0001",
+      "pd_width_nm": "90.0",
+      "case_index": "2",
+      "corner": "FF",
+      "temperature_c": "-40.0",
+      "vdd_v": "1.1",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0001/pvt_02",
+      "error": "",
+      "bank_area_um2_estimate": "967.3212126315786",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "18.208365699999998",
+      "bank_read_delay_ns_estimate": "0.6099062",
+      "bank_write_power_uw_estimate": "14.355201000000001",
+      "bank_write_delay_ns_estimate": "0.2513116",
+      "bank_pmax_uw_estimate": "18.208365699999998",
+      "bank_dmax_ns_estimate": "0.6099062",
+      "hold_snm_v": "0.3942682",
+      "read_snm_v": "0.2687043",
+      "write_snm_v": "0.9733945",
+      "fom_arch_estimate": "18.46168062873582",
+      "min_snm_v": "0.2687043",
+      "fom_robust_estimate": "17.890955245118114"
+    },
+    {
+      "candidate": "device_fixed_architecture/0002",
+      "pd_width_nm": "135.0",
+      "case_index": "0",
+      "corner": "TT",
+      "temperature_c": "27.0",
+      "vdd_v": "1.0",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0002/pvt_00",
+      "error": "",
+      "bank_area_um2_estimate": "979.765844210526",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "12.3256259",
+      "bank_read_delay_ns_estimate": "0.7180011799999999",
+      "bank_write_power_uw_estimate": "10.2097321",
+      "bank_write_delay_ns_estimate": "0.39013093",
+      "bank_pmax_uw_estimate": "12.3256259",
+      "bank_dmax_ns_estimate": "0.7180011799999999",
+      "hold_snm_v": "0.3576157",
+      "read_snm_v": "0.1809614",
+      "write_snm_v": "0.8067015",
+      "fom_arch_estimate": "18.557504712182116",
+      "min_snm_v": "0.1809614",
+      "fom_robust_estimate": "17.815090659676862"
+    },
+    {
+      "candidate": "device_fixed_architecture/0002",
+      "pd_width_nm": "135.0",
+      "case_index": "1",
+      "corner": "SS",
+      "temperature_c": "85.0",
+      "vdd_v": "0.9",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0002/pvt_01",
+      "error": "",
+      "bank_area_um2_estimate": "979.765844210526",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "9.8323141",
+      "bank_read_delay_ns_estimate": "0.96803949",
+      "bank_write_power_uw_estimate": "7.4721695",
+      "bank_write_delay_ns_estimate": "0.62909267",
+      "bank_pmax_uw_estimate": "9.8323141",
+      "bank_dmax_ns_estimate": "0.96803949",
+      "hold_snm_v": "0.3345158",
+      "read_snm_v": "0.1554802",
+      "write_snm_v": "0.7084209",
+      "fom_arch_estimate": "18.52589003419394",
+      "min_snm_v": "0.1554802",
+      "fom_robust_estimate": "17.71756512480277"
+    },
+    {
+      "candidate": "device_fixed_architecture/0002",
+      "pd_width_nm": "135.0",
+      "case_index": "2",
+      "corner": "FF",
+      "temperature_c": "-40.0",
+      "vdd_v": "1.1",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0002/pvt_02",
+      "error": "",
+      "bank_area_um2_estimate": "979.765844210526",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "18.309500200000002",
+      "bank_read_delay_ns_estimate": "0.60165791",
+      "bank_write_power_uw_estimate": "15.589886900000002",
+      "bank_write_delay_ns_estimate": "0.25838028",
+      "bank_pmax_uw_estimate": "18.309500200000002",
+      "bank_dmax_ns_estimate": "0.60165791",
+      "hold_snm_v": "0.3845227",
+      "read_snm_v": "0.2005851",
+      "write_snm_v": "0.9052751",
+      "fom_arch_estimate": "18.46241273217432",
+      "min_snm_v": "0.2005851",
+      "fom_robust_estimate": "17.764711401496232"
+    },
+    {
+      "candidate": "device_fixed_architecture/0003",
+      "pd_width_nm": "180.0",
+      "case_index": "0",
+      "corner": "TT",
+      "temperature_c": "27.0",
+      "vdd_v": "1.0",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0003/pvt_00",
+      "error": "",
+      "bank_area_um2_estimate": "992.2104757894735",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "12.397871499999999",
+      "bank_read_delay_ns_estimate": "0.71370887",
+      "bank_write_power_uw_estimate": "10.8372781",
+      "bank_write_delay_ns_estimate": "0.40542548",
+      "bank_pmax_uw_estimate": "12.397871499999999",
+      "bank_dmax_ns_estimate": "0.71370887",
+      "hold_snm_v": "0.3525486",
+      "read_snm_v": "0.1754436",
+      "write_snm_v": "0.7735523",
+      "fom_arch_estimate": "18.554829871057663",
+      "min_snm_v": "0.1754436",
+      "fom_robust_estimate": "17.79896740128717"
+    },
+    {
+      "candidate": "device_fixed_architecture/0003",
+      "pd_width_nm": "180.0",
+      "case_index": "1",
+      "corner": "SS",
+      "temperature_c": "85.0",
+      "vdd_v": "0.9",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0003/pvt_01",
+      "error": "",
+      "bank_area_um2_estimate": "992.2104757894735",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "9.875542099999999",
+      "bank_read_delay_ns_estimate": "0.95680375",
+      "bank_write_power_uw_estimate": "8.0884505",
+      "bank_write_delay_ns_estimate": "0.6499090700000001",
+      "bank_pmax_uw_estimate": "9.875542099999999",
+      "bank_dmax_ns_estimate": "0.95680375",
+      "hold_snm_v": "0.3303099",
+      "read_snm_v": "0.1694452",
+      "write_snm_v": "0.6825216",
+      "fom_arch_estimate": "18.526314282450826",
+      "min_snm_v": "0.1694452",
+      "fom_robust_estimate": "17.755343553216203"
+    },
+    {
+      "candidate": "device_fixed_architecture/0003",
+      "pd_width_nm": "180.0",
+      "case_index": "2",
+      "corner": "FF",
+      "temperature_c": "-40.0",
+      "vdd_v": "1.1",
+      "status": "completed",
+      "task": "stages/device_fixed_architecture/0003/pvt_02",
+      "error": "",
+      "bank_area_um2_estimate": "992.2104757894735",
+      "serialization_cycles_estimate": "1",
+      "bank_read_power_uw_estimate": "18.4543204",
+      "bank_read_delay_ns_estimate": "0.59800071",
+      "bank_write_power_uw_estimate": "16.8872063",
+      "bank_write_delay_ns_estimate": "0.28377331",
+      "bank_pmax_uw_estimate": "18.4543204",
+      "bank_dmax_ns_estimate": "0.59800071",
+      "hold_snm_v": "0.3755265",
+      "read_snm_v": "0.1824671",
+      "write_snm_v": "0.8638901",
+      "fom_arch_estimate": "18.458898339898983",
+      "min_snm_v": "0.1824671",
+      "fom_robust_estimate": "17.72008290964209"
+    }
+  ],
+  "E5_4KB_partial": [
+    {
+      "pd_width_nm": 90,
+      "corner": "TT",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.5486925399999999,
+      "array_read_power_uw": 219.3586,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 90,
+      "corner": "SS",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 1.0473171,
+      "array_read_power_uw": 176.1911,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 90,
+      "corner": "FF",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.30939511000000003,
+      "array_read_power_uw": 280.2343,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 135,
+      "corner": "TT",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.50248074,
+      "array_read_power_uw": 219.7825,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 135,
+      "corner": "SS",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.9425156,
+      "array_read_power_uw": 176.8004,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 135,
+      "corner": "FF",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.28668664,
+      "array_read_power_uw": 280.0529,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 180,
+      "corner": "TT",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.48247493999999996,
+      "array_read_power_uw": 220.44680000000002,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 180,
+      "corner": "SS",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.8953774000000001,
+      "array_read_power_uw": 177.47379999999998,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    },
+    {
+      "pd_width_nm": 180,
+      "corner": "FF",
+      "pvt_status": "failed",
+      "array_read_delay_ns": 0.27770647,
+      "array_read_power_uw": 280.9828,
+      "array_write_delay_ns": null,
+      "read_snm_v": null
+    }
+  ],
+  "E6_plan": {
+    "intent": "run",
+    "workflow": "dcim",
+    "parameters": {
+      "bit_width": 8,
+      "rows": 16,
+      "kind": "exact",
+      "compressor_id": 1,
+      "samples": 4096,
+      "exhaustive": true,
+      "seed": 42,
+      "backend": "asic",
+      "clock_period_ns": 10.0,
+      "memory_impl": "auto",
+      "architecture": "auto"
+    },
+    "constraints": [
+      {
+        "metric": "setup_wns_ns",
+        "op": "ge",
+        "value": 0.0
+      },
+      {
+        "metric": "hold_wns_ns",
+        "op": "ge",
+        "value": 0.0
+      },
+      {
+        "metric": "route_drc_count",
+        "op": "le",
+        "value": 0.0
+      }
+    ],
+    "objective": null,
+    "sweep": null,
+    "message": "使用穷举乘法输入进行16×8精确DCiM全流程仿真，时钟周期10ns，要求setup slack不低于0ns、hold slack不低于0ns、布线DRC不超过0。",
+    "assumptions": []
+  },
+  "E6_stages": [
+    {
+      "name": "synthesis",
+      "status": "completed",
+      "script": "inputs/backend/synthesis.ys",
+      "log": "logs/backend_synthesis.log",
+      "artifacts": [
+        "artifacts/backend/synth.v"
+      ],
+      "elapsed_s": 0.971
+    },
+    {
+      "name": "post_synth_functional",
+      "status": "completed",
+      "log": "logs/backend_post_synth_functional.log",
+      "artifacts": [
+        "artifacts/backend/post_synth_functional.vcd"
+      ],
+      "elapsed_s": 0.281
+    },
+    {
+      "name": "post_synth_sta_power",
+      "status": "completed",
+      "script": "inputs/backend/post_synth_sta_power.tcl",
+      "log": "logs/backend_post_synth_sta_power.log",
+      "artifacts": [
+        "artifacts/backend/post_synth.sdf",
+        "reports/post_synth_timing.rpt",
+        "reports/post_synth_power.rpt",
+        "reports/post_synth_activity.rpt"
+      ],
+      "elapsed_s": 0.316
+    },
+    {
+      "name": "floorplan_pdn",
+      "status": "completed",
+      "script": "inputs/backend/floorplan_pdn.tcl",
+      "log": "logs/backend_floorplan_pdn.log",
+      "artifacts": [
+        "artifacts/backend/floorplan.odb",
+        "artifacts/backend/floorplan.def"
+      ],
+      "elapsed_s": 0.367
+    },
+    {
+      "name": "placement",
+      "status": "completed",
+      "script": "inputs/backend/placement.tcl",
+      "log": "logs/backend_placement.log",
+      "artifacts": [
+        "artifacts/backend/placement.odb",
+        "artifacts/backend/placement.def"
+      ],
+      "elapsed_s": 3.525
+    },
+    {
+      "name": "cts",
+      "status": "completed",
+      "script": "inputs/backend/cts.tcl",
+      "log": "logs/backend_cts.log",
+      "artifacts": [
+        "artifacts/backend/cts.odb",
+        "artifacts/backend/cts.def"
+      ],
+      "elapsed_s": 5.68
+    },
+    {
+      "name": "routing",
+      "status": "completed",
+      "script": "inputs/backend/routing.tcl",
+      "log": "logs/backend_routing.log",
+      "artifacts": [
+        "artifacts/backend/route.odb",
+        "artifacts/backend/route.def",
+        "artifacts/backend/route.v"
+      ],
+      "elapsed_s": 7.986
+    },
+    {
+      "name": "rc_extraction",
+      "status": "completed",
+      "script": "inputs/backend/rc_extraction.tcl",
+      "log": "logs/backend_rc_extraction.log",
+      "artifacts": [
+        "artifacts/backend/route.spef"
+      ],
+      "elapsed_s": 0.367
+    },
+    {
+      "name": "post_route_functional",
+      "status": "completed",
+      "log": "logs/backend_post_route_functional.log",
+      "artifacts": [
+        "artifacts/backend/post_route_functional.vcd"
+      ],
+      "elapsed_s": 0.633
+    },
+    {
+      "name": "post_route_before_sdf_sta_power",
+      "status": "completed",
+      "script": "inputs/backend/post_route_before_sdf_sta_power.tcl",
+      "log": "logs/backend_post_route_before_sdf_sta_power.log",
+      "artifacts": [
+        "artifacts/backend/post_route_before_sdf.sdf",
+        "reports/post_route_before_sdf_timing.rpt",
+        "reports/post_route_before_sdf_power.rpt",
+        "reports/post_route_before_sdf_activity.rpt"
+      ],
+      "elapsed_s": 0.366
+    },
+    {
+      "name": "post_route_sdf",
+      "status": "completed",
+      "log": "logs/backend_post_route_sdf.log",
+      "simulator": "VCS",
+      "artifacts": [
+        "artifacts/backend/post_route_sdf.vcd",
+        "artifacts/backend/vcs/sdfAnnotateInfo"
+      ],
+      "elapsed_s": 49.554
+    },
+    {
+      "name": "post_route_sta_power",
+      "status": "completed",
+      "script": "inputs/backend/post_route_sta_power.tcl",
+      "log": "logs/backend_post_route_sta_power.log",
+      "artifacts": [
+        "artifacts/backend/post_route.sdf",
+        "reports/post_route_timing.rpt",
+        "reports/post_route_power.rpt",
+        "reports/post_route_activity.rpt"
+      ],
+      "elapsed_s": 0.417
+    }
+  ],
+  "E6_is_new": true,
+  "source_hashes": {
+    "runs/20261010_142841_dcim_4af72b/result.json": "c68df961dad5612de52fc4dfad5decffb461274ec0afaed6826be222fd09c1c2",
+    "runs/20261010_142841_dcim_4af72b/plan.json": "1e3e0468a6da4ef43ea32e29e1e85b14c40919d50359991a94694bb03c6a3f6d",
+    "runs/20261010_142841_dcim_4af72b/source_integrity.json": "b661ec6e53a28ac9615b6efcad0c9d9c73c55efc17023ce8dbc4eb03e00e80b0",
+    "runs/20261010_142841_dcim_4af72b/reports/backend_stages.json": "17fc8e61ccd6b3b56b27bdbfbf9bd8bc95fe0140885b6e0c9db44a4121cf444c",
+    "runs/20261010_142841_dcim_4af72b/artifacts/backend/route.def": "3d5ad676430a32e86b782b9a231296a848c3f3a21ed69e39971259440b216337",
+    "runs/20261028_225710_multiplier_08fe9b/result.json": "303349dbe0bc6350b2160fa7d4bd65ca2d9252622c44099de89e599977b8f04c",
+    "runs/20261028_225710_multiplier_08fe9b/plan.json": "efa20c5994e6b43fa72b60cc18a2a3d91d394a927b28aa5f28e3a580a88cba6b",
+    "runs/20261028_225710_multiplier_08fe9b/source_integrity.json": "b661ec6e53a28ac9615b6efcad0c9d9c73c55efc17023ce8dbc4eb03e00e80b0",
+    "runs/20261028_230235_multiplier_5cf3f6/result.json": "e9d2626883be3835078987ee36b2d259511a7305aaf081a7dda509cb32c7d9d0",
+    "runs/20261028_230235_multiplier_5cf3f6/plan.json": "b84f932d57c35954ab117ca3de1f0a2f0268d0f34bc5e4cdcb553eaa868d1e8e",
+    "runs/20261028_230235_multiplier_5cf3f6/source_integrity.json": "b661ec6e53a28ac9615b6efcad0c9d9c73c55efc17023ce8dbc4eb03e00e80b0",
+    "runs/20261028_230027_dcim_0026b3/result.json": "7f1c70d979fda172e2dfe9c287557e0593f524350c474b25c1f3e3356cd8b248",
+    "runs/20261028_230027_dcim_0026b3/plan.json": "ee298b4d8a647e115f0c992ab2d31d6618f48e327e8c1f51767db6721833d575",
+    "runs/20261028_230027_dcim_0026b3/source_integrity.json": "b661ec6e53a28ac9615b6efcad0c9d9c73c55efc17023ce8dbc4eb03e00e80b0",
+    "runs/20261028_230027_dcim_0026b3/reports/backend_stages.json": "479c99e39f14ff89ed04a068d31ae244442531f4df8937b52ae5687b9cc87e33",
+    "runs/20261028_230027_dcim_0026b3/artifacts/backend/route.def": "0ae9204ce84b8475f26bf96d082c43c00562602c9d108ee94723e35784cd1bae",
+    "runs/20261027_204422_search_comparison_d356cf/result.json": "b671a510f492be1e80def14d8fd167968871efdd1ab0b39721e68eea3abe027c",
+    "runs/20261027_204422_search_comparison_d356cf/source_integrity.json": "9693b31444fc541ce553655e8b28a68f02ec086e46a4afec602f2cc8ed06720d",
+    "runs/20261026_144235_acco_sram_27ed9c/result.json": "07aba202c4e0ca737268a6a8fb15ad5ac34b4cbba96ae1a8d7fbfe5703932615",
+    "runs/20261026_144235_acco_sram_27ed9c/source_integrity.json": "f3d242a7053c5106715ca3be13f161f3ab25794d2b4777ff7e0b501608516e14",
+    "runs/20261026_144653_acco_sram_e635c9/result.json": "0ff1381864fbb14c52fd1f289c6e5aa7276578781963a65ed809c9b045929ce2",
+    "runs/20261026_144653_acco_sram_e635c9/source_integrity.json": "f3d242a7053c5106715ca3be13f161f3ab25794d2b4777ff7e0b501608516e14"
+  },
+  "E6_def_view": {
+    "component_anchors": 5313,
+    "routing_segments": 2632,
+    "die_size_um": [
+      200.0,
+      225.0
+    ],
+    "source": "runs/20261028_230027_dcim_0026b3/artifacts/backend/route.def"
+  }
+}

@@ -139,6 +139,8 @@ def explicit_constraints(text, workflow):
         expression = rf"(?:{names})\s*{operator}\s*(\d+(?:\.\d+)?)\s*({unit_pattern})"
         for match in re.finditer(expression, lowered):
             op, value, unit = match.groups()
-            found.append({"metric":metric,"op":"ge" if op in ["不低于","至少","大于等于",">=","≥"] else "le",
-                          "value":float(value)*units[family][unit]})
+            condition = {"metric":metric,"op":"ge" if op in ["不低于","至少","大于等于",">=","≥"] else "le",
+                         "value":float(value)*units[family][unit]}
+            if condition not in found:
+                found.append(condition)
     return found

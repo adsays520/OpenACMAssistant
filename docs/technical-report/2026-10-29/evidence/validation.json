@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "source_unchanged": true,
+  "word_sha256": "01b51ff1e1fa13833a21143f18b8c69d6c4486758e2a7344be7446445ad7cd55",
+  "pdf_pages": 20,
+  "word_images": 4,
+  "word_tables": 9,
+  "sections_preserved": 3,
+  "equations_preserved": 4,
+  "preview_pages": [
+    1,
+    12,
+    17
+  ],
+  "toc_entries": [
+    {
+      "heading": "作品简介",
+      "physical_page": 3,
+      "printed_page": "2",
+      "previous": "2"
+    },
+    {
+      "heading": "一、作品概述",
+      "physical_page": 4,
+      "printed_page": "3",
+      "previous": "3"
+    },
+    {
+      "heading": "二、需求分析",
+      "physical_page": 5,
+      "printed_page": "4",
+      "previous": "4"
+    },
+    {
+      "heading": "三、AI技术工具选择与运用",
+      "physical_page": 6,
+      "printed_page": "5",
+      "previous": "5"
+    },
+    {
+      "heading": "四、项目实施",
+      "physical_page": 9,
+      "printed_page": "8",
+      "previous": "9"
+    },
+    {
+      "heading": "五、应用成效",
+      "physical_page": 13,
+      "printed_page": "12",
+      "previous": "13"
+    },
+    {
+      "heading": "六、总结与展望",
+      "physical_page": 18,
+      "printed_page": "17",
+      "previous": "17"
+    },
+    {
+      "heading": "七、附录",
+      "physical_page": 18,
+      "printed_page": "17",
+      "previous": "18"
+    }
+  ]
+}

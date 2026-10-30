@@ -90,7 +90,8 @@ class Runner:
     def __init__(self, api, job, config):
         self.api, self.job, self.config = api, Path(job), validate_acco(config)
         self.deadline = time.monotonic() + self.config["budgets"]["max_seconds"]
-        self.rng = random.Random(self.config["plan"]["parameters"]["seed"])
+        self.rng = random.Random(self.config["search_seed"])
+        self.strict_llm = False
         self.state = {"kind": "acco", "workflow": config["workflow"], "status": "running", "config": self.config,
                       "stages": {}, "best_design": None, "counters": {"gnn_queries": 0, "array_or_rtl_tasks": 0,
                           "sta_activity_evaluations": 0, "device_candidates": 0, "llm_calls": 0}}
@@ -130,6 +131,7 @@ class Runner:
             record = {"candidate": f"{name}/{number:04d}", "parameters": design, "parent": parent,
                       "task": str(task.relative_to(self.job)), "proposed_by": proposer, "evidence_kind": evidence}
             started = time.monotonic()
+            stopped = None
             try:
                 metrics = evaluate(design, task)
                 check = constraints(metrics, limits)
@@ -137,6 +139,9 @@ class Runner:
                 status = "unverified_constraints" if missing or any(c["passed"] is None for c in check) else "infeasible" if any(c["passed"] is False for c in check) else "completed"
                 record.update(status=status, metrics=metrics, constraints=check,
                               acceptance="prediction_only" if evidence == "prediction" else "specified_model_and_cases")
+            except BudgetStop as exc:
+                stopped = exc
+                record.update(status="incomplete", stop_reason=str(exc), metrics={})
             except Exception as exc:
                 record.update(status="failed", error=str(exc), metrics={})
             record["elapsed_s"] = round(time.monotonic() - started, 3)
@@ -145,6 +150,8 @@ class Runner:
             json_write(task / "result.json", record)
             self.save()
             print(f"  {record['candidate']}：{record['status']}；{evidence}", flush=True)
+            if stopped is not None:
+                raise stopped
             return record
         def numeric(record):
             if record["status"] != "completed":
@@ -170,7 +177,7 @@ class Runner:
                     return numeric(observation(design))[index]
                 prob = problem_cls(objectives=[lambda s, i=i: metric(s, i) for i in range(len(objectives))],
                     num_of_variables=len(dimensions), variables_range=[(0, n-1) for n in dimensions], variables_type=["int"]*len(dimensions), expand=False)
-                random.seed(self.config["plan"]["parameters"]["seed"])
+                random.seed(self.config["search_seed"])
                 population_size = max(2, min(8, count, math.prod(dimensions)))
                 generate = prob.generate_individual
                 initial = set()
@@ -199,12 +206,14 @@ class Runner:
                         self.state["counters"]["llm_calls"] += 1
                         try:
                             selected, reason = choose_model([{"parameters": d} for d in options], records,
-                                {"plan": {"constraints": limits}, "objectives": objectives}, self.api.OLLAMA, self.api.MODEL,
+                                {"plan": {"constraints": limits}, "objectives": objectives, "evidence_kind": evidence}, self.api.OLLAMA, self.api.MODEL,
                                 audit, min(120, self.remaining()))
                             design, proposer = options[selected], "deepseek"
                             json_write(audit / "selection.json", {"index": selected, "reason": reason})
                         except Exception as exc:
                             (audit / "model_error.txt").write_text(str(exc))
+                            if self.strict_llm:
+                                raise RuntimeError("LLM选点失败；对照组不使用随机回退") from exc
                             design, proposer = self.rng.choice(pending), "random_fallback"
                     else:
                         design, proposer = self.rng.choice(pending), "random"
@@ -214,13 +223,18 @@ class Runner:
         except BudgetStop as exc:
             stage["stop_reason"] = str(exc)
         good, pareto = frontier(records, objectives)
-        stage.update(status="completed" if good else "infeasible", pareto_candidates=[r["candidate"] for r in pareto],
+        states = {r["status"] for r in records}
+        status = ("incomplete" if stage["stop_reason"] == "time_budget" or not records else "completed" if good
+                  else "failed" if "failed" in states else "unverified_constraints" if "unverified_constraints" in states else "infeasible")
+        stage.update(status=status, pareto_candidates=[r["candidate"] for r in pareto],
                      best_candidate=good[0]["candidate"] if good else None)
         if good and records and records[0]["status"] == "completed":
             stage["baseline_comparison"] = {o["metric"]: {"baseline": records[0]["metrics"][o["metric"]],
                 "best": good[0]["metrics"][o["metric"]], "difference": good[0]["metrics"][o["metric"]] - records[0]["metrics"][o["metric"]]}
                 for o in objectives}
         self.save()
+        if stage["stop_reason"] == "time_budget":
+            raise BudgetStop("time_budget")
         return good, pareto
 
     def sram(self):
@@ -290,34 +304,8 @@ class Runner:
                 result.append(candidate)
         return result
 
-    def multiplier(self):
-        c, refs = self.config, self.job / "references"
-        p = c["plan"]["parameters"]
-        pea = PEA(refs / "gnn", p["bit_width"], refs / "nbit_approx.py", self.job / "artifacts/truth", self.command)
-        json_write(self.job / "model_provenance.json", pea.provenance)
-        types = c["architecture_space"]["compressor_types"]
-        n = compressor_count(p["bit_width"], "native")
-        base = p.get("compressor_ids", [p["compressor_id"]] * n)
-        fixed = c["architecture_space"].get("fixed_assignment")
-        if fixed:
-            base = fixed
-        if any(v not in types for v in base):
-            raise ValueError("基线压缩器不在架构域中")
-        domains = {str(i): [fixed[i]] if fixed else types for i in range(n)}
-        pool = [{"compressor_ids": ids} for ids in self.device_pool(dict(zip(map(str, range(n)), base)), domains, c["budgets"]["architecture"])]
-        # device_pool returns dicts; retain position order, never dictionary iteration of serialized IDs.
-        pool = [{"compressor_ids": [d["compressor_ids"][str(i)] for i in range(n)]} for d in pool]
-        def prediction(d, task):
-            self.state["counters"]["gnn_queries"] += 1
-            return pea.predict(d["compressor_ids"])
-        limits = [{**item, "metric": "predicted_" + item["metric"]} for item in c["plan"]["constraints"] if item["metric"] in ("mred", "nmed")]
-        good, pareto = self.search("architecture", pool, prediction, c["architecture_objectives"], limits,
-            c["budgets"]["architecture"], c["solvers"]["architecture"], "prediction", domains=domains,
-            build=lambda state: {"compressor_ids": [state[str(i)] for i in range(n)]})
-        choices = (pareto + [r for r in good if r not in pareto])[:c["budgets"]["validation"]]
-        # Predicted feasible points still have no measured acceptance. Include low-error fallbacks for calibration.
-        if not choices:
-            choices = sorted(self.state["stages"]["architecture"]["records"], key=lambda r: r.get("metrics", {}).get("predicted_mred", math.inf))[:c["budgets"]["validation"]]
+    def validate_multiplier(self, choices):
+        c, p = self.config, self.config["plan"]["parameters"]
         validated = []
         self.state["stages"]["validation"] = {"records": validated, "status": "running", "budget": c["budgets"]["validation"], "evidence_kind": "RTL_synthesis_STA_activity"}
         for i, parent in enumerate(choices):
@@ -354,6 +342,37 @@ class Runner:
         self.state["stages"]["validation"]["status"] = "completed" if valid else "infeasible"
         parents = valid[:c["budgets"]["shortlist"]]
         self.state["shortlist"] = [r["candidate"] for r in parents]
+        return parents
+
+    def multiplier(self):
+        c, refs = self.config, self.job / "references"
+        p = c["plan"]["parameters"]
+        pea = PEA(refs / "gnn", p["bit_width"], refs / "nbit_approx.py", self.job / "artifacts/truth", self.command)
+        json_write(self.job / "model_provenance.json", pea.provenance)
+        types = c["architecture_space"]["compressor_types"]
+        n = compressor_count(p["bit_width"], "native")
+        base = p.get("compressor_ids", [p["compressor_id"]] * n)
+        fixed = c["architecture_space"].get("fixed_assignment")
+        if fixed:
+            base = fixed
+        if any(v not in types for v in base):
+            raise ValueError("基线压缩器不在架构域中")
+        domains = {str(i): [fixed[i]] if fixed else types for i in range(n)}
+        pool = [{"compressor_ids": ids} for ids in self.device_pool(dict(zip(map(str, range(n)), base)), domains, c["budgets"]["architecture"])]
+        # device_pool returns dicts; retain position order, never dictionary iteration of serialized IDs.
+        pool = [{"compressor_ids": [d["compressor_ids"][str(i)] for i in range(n)]} for d in pool]
+        def prediction(d, task):
+            self.state["counters"]["gnn_queries"] += 1
+            return pea.predict(d["compressor_ids"])
+        limits = [{**item, "metric": "predicted_" + item["metric"]} for item in c["plan"]["constraints"] if item["metric"] in ("mred", "nmed")]
+        good, pareto = self.search("architecture", pool, prediction, c["architecture_objectives"], limits,
+            c["budgets"]["architecture"], c["solvers"]["architecture"], "prediction", domains=domains,
+            build=lambda state: {"compressor_ids": [state[str(i)] for i in range(n)]})
+        choices = (pareto + [r for r in good if r not in pareto])[:c["budgets"]["validation"]]
+        # Predicted feasible points still have no measured acceptance. Include low-error fallbacks for calibration.
+        if not choices:
+            choices = sorted(self.state["stages"]["architecture"]["records"], key=lambda r: r.get("metrics", {}).get("predicted_mred", math.inf))[:c["budgets"]["validation"]]
+        parents = self.validate_multiplier(choices)
         names = {1: "AP1", 2: "kong2", 3: "antonio", 4: "momeni", 5: "ha", 6: "AKbar1", 7: "AKbar2", 8: "sabetz"}
         all_refined = bool(parents)
         self.state["best_device_designs"] = []
@@ -381,7 +400,11 @@ class Runner:
 
     def run(self):
         try:
-            self.sram() if self.config["workflow"] == "sram" else self.multiplier()
+            if self.config.get("experiment_mode") == "sram_device_retest":
+                from sram_retest import run_fixed
+                run_fixed(self)
+            else:
+                self.sram() if self.config["workflow"] == "sram" else self.multiplier()
             self.state["stop_reason"] = "stages_finished"
         except BudgetStop:
             self.state.update(status="incomplete", stop_reason="time_budget")
@@ -393,6 +416,8 @@ class Runner:
 
 def launch(api, raw, use_model=True):
     config = validate_acco(raw)
+    from sram_retest import verify_reference
+    verify_reference(api, config)
     if not use_model:
         config["solvers"] = {k: "random" if v == "llm" else v for k, v in config["solvers"].items()}
     stamp = datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y%m%d_%H%M%S")
@@ -407,13 +432,35 @@ def launch(api, raw, use_model=True):
     env = {**os.environ, "HOME": str(job / "scratch/home"), "TMPDIR": str(job / "scratch/tmp"), "XDG_CACHE_HOME": str(job / "scratch/cache"),
            "MPLCONFIGDIR": str(job / "scratch/cache"), "MPLBACKEND": "Agg", "CUDA_VISIBLE_DEVICES": "-1", "OMP_NUM_THREADS": "4",
            "OPENBLAS_NUM_THREADS": "4", "PYTHONDONTWRITEBYTECODE": "1", "PATH": str(Path(sys.executable).parent) + os.pathsep + os.environ["PATH"]}
-    print(f"ACCO任务：{job}\n两级预算：{config['budgets']}；求解器：{config['solvers']}", flush=True)
+    if config.get("experiment_mode") == "sram_device_retest":
+        print(f"开始固定组织器件复验：{config['budgets']['device_per_parent']}个尺寸×{len(config['robustness']['cases'])}个PVT，每组合MC={config['robustness']['mc_runs']}。", flush=True)
+    else:
+        print(f"开始两级探索：架构最多{config['budgets']['architecture']}项，每个入选设计的器件最多{config['budgets']['device_per_parent']}项。", flush=True)
+    print("任务目录：" + str(job), flush=True)
     args = [sys.executable, str(api.ROOT / "app/guard.py"), str(job), sys.executable, str(api.ROOT / "app/acco_runner.py"), str(job)]
     try:
         with (job / "logs/pipeline.log").open("w") as stream:
             process = subprocess.Popen(args, cwd=job, env=env, stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
             try:
-                process.wait(timeout=config["budgets"]["max_seconds"] + 15)
+                deadline = time.monotonic() + config["budgets"]["max_seconds"] + 15
+                last_update = 0.
+                while True:
+                    try:
+                        process.wait(timeout=min(5, max(.1, deadline - time.monotonic())))
+                        break
+                    except subprocess.TimeoutExpired:
+                        if time.monotonic() >= deadline:
+                            raise
+                        if config.get("experiment_mode") == "sram_device_retest" and time.monotonic() - last_update >= 30:
+                            last_update = time.monotonic()
+                            try:
+                                state = json.loads((job / "result.json").read_text())
+                                stage = state.get("stages", {}).get("device_fixed_architecture", {})
+                                active = state.get("active_case")
+                                detail = f"；正在评价{active['corner']}/{active['temperature_c']:g}℃/{active['vdd_v']:g}V" if active else ""
+                                print(f"器件复验：已记录{len(stage.get('records', []))}/{config['budgets']['device_per_parent']}个尺寸" + detail, flush=True)
+                            except (OSError, ValueError, KeyError):
+                                pass
             except (subprocess.TimeoutExpired, KeyboardInterrupt):
                 os.killpg(process.pid, signal.SIGTERM)
                 try:
@@ -451,7 +498,14 @@ def launch(api, raw, use_model=True):
 
 
 def command(api, request="", spec_path=None, workflow=None, budget=64, max_seconds=7200, use_model=True, previous=None, plan_only=False):
-    from acco_spec import from_request
+    from acco_spec import from_request, is_search_comparison
+    from sram_retest import is_device_retest, from_request as retest_request
+    if is_device_retest(request) and not spec_path:
+        config = retest_request(api, request)
+        return config if plan_only else launch(api, config, use_model)
+    if is_search_comparison(request):
+        from benchmark import command as compare
+        return compare(api, request, spec_path, previous=previous, plan_only=plan_only)
     if spec_path:
         config = validate_acco(json.loads(Path(spec_path).read_text()))
     else:
@@ -519,14 +573,11 @@ def render(job):
             json_write(job / "best_experiment.json", validate_acco(config))
     if result.get("error"):
         lines += ["", "错误：" + result["error"]]
+    if result.get("config", {}).get("experiment_mode") == "sram_device_retest":
+        from sram_retest import render_retest
+        lines.append(render_retest(job, result))
     lines += ["", result.get("implementation_limit", "SRAM鲁棒性只覆盖coverage.json列出的PVT与MC样本，不能推断稀有失效率或流片签核。"),
               "", "来源与单位、输入、阶段父子关系、求解器调用、逐角样本和日志均在本目录内。"]
     text = "\n".join(lines) + "\n"
     (job / "reports/report.md").write_text(text)
     (job / "reports/summary.md").write_text(text)
-    print(f"ACCO结果：{result['status']}；阶段{len(stages)}个；{result.get('counters', {})}")
-    if result.get("best_design"):
-        print("最佳已评价指标：" + json.dumps(result["best_design"]["metrics"], ensure_ascii=False))
-    if result.get("error"):
-        print("诊断：" + result["error"])
-    print("报告：" + str(job / "reports/report.md"))

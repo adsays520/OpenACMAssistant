@@ -1,0 +1,32 @@
+{
+  "topic": "exploration",
+  "facts": {
+    "exploration": "设计空间探索按固定尺寸/容量、测试集合和模型条件，循环生成合法候选→DeepSeek选择→真实仿真→约束验收→更新最佳项和Pareto集合。",
+    "budget": "默认每类64个候选、7200秒，可明确指定预算；最多10000个候选，时间预算同时生效。只有已测且全部约束通过的候选参与最佳排名。",
+    "search_fields": "可探索整数/DCiM的精确/近似/Log及压缩器分配，SRAM的供电/器件/外围及等容量形状，压缩器类型和尺寸倍率，浮点变体及合法mode/keep。具体搜索域由任务配置决定。",
+    "example": "咨询探索方式不会启动任务。实际执行可以说“探索8位近似乘法器，预算32个候选，固定种子42，要求MRED≤0.02，优先减小面积”。",
+    "acco": "研究主线为ACCO两级优化：乘法器先用原8/16位PEA-GNN与优化器搜索精度/PDP，再实测复核和调整已选单元宽度；SRAM先固定总容量和输出字宽选bank组织，再对入选组织做器件与明确PVT/MC评价。普通局部扫描不等同两级协同优化。",
+    "acco_specification": "SRAM两级任务需要总容量与输出字宽，例如“探索SRAM，总容量4KB，输出字宽8位”；容量不能从默认16×8推断。新增阶段支持LLM、随机和原NSGA-II；bank面积/外围显式估算，乘法器定制模板未回灌完整PE。",
+    "result_status": "任务20261011_140055_explore_multiplier_fdabd4：完成。",
+    "result_path": "任务及证据目录：/data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4",
+    "result_progress": "已执行128个候选，预算128；停止原因candidate_budget。",
+    "result_best": "本次已测候选中的最佳达标项：6。有限探索不证明全局最优。",
+    "result_best_parameters": "最佳已测配置：8 位近似乘法器，固定种子采样验证。验证输入：4096组采样，测试种子42。 评价流程：RTL验证与综合。 压缩器：所有近似位置使用akbar2。 架构：按尺寸自动选择。",
+    "result_best_sample_count": "最佳候选sample_count：4096。",
+    "result_best_error_count": "最佳候选error_count：2674。",
+    "result_best_error_rate": "最佳候选错误率：65.2832 %。",
+    "result_best_mae": "最佳候选平均绝对误差：89.1582。",
+    "result_best_max_absolute_error": "最佳候选最大绝对误差：784。",
+    "result_best_mred": "最佳候选平均相对误差 MRED：0.013639。",
+    "result_best_nmed": "最佳候选归一化平均误差 NMED：0.00137114。",
+    "result_best_synthesized_area_um2": "最佳候选Nangate45综合映射面积：291.802 µm²。",
+    "result_best_post_synth_functional_checks": "最佳候选post_synth_functional_checks：4096。",
+    "result_pareto": "本次原约束下保存的Pareto候选：[6, 11, 58, 25, 2, 1]；权衡仅适用于该任务的指标和评价条件。",
+    "result_conditions": "本次探索的评价配置与验收条件：8 位近似乘法器，固定种子采样验证。验证输入：4096组采样，测试种子42。 评价流程：RTL验证与综合。 压缩器：所有近似位置使用ACCI1。 架构：按尺寸自动选择。验收要求：平均相对误差 MRED：0.02及以下。",
+    "use_compare": "已有探索数值可以比较误差、面积及已测功耗/时序，筛选满足约束的配置、查看Pareto权衡。跨任务比较前要核对尺寸、种子/采样、后端、库和环境；未测指标不能参与排序。",
+    "use_retest": "可以把最佳已测配置作为起点，增加采样或对可穷举的小位宽做穷举，再验证综合/后端。复测会创建新任务，历史采样达标不等于新条件一定达标。",
+    "use_continue": "可以围绕已有可行配置继续有预算的探索，明确保留条件、调整变量、目标和候选预算；最佳仅指当次已测且达标的候选。",
+    "use_training": "可以整理配置、图结构、实测标签、失败记录和评价环境，用于代理模型训练；用于LLM决策训练还需当时目标、菜单和已测历史。经验检索已接入，导出样本不等于已训练模型权重。",
+    "use_next": "例如可以接着说“按刚才最佳配置复测，改为穷举”，或“保持评价条件，围绕最佳配置继续探索，预算32个候选”。只问数据能做什么不会启动这些任务。"
+  }
+}

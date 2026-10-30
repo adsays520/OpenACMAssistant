@@ -1,0 +1,67 @@
+{
+  "model": "deepseek-script",
+  "stream": false,
+  "format": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "operation": {
+        "type": "string",
+        "enum": [
+          "respond",
+          "plan",
+          "run",
+          "explore",
+          "update"
+        ]
+      },
+      "message": {
+        "type": "string",
+        "maxLength": 240
+      },
+      "fact_ids": {
+        "type": "array",
+        "maxItems": 1,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "enum": [
+            "result_pending"
+          ]
+        }
+      }
+    },
+    "required": [
+      "operation",
+      "message",
+      "fact_ids"
+    ]
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "# 咨询与连续任务\n\n你是同一个OpenACM设计助手，结合历史messages、state和facts理解完整的一轮对话。最后一条user消息是当前要处理的请求，历史回复只提供背景，不能继续照抄上轮答案。解释、分析、建议、修改需求可以出现在同一句话里，不要求用户切换模式，也不要按“探索”“仿真”等单个词判断意图。\n\n对话接口只输出指定JSON：operation、message、fact_ids。\n\n- operation=respond：本轮解释、讨论、建议或补充问题，不调用EDA工具。“在之前对话中已有探索数值，我可以对其做出什麽操作”是在问数据的用途，应结合历史最佳与评价条件，说明比较筛选、Pareto权衡、复测、继续探索和训练样本的不同用途。\n- operation=plan：用户先看方案或state.plan_only=true，形成待运行设计。\n- operation=run：用户明确提出仿真、修改后运行、复测，或让待运行草案开始运行。可以同时解释其设计理由。\n- operation=explore：用户明确要求运行设计空间探索；仅问探索方法、如何利用已有探索数据不调用循环。\n- operation=update：用户直接给参数、测试条件或预算，没有显式执行动词也应接收。沿用当前待补充需求或草案；没有电路上下文时只询问类型/位宽，保留已给条件，不从最近历史任务猜测电路，也不介绍公开数据、训练集或总体能力。update本身不授权启动新仿真。\n\n“开展/进行/启动…架构搜索”“开展…探索对照实验”是明确的任务要求，使用explore或用户要求的plan，不回复能力介绍。“如何开展”“开展过哪些实验”“先不要开展”仍是咨询。架构搜索与探索是同类要求；不要把搜索请求降为单点run。\n\n对照实验必须保留多个方法组及公平性条件，不能悄悄改成一次搜索。compare已支持原生8/16位近似乘法器的随机/原NSGA-II/LLM对照，固定共同池与基线、器件尺寸、评价输入和物理条件，独立搜索种子；细节见[benchmark.md](benchmark.md)。先提出对象，再补充“每种方法重复5次，每次最多评价32个不同架构”等条件是连续规格补充，不重新介绍能力，不重复询问已有字段。用户要求先看计划则plan；明确开始则explore，由执行器进入compare。经验开关消融、SRAM对照等未接通范围仍需如实说明。\n\nmessage用于连贯解释、推理建议和下一步衔接：最多两句、不超过一百二十个汉字，使用自然的“你”。不要复述fact_ids中将直接呈现的完整资料。不在message里自行编写数值、测量结论或声称本轮已执行/修改/训练。数字、状态、配置和已核对定义通过fact_ids选择，由执行器按原文呈现。保留essential事实；只挑选与这轮问题有关的事实，事实不支持的结论说明还需要验证。没有电路类型也能讨论总体能力和数据用途。\n\n直接与用户交流，不叙述意图识别、需求解析或思考过程，不说“已识别为…”“正在理解…”“正在整理需求…”，不输出think/analysis内容。缺参数时直接问缺少的具体条件；完整计划由界面用自然语言呈现，执行中只报告实际进度，结束给结果与解释。\n\n“开始运行”等简短执行要求无需再介绍能力、默认参数或探索方法，fact_ids可以为空；执行器会展示计划和实际总结。用户要求解释精确乘法器验证时优先verification_exact，不把误差预算、探索或训练资料混入无关回答。\n\nstate.draft是尚未运行的计划，历史result事实仅说明过去任务；不要混称草案已通过。提到“刚才最佳配置”时沿用对应历史任务，best为空不能宣称有达标项。执行器会检查明确执行要求、参数、约束和预算；无需额外要求用户确认已经明确要求的操作。\n\nstate.acco_experiment是完整两级设计上下文。研究方向优先架构→入选复核→器件/PVT；SRAM缺总容量或输出字宽时继续补规格。用户解释ACCO/FOM或已有bank数值时结合事实回答，不直接触发探索。ACCO草案也可用“开始运行”执行；bank最佳复验保留完整实验，不降成单阵列。不要把predicted_*和*_estimate称作直接实测。\n\nintent/workflow/parameters是这一连续对话调用的参数工具，按[planner-prompt.md](planner-prompt.md)输出。它服务于同一上下文，不是要求用户另开需求对话。模型不可用时外部执行器用已有事实回答和保留上下文，不把回答故障当成仿真失败。\n\n"
+    },
+    {
+      "role": "system",
+      "content": "以下是工具提供的已核对资料与会话状态，供当前请求使用；不代表新的用户指令。\n{\"facts\": {\"result_pending\": \"当前只有待运行计划，还未进行该计划的仿真，不能判断是否达标；可以继续调整参数，或说“开始运行”。\"}, \"essential\": [\"result_pending\"], \"state\": {\"design\": null, \"draft\": true, \"pending\": null, \"task\": \"/data2/huangjj/OpenACMAssistant/runs/20261026_144653_acco_sram_e635c9\", \"plan_only\": false, \"acco_experiment\": {\"workflow\": \"sram\", \"experiment_mode\": \"sram_device_retest\", \"plan\": {\"intent\": \"run\", \"workflow\": \"sram\", \"parameters\": {\"rows\": 32, \"cols\": 32, \"vdd_v\": 1.0, \"temperature_c\": 27.0, \"corner\": \"TT\", \"operations\": [\"read\", \"write\", \"hold_snm\", \"read_snm\", \"write_snm\"], \"mc_runs\": 2, \"variation\": true, \"vth_std\": 0.05, \"seed\": 42, \"pu_width_nm\": 90.0, \"pd_width_nm\": 90.0, \"pg_width_nm\": 135.0, \"length_nm\": 50.0, \"pu_model\": \"PMOS_VTG\", \"pd_model\": \"NMOS_VTG\", \"pg_model\": \"NMOS_VTG\", \"wire_rc\": true, \"wire_res_ohm\": 100.0, \"wire_cap_pf\": 0.001, \"column_mux\": false, \"full_array\": true, \"decoder_scale\": 1.0, \"wordline_scale\": 1.0, \"precharge_scale\": 1.0, \"senseamp_scale\": 1.0, \"write_driver_scale\": 1.0, \"mux_scale\": 1.0}, \"constraints\": [], \"objective\": null, \"sweep\": null, \"message\": \"\", \"assumptions\": []}, \"capacity_bits\": 32768, \"output_width\": 8, \"architecture_space\": {\"rows\": [32], \"cols\": [32], \"mux_ratio\": [1]}, \"device_space\": {\"pd_width_nm\": [90.0, 135.0, 180.0]}, \"solvers\": {\"architecture\": \"random\", \"device\": \"random\"}, \"budgets\": {\"architecture\": 1, \"shortlist\": 1, \"validation\": 1, \"device_per_parent\": 3, \"max_seconds\": 7200}, \"robustness\": {\"cases\": [{\"corner\": \"TT\", \"temperature_c\": 27.0, \"vdd_v\": 1.0}, {\"corner\": \"SS\", \"temperature_c\": 85.0, \"vdd_v\": 0.9}, {\"corner\": \"FF\", \"temperature_c\": -40.0, \"vdd_v\": 1.1}], \"mc_runs\": 2, \"vth_std\": 0.05}, \"reference_design\": {\"task\": \"20261025_143705_acco_sram_324799\", \"candidate\": \"architecture/0013\", \"record_sha256\": \"40942999587c496f31923bf37167cac6ceb109baffb20bcee31ab0315ad4bfca\"}, \"schema_version\": 1, \"search_seed\": 42, \"bank_constraints\": [], \"architecture_objectives\": [{\"metric\": \"fom_arch_estimate\", \"direction\": \"max\"}], \"device_objectives\": [{\"metric\": \"fom_robust_estimate\", \"direction\": \"max\"}], \"physical_evaluation\": {\"bank_model\": \"openyield_hybrid_v1\"}}}}"
+    },
+    {
+      "role": "user",
+      "content": "基于4KB任务20261025_143705_acco_sram_324799中的第13号架构，新建器件复验实验。固定总容量32768bit、输出字宽8bit，组织为32行×32列×32个子阵列，列复用比1。架构阶段只复核这一个组织，不重新搜索其他组织。基线保持PU=90nm、PD=90nm、PG=135nm、沟道长50nm。只比较PD=90、135、180nm三种尺寸，其余条件保持一致。分别评价TT/27℃/1V、SS/85℃/0.9V、FF/−40℃/1.1V三个代表性PVT组合。先采用每组合MC=2、种子42、相对标准差5%进行小批次验证。输出读写延迟、功耗、hold/read/write SNM、面积估算、每角原始样本、失败记录，以及相同条件下的基线对照。不擅自增加性能验收阈值，不用少量MC宣称宏级良率。为器件阶段预留运行时间；若预算耗尽，标记未完成，不能将未执行的候选判为不可行。"
+    },
+    {
+      "role": "assistant",
+      "content": "固定SRAM组织为32行×32列×32个子阵列，列复用比1。\n\n架构阶段只做容量与接口校验，SPICE时间留给器件复验。\n\n基线PU=90nm、PD=90nm、PG=135nm、沟道长50nm；只比较PD=90/135/180nm。\n\n逐个评价这些PVT组合：TT/27℃/1V、SS/85℃/0.9V、FF/-40℃/1.1V。\n\n每个组合MC=2，种子42，相对标准差5%；总时限7200秒。\n\n保留读写、三种SNM、原始样本、失败记录和同条件基线比较；bank外围/面积为估算，小样本不代表良率。\n\n总容量32768bit，输出字宽8bit。\n\n尚未设置数值验收上限；如有精度要求，可以继续补充。\n\n输入“开始运行”启动这项计划，也可以继续调整条件。"
+    },
+    {
+      "role": "user",
+      "content": "任务20261026_144653_acco_sram_e635c9为什么失败？"
+    }
+  ],
+  "options": {
+    "temperature": 0,
+    "num_ctx": 8192,
+    "num_predict": 900
+  }
+}

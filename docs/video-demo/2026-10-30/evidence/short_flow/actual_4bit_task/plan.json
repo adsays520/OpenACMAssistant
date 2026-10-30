@@ -1,0 +1,19 @@
+{
+  "intent": "run",
+  "workflow": "multiplier",
+  "parameters": {
+    "bit_width": 4,
+    "kind": "exact",
+    "compressor_id": 1,
+    "samples": 4096,
+    "exhaustive": true,
+    "seed": 42,
+    "backend": "functional",
+    "architecture": "auto"
+  },
+  "constraints": [],
+  "objective": null,
+  "sweep": null,
+  "message": "生成4位精确乘法器，穷举所有输入，保护原始OpenACM。",
+  "assumptions": []
+}

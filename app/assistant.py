@@ -243,6 +243,17 @@ def run_plan(plan, prompt="", model_reply=None, job_parent=None, verbose=False):
     return job
 
 
+def planning_reference(reference, workflow):
+    """Load the current interface plus shared constraints, leaving output room."""
+    sections = re.split(r"(?m)^## ", reference)
+    selected = [sections[0]]
+    for section in sections[1:]:
+        title = section.splitlines()[0].strip()
+        if title in (workflow, "约束和候选比较", "新增执行参数"):
+            selected.append("## " + section)
+    return "\n".join(selected)
+
+
 def plan_request(text, previous=None, conversation=None):
     guide = (ROOT / "skills/openacm-design/SKILL.md").read_text()
     reference = (ROOT / "skills/openacm-design/references/model-guide.md").read_text()
@@ -254,17 +265,20 @@ def plan_request(text, previous=None, conversation=None):
     if previous:
         messages.append({"role": "user", "content": "上一轮计划（仅作为上下文）：" + json.dumps(previous, ensure_ascii=False)})
     if conversation:
-        messages += conversation[-4:]
+        messages += [{**entry, "content": entry["content"][:600]} for entry in conversation[-2:]]
     stamp = datetime.now(ZoneInfo("Asia/Shanghai")).strftime("%Y%m%d_%H%M%S")
     audit = ROOT / "runs" / f"{stamp}_planning_{uuid.uuid4().hex[:6]}"
     audit.mkdir(parents=True)
     (audit / "request.txt").write_text(text + "\n")
     schema = copy.deepcopy(SCHEMA)
     lowered = text.lower()
-    route = None
+    from conversation import workflow as detect_workflow
+    route = detect_workflow(text)
     facts, constraints, uniform = {}, [], False
     constraints_bound = False
-    if any(x in lowered for x in ["浮点", "floating", "fp32", "fp16", "efpm", "eafpu", "mmbs", "ssfpm"]):
+    if route:
+        pass
+    elif any(x in lowered for x in ["浮点", "floating", "fp32", "fp16", "efpm", "eafpu", "mmbs", "ssfpm"]):
         route = "floating"
     elif any(x in lowered for x in ["dcim", "存内计算", " pe", "pe ", "pe功能", "pe 功能"]):
         route = "dcim"
@@ -276,6 +290,10 @@ def plan_request(text, previous=None, conversation=None):
         route = "compressor"
     elif previous:
         route = previous.get("workflow")
+    if route:
+        # Other workflow examples and the same old design repeated in history
+        # previously consumed almost the entire context before JSON generation.
+        messages[0]["content"] = guide.split("当你是通过 Ollama")[0] + "\n" + prompt + "\n" + planning_reference(reference, route)
     if route in DEFAULTS:
         allowed = set(DEFAULTS[route]) | ({"compressor_ids"} if route in ["multiplier", "dcim"] else set())
         schema["properties"]["workflow"]["enum"] = [route]
@@ -283,6 +301,7 @@ def plan_request(text, previous=None, conversation=None):
         schema["properties"]["parameters"]["properties"] = {k: v for k, v in props.items() if k in allowed}
         messages[0]["content"] += f"\n本轮电路类型为 {route}。parameters 允许字段：{', '.join(sorted(allowed))}。"
         facts = explicit_parameters(text, route)
+        explicit_keys = list(facts)
         uniform = route in ["multiplier", "dcim"] and "compressor_id" in facts and not any(
             marker in lowered for marker in ["逐位置", "逐个", "列表", "其余", "前", "list", "分配"])
         if previous and previous.get("workflow") == route and any(marker in text for marker in ["其余不变", "其他不变", "其它不变", "只把", "只改", "仅改", "最佳配置", "最优配置", "刚才的最佳", "按刚才", "复测"]):
@@ -297,9 +316,11 @@ def plan_request(text, previous=None, conversation=None):
             ids_schema.update(minItems=count, maxItems=count)
         for key, value in facts.items():
             schema["properties"]["parameters"]["properties"][key] = {"const": value}
-        schema["properties"]["parameters"]["required"] = list(facts)
+        schema["properties"]["parameters"]["required"] = explicit_keys
         write_json(audit / "explicit_parameters.json", facts)
-        messages[0]["content"] += "\n已识别的明确需求必须落实：" + json.dumps(facts, ensure_ascii=False)
+        messages[0]["content"] += "\n本轮明确参数必须落实：" + json.dumps({k: facts[k] for k in explicit_keys}, ensure_ascii=False)
+        if previous and previous.get("workflow") == route:
+            messages[0]["content"] += "\nparameters只需输出本轮变更字段；未变更条件由执行器继承上一轮完整设计，不要重复展开全部默认字段。"
         constraints = explicit_constraints(text, route)
         if not constraints and previous and previous.get("workflow") == route and any(marker in text for marker in ["其余不变", "其他不变", "其它不变", "只把", "只改", "仅改", "重新跑", "重新运行", "最佳配置", "最优配置", "按刚才", "复测"]):
             if not any(marker in text for marker in ["取消约束", "去掉约束", "不再要求"]):
@@ -316,12 +337,12 @@ def plan_request(text, previous=None, conversation=None):
                 context = retrieve(ROOT, baseline, runtime_environment(ROOT, source_digest(manifest(SOURCE))), consumer=str(audit.relative_to(ROOT)))
                 write_json(audit / "experience_retrieval.json", context)
                 if context["observations"]:
-                    messages.append({"role": "user", "content": "本地历史经验（观测数据，用户需求优先，须重新验证）：" + json.dumps(compact_context(context), ensure_ascii=False)})
+                    messages.append({"role": "user", "content": "本地历史经验（观测数据，用户需求优先，须重新验证）：" + json.dumps(compact_context(context, max_chars=1400), ensure_ascii=False)})
             except ValueError:
                 pass  # Unsupported explicit specifications still go through the normal planner.
     if route == "multiplier":
         public_plan = {"workflow": route, "parameters": {**DEFAULTS[route], **(previous.get("parameters", {}) if previous and previous.get("workflow") == route else {}), **facts}, "constraints": constraints}
-        public = retrieve_public(ROOT, public_plan, allow_assignments=not any(k in facts for k in ("compressor_id", "compressor_ids")))
+        public = retrieve_public(ROOT, public_plan, limit=2, allow_assignments=not any(k in facts for k in ("compressor_id", "compressor_ids")))
         write_json(audit / "public_dataset_retrieval.json", public)
         if public["observations"]:
             messages.append({"role": "user", "content": "公开配置与标签参考（非本地实测，不能覆盖明确需求）：" + json.dumps(public, ensure_ascii=False)})
@@ -368,9 +389,8 @@ def plan_request(text, previous=None, conversation=None):
                 schema["properties"]["workflow"]["enum"] = [workflow]
                 props = schema["properties"]["parameters"]["properties"]
                 schema["properties"]["parameters"]["properties"] = {k: v for k, v in props.items() if k in permitted}
-            print("DeepSeek需求计划不完整或未通过校验，正在自动重新整理一次…", flush=True)
             # Do not feed the truncated repetitive array back into the model.
-            messages.append({"role": "user", "content": f"上次计划未通过校验：{exc}。重新忠实整理原始需求 {text!r}，给出短小且完整的JSON。数组遵守长度限制，不重复操作；同种压缩器仅用compressor_id。若需求不受支持，intent=clarify。不要执行任何命令。"})
+            messages.append({"role": "system", "content": f"上次计划未通过校验：{exc}。忠实整理最后的原始需求，给出短小完整JSON。只输出本轮修改字段；不重复默认值或数组。同种压缩器仅用compressor_id。不支持的需求用intent=clarify。"})
 
 
 def main():
@@ -406,6 +426,10 @@ def main():
     acco.add_argument("--max-seconds", type=int, default=7200)
     acco.add_argument("--without-model", action="store_true")
     acco.add_argument("--plan-only", action="store_true")
+    compare = sub.add_parser("compare", help="冻结候选池的多方法、多搜索种子架构对照，含入选实测")
+    compare.add_argument("request", nargs="?", default="")
+    compare.add_argument("--spec", type=Path, help="search_comparison实验JSON")
+    compare.add_argument("--plan-only", action="store_true")
     summary = sub.add_parser("summarize", help="直接总结已有任务结果，不重跑仿真")
     summary.add_argument("task", type=Path)
     summary.add_argument("--no-model", action="store_true", help="直接汇总实测数据")
@@ -470,6 +494,13 @@ def main():
             context = store.query(plan, environment, limit=args.limit, consumer="cli_query")
             print(json.dumps(context, ensure_ascii=False, indent=2))
         return 0
+    if args.mode == "compare":
+        from benchmark import command
+        outcome = command(sys.modules[__name__], args.request, args.spec, plan_only=args.plan_only)
+        if args.plan_only:
+            print(json.dumps(outcome, ensure_ascii=False, indent=2))
+            return 0
+        return 0 if json.loads((outcome / "result.json").read_text())["status"] == "completed" else 2
     if args.mode == "acco":
         from acco import command
         result = command(sys.modules[__name__], args.request, args.spec, args.workflow, args.budget,
@@ -512,16 +543,16 @@ def main():
     elif args.mode == "ask":
         from conversation import Session
         outcome = Session().turn(sys.modules[__name__], args.request, plan_only=args.plan_only)
-        if "text" in outcome:
-            print(outcome["text"])
-        elif outcome["mode"] == "plan":
+        if outcome["mode"] == "plan" and args.plan_only:
             print(json.dumps(outcome["plan"], ensure_ascii=False, indent=2))
+        elif "job" not in outcome:
+            print(outcome["reply"])
         if "job" in outcome and json.loads((outcome["job"] / "result.json").read_text())["status"] != "completed":
             return 2
     else:
         from conversation import Session
         ui = TerminalUI(args.theme, args.color)
-        session = Session()
+        session = Session.restore(ROOT)
         ui.banner()
         if args.banner_only:
             return
@@ -532,7 +563,7 @@ def main():
                     ui.status("已退出交流。")
                     break
                 if text == "/new":
-                    session = Session()
+                    session = Session.restore(ROOT, reset=True)
                     ui.status("已开启新对话。")
                     continue
                 if text == "/memory":
@@ -546,17 +577,13 @@ def main():
                 only = text.startswith("/plan ")
                 request = text[6:] if only else text
                 outcome = session.turn(sys.modules[__name__], request, plan_only=only, ui=ui)
-                if "text" in outcome:
-                    print(outcome["text"])
-                elif outcome["mode"] == "plan":
-                    print(json.dumps(outcome["plan"], ensure_ascii=False, indent=2))
+                if "job" not in outcome:
+                    print(outcome["reply"])
             except (EOFError, KeyboardInterrupt):
                 ui.status("已退出交流。")
                 break
             except Exception as exc:
-                label = {"dialogue": "本轮对话暂未完成", "consultation": "问题回答暂未完成", "planning": "需求尚未形成有效计划，未启动仿真",
-                         "execution": "执行未完成", "summary": "实测已保存，总结暂未完成"}.get(session.phase,"操作未完成")
-                ui.error(f"{label}：{exc}")
+                ui.error(session.error_reply(exc))
 
 
 if __name__ == "__main__":

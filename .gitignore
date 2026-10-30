@@ -1,6 +1,7 @@
 .venv/
 runs/
 experience/
+conversations/
 datasets/
 __pycache__/
 *.py[cod]
@@ -23,3 +24,10 @@ verification/outside_workspace.txt
 verification/*.json
 verification/local_*/
 verification/tmp*/
+
+# Keep original user documents and report-rendering scratch local.
+docs/technical-report/*/evidence/*.docx
+docs/technical-report/*/evidence/*.pdf
+docs/technical-report/*/evidence/page*.png
+docs/technical-report/*/evidence/final_page_*.png
+docs/technical-report/*/evidence/*_排版核对.txt

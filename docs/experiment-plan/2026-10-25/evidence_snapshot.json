@@ -1,0 +1,1063 @@
+{
+  "source_task": "runs/20261025_143705_acco_sram_324799",
+  "source_result_sha256": "3cc583c2e84a8fe8c52bfb550ca22a7c9e73a258d29af8da9eb03886c0152eff",
+  "input_docx_sha256": "08992d9f6e6f011e30318fb228f9d188edb7fb3558a8f4cedb3f3c133ca760be",
+  "original_status": "infeasible",
+  "original_stop_reason": "stages_finished",
+  "interpretation": "Architecture evaluation stopped on time budget; device stages have no observations. Original infeasible/stages_finished is misleading; no raw files are changed.",
+  "config": {
+    "workflow": "sram",
+    "plan": {
+      "intent": "run",
+      "workflow": "sram",
+      "parameters": {
+        "rows": 32,
+        "cols": 64,
+        "vdd_v": 1.0,
+        "temperature_c": 27.0,
+        "corner": "TT",
+        "operations": [
+          "read",
+          "write"
+        ],
+        "mc_runs": 1,
+        "variation": false,
+        "vth_std": 0.05,
+        "seed": 42,
+        "pu_width_nm": 90.0,
+        "pd_width_nm": 90.0,
+        "pg_width_nm": 135.0,
+        "length_nm": 50.0,
+        "pu_model": "PMOS_VTG",
+        "pd_model": "NMOS_VTG",
+        "pg_model": "NMOS_VTG",
+        "wire_rc": true,
+        "wire_res_ohm": 100.0,
+        "wire_cap_pf": 0.001,
+        "column_mux": false,
+        "full_array": true,
+        "decoder_scale": 1.0,
+        "wordline_scale": 1.0,
+        "precharge_scale": 1.0,
+        "senseamp_scale": 1.0,
+        "write_driver_scale": 1.0,
+        "mux_scale": 1.0
+      },
+      "constraints": [],
+      "objective": null,
+      "sweep": null,
+      "message": "探索SRAM，总容量4KB，输出字宽8位，预算32个候选。",
+      "assumptions": []
+    },
+    "budgets": {
+      "architecture": 32,
+      "shortlist": 3,
+      "validation": 3,
+      "device_per_parent": 8,
+      "max_seconds": 7200
+    },
+    "solvers": {
+      "architecture": "llm",
+      "device": "llm"
+    },
+    "capacity_bits": 32768,
+    "output_width": 8,
+    "schema_version": 1,
+    "architecture_space": {
+      "rows": [
+        16,
+        32,
+        64,
+        128,
+        256,
+        512
+      ],
+      "cols": [
+        8,
+        16,
+        32,
+        64,
+        128,
+        256
+      ],
+      "mux_ratio": [
+        1,
+        2
+      ]
+    },
+    "device_space": {
+      "pu_width_nm": [
+        60,
+        90,
+        120
+      ],
+      "pd_width_nm": [
+        90,
+        135,
+        180
+      ],
+      "pg_width_nm": [
+        90,
+        135,
+        180
+      ]
+    },
+    "bank_constraints": [],
+    "architecture_objectives": [
+      {
+        "metric": "fom_arch_estimate",
+        "direction": "max"
+      }
+    ],
+    "device_objectives": [
+      {
+        "metric": "fom_robust_estimate",
+        "direction": "max"
+      }
+    ],
+    "robustness": {
+      "cases": [
+        {
+          "corner": "TT",
+          "temperature_c": 27.0,
+          "vdd_v": 1.0
+        }
+      ],
+      "mc_runs": 5,
+      "vth_std": 0.05
+    },
+    "physical_evaluation": {
+      "bank_model": "openyield_hybrid_v1"
+    }
+  },
+  "architecture": {
+    "name": "architecture",
+    "parent": null,
+    "solver": "llm",
+    "evidence_kind": "array_spice_plus_bank_estimate",
+    "budget": 32,
+    "records": [
+      {
+        "candidate": "architecture/0001",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 8,
+            "num_arrays": 256,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0001",
+        "proposed_by": "baseline",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 147976.3094905263,
+          "bank_write_delay_ns_estimate": 0.6516859500000001,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 2.13338692,
+          "bank_pmax_uw_estimate": 583.075475,
+          "bank_read_power_uw_estimate": 583.075475,
+          "bank_write_power_uw_estimate": 353.57899000000003,
+          "bank_dmax_ns_estimate": 2.13338692,
+          "fom_arch_estimate": 15.320109501251682
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 16.518
+      },
+      {
+        "candidate": "architecture/0002",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 8,
+            "num_arrays": 256,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0002",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 147976.3094905263,
+          "bank_write_delay_ns_estimate": 1.3033719000000001,
+          "serialization_cycles_estimate": 2,
+          "bank_read_delay_ns_estimate": 4.2122886,
+          "bank_pmax_uw_estimate": 1003.8777650000001,
+          "bank_read_power_uw_estimate": 1003.8777650000001,
+          "bank_write_power_uw_estimate": 353.57899000000003,
+          "bank_dmax_ns_estimate": 4.2122886,
+          "fom_arch_estimate": 14.78870495025239
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 17.143
+      },
+      {
+        "candidate": "architecture/0003",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 256,
+            "num_arrays": 4,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0003",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "failed",
+        "error": "PVT案例0执行失败：任务超过 600 秒，已终止全部子进程",
+        "metrics": {},
+        "elapsed_s": 600.972
+      },
+      {
+        "candidate": "architecture/0004",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 16,
+            "num_arrays": 128,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0004",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 104061.95685052632,
+          "bank_write_delay_ns_estimate": 0.616061535,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.898877815,
+          "bank_pmax_uw_estimate": 837.021527,
+          "bank_read_power_uw_estimate": 837.021527,
+          "bank_write_power_uw_estimate": 324.599539,
+          "bank_dmax_ns_estimate": 1.898877815,
+          "fom_arch_estimate": 15.290120357661044
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 27.741
+      },
+      {
+        "candidate": "architecture/0005",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 64,
+            "num_arrays": 32,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0005",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 71126.1923705263,
+          "bank_write_delay_ns_estimate": 0.5755102649999999,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.6039059549999999,
+          "bank_pmax_uw_estimate": 502.792217,
+          "bank_read_power_uw_estimate": 502.792217,
+          "bank_write_power_uw_estimate": 308.88696600000003,
+          "bank_dmax_ns_estimate": 1.6039059549999999,
+          "fom_arch_estimate": 15.667417773752753
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 96.679
+      },
+      {
+        "candidate": "architecture/0006",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 64,
+            "num_arrays": 32,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0006",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 71126.1923705263,
+          "bank_write_delay_ns_estimate": 0.5755102649999999,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.5633623349999999,
+          "bank_pmax_uw_estimate": 820.1882599999999,
+          "bank_read_power_uw_estimate": 820.1882599999999,
+          "bank_write_power_uw_estimate": 308.88696600000003,
+          "bank_dmax_ns_estimate": 1.5633623349999999,
+          "fom_arch_estimate": 15.466012026787972
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 99.206
+      },
+      {
+        "candidate": "architecture/0007",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 256,
+            "num_arrays": 8,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0007",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 62892.251250526315,
+          "bank_write_delay_ns_estimate": 0.6976624749999999,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.353208615,
+          "bank_pmax_uw_estimate": 1242.0527,
+          "bank_read_power_uw_estimate": 1242.0527,
+          "bank_write_power_uw_estimate": 822.28488,
+          "bank_dmax_ns_estimate": 1.353208615,
+          "fom_arch_estimate": 15.375196652395429
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 389.798
+      },
+      {
+        "candidate": "architecture/0008",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 128,
+            "num_arrays": 16,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0008",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 65636.89829052631,
+          "bank_write_delay_ns_estimate": 0.6025723999999999,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.40620104,
+          "bank_pmax_uw_estimate": 986.1724,
+          "bank_read_power_uw_estimate": 986.1724,
+          "bank_write_power_uw_estimate": 543.2936500000001,
+          "bank_dmax_ns_estimate": 1.40620104,
+          "fom_arch_estimate": 15.449425716420965
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 201.477
+      },
+      {
+        "candidate": "architecture/0009",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 8,
+            "num_arrays": 128,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0009",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 118968.36042105262,
+          "bank_write_delay_ns_estimate": 0.601780915,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 2.011311465,
+          "bank_pmax_uw_estimate": 477.901159,
+          "bank_read_power_uw_estimate": 477.901159,
+          "bank_write_power_uw_estimate": 369.38740099999995,
+          "bank_dmax_ns_estimate": 2.011311465,
+          "fom_arch_estimate": 15.479466848860902
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 30.33
+      },
+      {
+        "candidate": "architecture/0010",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 8,
+            "num_arrays": 128,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0010",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 118968.36042105262,
+          "bank_write_delay_ns_estimate": 1.20356183,
+          "serialization_cycles_estimate": 2,
+          "bank_read_delay_ns_estimate": 3.94885997,
+          "bank_pmax_uw_estimate": 622.782376,
+          "bank_read_power_uw_estimate": 622.782376,
+          "bank_write_power_uw_estimate": 369.38740099999995,
+          "bank_dmax_ns_estimate": 3.94885997,
+          "fom_arch_estimate": 15.071476214227795
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 29.649
+      },
+      {
+        "candidate": "architecture/0011",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 16,
+            "num_arrays": 64,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0011",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 82475.94442105263,
+          "bank_write_delay_ns_estimate": 0.56571624,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.8169674500000002,
+          "bank_pmax_uw_estimate": 429.877182,
+          "bank_read_power_uw_estimate": 429.877182,
+          "bank_write_power_uw_estimate": 328.049602,
+          "bank_dmax_ns_estimate": 1.8169674500000002,
+          "fom_arch_estimate": 15.64914481087127
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 54.357
+      },
+      {
+        "candidate": "architecture/0012",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 16,
+            "num_arrays": 64,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0012",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 82475.94442105263,
+          "bank_write_delay_ns_estimate": 0.56571624,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.77991625,
+          "bank_pmax_uw_estimate": 554.860107,
+          "bank_read_power_uw_estimate": 554.860107,
+          "bank_write_power_uw_estimate": 328.049602,
+          "bank_dmax_ns_estimate": 1.77991625,
+          "fom_arch_estimate": 15.547253282032358
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 53.2
+      },
+      {
+        "candidate": "architecture/0013",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 32,
+            "num_arrays": 32,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0013",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 64229.736421052636,
+          "bank_write_delay_ns_estimate": 0.537959895,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.645463505,
+          "bank_pmax_uw_estimate": 493.7797060000001,
+          "bank_read_power_uw_estimate": 493.7797060000001,
+          "bank_write_power_uw_estimate": 378.156173,
+          "bank_dmax_ns_estimate": 1.645463505,
+          "fom_arch_estimate": 15.686310438882442
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 100.637
+      },
+      {
+        "candidate": "architecture/0014",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 128,
+            "num_arrays": 16,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0014",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 65636.89829052631,
+          "bank_write_delay_ns_estimate": 0.6025723999999999,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.4475169700000001,
+          "bank_pmax_uw_estimate": 730.9088500000001,
+          "bank_read_power_uw_estimate": 730.9088500000001,
+          "bank_write_power_uw_estimate": 543.2936500000001,
+          "bank_dmax_ns_estimate": 1.4475169700000001,
+          "fom_arch_estimate": 15.566939090648102
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 195.057
+      },
+      {
+        "candidate": "architecture/0015",
+        "parameters": {
+          "architecture": {
+            "rows": 64,
+            "cols": 64,
+            "num_arrays": 8,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0015",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 47236.96508631579,
+          "bank_write_delay_ns_estimate": 0.48822074499999996,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.4117014449999998,
+          "bank_pmax_uw_estimate": 1002.13419,
+          "bank_read_power_uw_estimate": 1002.13419,
+          "bank_write_power_uw_estimate": 665.75088,
+          "bank_dmax_ns_estimate": 1.4117014449999998,
+          "fom_arch_estimate": 15.512190267967156
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 368.107
+      },
+      {
+        "candidate": "architecture/0016",
+        "parameters": {
+          "architecture": {
+            "rows": 64,
+            "cols": 8,
+            "num_arrays": 64,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0016",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 105585.28700631579,
+          "bank_write_delay_ns_estimate": 0.55808833,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.9730373600000002,
+          "bank_pmax_uw_estimate": 495.95717,
+          "bank_read_power_uw_estimate": 495.95717,
+          "bank_write_power_uw_estimate": 399.748488,
+          "bank_dmax_ns_estimate": 1.9730373600000002,
+          "fom_arch_estimate": 15.497618815604477
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 50.941
+      },
+      {
+        "candidate": "architecture/0017",
+        "parameters": {
+          "architecture": {
+            "rows": 512,
+            "cols": 64,
+            "num_arrays": 1,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0017",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "failed",
+        "error": "PVT案例0执行失败：任务超过 600 秒，已终止全部子进程",
+        "metrics": {},
+        "elapsed_s": 600.995
+      },
+      {
+        "candidate": "architecture/0018",
+        "parameters": {
+          "architecture": {
+            "rows": 128,
+            "cols": 8,
+            "num_arrays": 32,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0018",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 100464.27445894736,
+          "bank_write_delay_ns_estimate": 0.5363869450000001,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 2.0394521049999996,
+          "bank_pmax_uw_estimate": 538.9574020000001,
+          "bank_read_power_uw_estimate": 538.9574020000001,
+          "bank_write_power_uw_estimate": 462.47309999999993,
+          "bank_dmax_ns_estimate": 2.0394521049999996,
+          "fom_arch_estimate": 15.457926222354175
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 131.541
+      },
+      {
+        "candidate": "architecture/0019",
+        "parameters": {
+          "architecture": {
+            "rows": 128,
+            "cols": 32,
+            "num_arrays": 8,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0019",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 51636.42229894738,
+          "bank_write_delay_ns_estimate": 0.47479232499999996,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.693674315,
+          "bank_pmax_uw_estimate": 963.89752,
+          "bank_read_power_uw_estimate": 963.89752,
+          "bank_write_power_uw_estimate": 696.64672,
+          "bank_dmax_ns_estimate": 1.693674315,
+          "fom_arch_estimate": 15.430661163755257
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 434.985
+      },
+      {
+        "candidate": "architecture/0020",
+        "parameters": {
+          "architecture": {
+            "rows": 512,
+            "cols": 32,
+            "num_arrays": 2,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0020",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "failed",
+        "error": "PVT案例0执行失败：任务超过 600 秒，已终止全部子进程",
+        "metrics": {},
+        "elapsed_s": 601.006
+      },
+      {
+        "candidate": "architecture/0021",
+        "parameters": {
+          "architecture": {
+            "rows": 128,
+            "cols": 16,
+            "num_arrays": 16,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0021",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 67912.37301894739,
+          "bank_write_delay_ns_estimate": 0.50215829,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.85001609,
+          "bank_pmax_uw_estimate": 647.82335,
+          "bank_read_power_uw_estimate": 647.82335,
+          "bank_write_power_uw_estimate": 518.5225,
+          "bank_dmax_ns_estimate": 1.85001609,
+          "fom_arch_estimate": 15.50539344385154
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 241.04
+      },
+      {
+        "candidate": "architecture/0022",
+        "parameters": {
+          "architecture": {
+            "rows": 16,
+            "cols": 256,
+            "num_arrays": 8,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0022",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 62892.251250526315,
+          "bank_write_delay_ns_estimate": 0.6976624749999999,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.309553605,
+          "bank_pmax_uw_estimate": 1358.6244399999998,
+          "bank_read_power_uw_estimate": 1358.6244399999998,
+          "bank_write_power_uw_estimate": 822.28488,
+          "bank_dmax_ns_estimate": 1.309553605,
+          "fom_arch_estimate": 15.350478726432911
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 386.79
+      },
+      {
+        "candidate": "architecture/0023",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 32,
+            "num_arrays": 32,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0023",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 64229.736421052636,
+          "bank_write_delay_ns_estimate": 0.537959895,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.6071005349999998,
+          "bank_pmax_uw_estimate": 583.06356,
+          "bank_read_power_uw_estimate": 583.06356,
+          "bank_write_power_uw_estimate": 378.156173,
+          "bank_dmax_ns_estimate": 1.6071005349999998,
+          "fom_arch_estimate": 15.624372984467147
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 101.079
+      },
+      {
+        "candidate": "architecture/0024",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 64,
+            "num_arrays": 16,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0024",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 55106.63242105263,
+          "bank_write_delay_ns_estimate": 0.52964354,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.4630207,
+          "bank_pmax_uw_estimate": 670.43555,
+          "bank_read_power_uw_estimate": 670.43555,
+          "bank_write_power_uw_estimate": 472.57284999999996,
+          "bank_dmax_ns_estimate": 1.4630207,
+          "fom_arch_estimate": 15.637790558283124
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 188.242
+      },
+      {
+        "candidate": "architecture/0025",
+        "parameters": {
+          "architecture": {
+            "rows": 32,
+            "cols": 64,
+            "num_arrays": 16,
+            "mux_ratio": 2
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0025",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 55106.63242105263,
+          "bank_write_delay_ns_estimate": 0.52964354,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 1.4246680999999999,
+          "bank_pmax_uw_estimate": 732.45225,
+          "bank_read_power_uw_estimate": 732.45225,
+          "bank_write_power_uw_estimate": 472.57284999999996,
+          "bank_dmax_ns_estimate": 1.4246680999999999,
+          "fom_arch_estimate": 15.610905046515754
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 188.873
+      },
+      {
+        "candidate": "architecture/0026",
+        "parameters": {
+          "architecture": {
+            "rows": 128,
+            "cols": 64,
+            "num_arrays": 4,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0026",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "failed",
+        "error": "PVT案例0执行失败：任务超过 600 秒，已终止全部子进程",
+        "metrics": {},
+        "elapsed_s": 600.972
+      },
+      {
+        "candidate": "architecture/0027",
+        "parameters": {
+          "architecture": {
+            "rows": 512,
+            "cols": 8,
+            "num_arrays": 8,
+            "mux_ratio": 1
+          },
+          "devices": {
+            "pu_width_nm": 90.0,
+            "pd_width_nm": 90.0,
+            "pg_width_nm": 135.0
+          }
+        },
+        "parent": null,
+        "task": "stages/architecture/0027",
+        "proposed_by": "deepseek",
+        "evidence_kind": "array_spice_plus_bank_estimate",
+        "status": "completed",
+        "metrics": {
+          "bank_area_um2_estimate": 101224.26000842104,
+          "bank_write_delay_ns_estimate": 0.507780205,
+          "serialization_cycles_estimate": 1,
+          "bank_read_delay_ns_estimate": 3.712881865,
+          "bank_pmax_uw_estimate": 1060.8883,
+          "bank_read_power_uw_estimate": 1060.8883,
+          "bank_write_power_uw_estimate": 835.3693,
+          "bank_dmax_ns_estimate": 3.712881865,
+          "fom_arch_estimate": 14.901976903651432
+        },
+        "constraints": [],
+        "acceptance": "specified_model_and_cases",
+        "elapsed_s": 551.305
+      }
+    ],
+    "status": "completed",
+    "stop_reason": "time_budget",
+    "pareto_candidates": [
+      "architecture/0013"
+    ],
+    "best_candidate": "architecture/0013",
+    "baseline_comparison": {
+      "fom_arch_estimate": {
+        "baseline": 15.320109501251682,
+        "best": 15.686310438882442,
+        "difference": 0.3662009376307598
+      }
+    }
+  },
+  "source_integrity": {
+    "unchanged": true,
+    "checked_files": 2631,
+    "reference_changes": [],
+    "protection": "Landlock pipeline + nested worker confinement",
+    "openyield_scope": "reused source files in reference_manifest.json"
+  }
+}

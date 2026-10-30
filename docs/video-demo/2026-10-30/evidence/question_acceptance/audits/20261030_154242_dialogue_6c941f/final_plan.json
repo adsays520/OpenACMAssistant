@@ -1,0 +1,83 @@
+{
+  "workflow": "multiplier",
+  "plan": {
+    "intent": "run",
+    "workflow": "multiplier",
+    "parameters": {
+      "bit_width": 8,
+      "kind": "approx",
+      "compressor_id": 1,
+      "samples": 4096,
+      "exhaustive": false,
+      "seed": 42,
+      "backend": "synthesis",
+      "architecture": "native"
+    },
+    "constraints": [
+      {
+        "metric": "mred",
+        "op": "le",
+        "value": 0.02
+      }
+    ],
+    "objective": {
+      "metric": "synthesized_area_um2",
+      "direction": "min"
+    },
+    "sweep": null,
+    "message": "探索8位近似乘法器，采用LLM，预算8个候选，限时10分钟，固定种子42、采样4096组，要求MRED≤0.02，优先减小综合面积。",
+    "assumptions": []
+  },
+  "budgets": {
+    "architecture": 8,
+    "shortlist": 3,
+    "validation": 3,
+    "device_per_parent": 8,
+    "max_seconds": 600
+  },
+  "solvers": {
+    "architecture": "llm",
+    "device": "llm"
+  },
+  "architecture_objectives": [
+    {
+      "metric": "predicted_area_um2",
+      "direction": "min"
+    }
+  ],
+  "schema_version": 1,
+  "search_seed": 42,
+  "architecture_space": {
+    "compressor_types": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "device_space": {
+    "width_scale": [
+      0.8,
+      1,
+      1.2
+    ]
+  },
+  "device_objectives": [
+    {
+      "metric": "pdp_fj",
+      "direction": "min"
+    },
+    {
+      "metric": "estimated_area_um2",
+      "direction": "min"
+    }
+  ],
+  "physical_evaluation": {
+    "clock_period_ns": 5.0,
+    "output_load_ff": 10.0
+  }
+}

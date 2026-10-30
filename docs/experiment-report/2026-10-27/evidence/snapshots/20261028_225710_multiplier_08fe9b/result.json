@@ -1,0 +1,23 @@
+{
+  "status": "infeasible",
+  "metrics": {
+    "sample_count": 4096,
+    "error_count": 4059,
+    "error_rate": 0.990966796875,
+    "mae": 221.517578125,
+    "max_absolute_error": 568,
+    "mred": 0.4928234136998939,
+    "nmed": 0.0034066524894271434,
+    "architecture": "native"
+  },
+  "elapsed_s": 0.466,
+  "constraints": [
+    {
+      "metric": "mred",
+      "op": "le",
+      "value": 0.02,
+      "actual": 0.4928234136998939,
+      "passed": false
+    }
+  ]
+}

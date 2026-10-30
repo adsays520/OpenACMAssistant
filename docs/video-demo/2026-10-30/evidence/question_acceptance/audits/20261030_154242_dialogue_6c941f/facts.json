@@ -1,0 +1,6 @@
+{
+  "topic": "requirements",
+  "facts": {
+    "requirements": "可以，先按这些条件：采样4096组、每轮最多8个不同架构。"
+  }
+}

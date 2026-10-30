@@ -1,0 +1,25 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "run",
+  "topic": "result",
+  "model_used": true,
+  "model_operation": "plan",
+  "fallback_mode": "action",
+  "resolution": "explicit_task_preserved",
+  "selected_facts": [
+    "result_status",
+    "result_path",
+    "result_sample_count",
+    "result_error_count",
+    "result_error_rate",
+    "result_mae",
+    "result_max_absolute_error",
+    "result_mred",
+    "result_nmed",
+    "result_constraint_0"
+  ],
+  "executed": false,
+  "final_mode": "clarify",
+  "response_complete": true,
+  "execution_started": false
+}

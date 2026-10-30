@@ -1,0 +1,23 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "respond",
+  "topic": "exploration",
+  "model_used": true,
+  "model_operation": "respond",
+  "fallback_mode": "consult",
+  "resolution": null,
+  "selected_facts": [
+    "use_compare",
+    "result_best",
+    "result_best_mred",
+    "result_best_synthesized_area_um2",
+    "use_retest",
+    "use_continue",
+    "use_training",
+    "result_status"
+  ],
+  "executed": false,
+  "final_mode": "consult",
+  "response_complete": true,
+  "execution_started": false
+}

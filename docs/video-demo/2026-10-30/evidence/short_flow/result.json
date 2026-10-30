@@ -1,0 +1,9 @@
+{
+  "kind": "video_short_flow_acceptance",
+  "status": "completed",
+  "passed": 3,
+  "total": 3,
+  "model": "deepseek-script",
+  "task": "/data2/huangjj/OpenACMAssistant/runs/20261030_154501_multiplier_d7b477",
+  "scope": "真实模型、计划预览、开始运行、4位精确乘法器256组RTL实测及结果追问"
+}

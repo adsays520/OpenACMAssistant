@@ -1,0 +1,60 @@
+{
+  "source_result_sha256": "3cc583c2e84a8fe8c52bfb550ca22a7c9e73a258d29af8da9eb03886c0152eff",
+  "raw_source_unchanged": true,
+  "attempted": 27,
+  "valid": 23,
+  "timed_out": 4,
+  "best_architecture_candidate": "architecture/0013",
+  "relative_changes_percent": {
+    "bank_area_um2_estimate": -56.59458149605716,
+    "bank_read_power_uw_estimate": -15.314615830823596,
+    "bank_write_power_uw_estimate": 6.950973812103478,
+    "bank_read_delay_ns_estimate": -22.87083559132349,
+    "bank_write_delay_ns_estimate": -17.45105215173046
+  },
+  "files": {
+    "assets/03_4KB初始与入选对照.pdf": {
+      "sha256": "813bc3cf642cb45dfb668a9f2d0cb0695b666ca23a30bbea6e8e4e37ea0d5236",
+      "bytes": 41684
+    },
+    "assets/02_4KB功耗延迟权衡.pdf": {
+      "sha256": "14360e643a9d9a628d3f8ed54c20d463d8a8b980bfd31631ea7ecb41e8a21a8c",
+      "bytes": 47842
+    },
+    "assets/01_4KB架构搜索轨迹.pdf": {
+      "sha256": "9abaa26bc309b479284c98f10dfd95dd46a3abf1a29f0463e1f8a813e6748f40",
+      "bytes": 45927
+    },
+    "assets/01_4KB架构搜索轨迹.svg": {
+      "sha256": "37ffd5cacc2dba7fbf6cd2f5f2ba45ae8de46e8a5dc2dc741de4f932b3018276",
+      "bytes": 96404
+    },
+    "assets/02_4KB功耗延迟权衡.png": {
+      "sha256": "700f70c371543735e986fbcf3c9a8b31a0b4292408bf2337ebd962e9e19bef1b",
+      "bytes": 158368
+    },
+    "assets/03_4KB初始与入选对照.svg": {
+      "sha256": "302e7a51995fa611df93e2eff227c7d1b9fc96f9f69c6b7fe8768099434a6bff",
+      "bytes": 90210
+    },
+    "assets/03_4KB初始与入选对照.png": {
+      "sha256": "e56cbad13efe4407c2c6a70a46edf62a1bb0b190eff6ba90001aa20c1b4988fd",
+      "bytes": 136120
+    },
+    "assets/01_4KB架构搜索轨迹.png": {
+      "sha256": "485d3661be4416c1532d158f3691d4fd4578ca4ac042b49e7b1d023712dfe323",
+      "bytes": 142020
+    },
+    "assets/02_4KB功耗延迟权衡.svg": {
+      "sha256": "5149cb47058357bc17c74f3f9fb870f10b0befa65275265728e3fa05578407d7",
+      "bytes": 104030
+    }
+  },
+  "checks": [
+    "fixed capacity",
+    "valid-only metric scatter",
+    "timeout markers",
+    "no device-stage measurements claimed",
+    "original result unchanged"
+  ]
+}

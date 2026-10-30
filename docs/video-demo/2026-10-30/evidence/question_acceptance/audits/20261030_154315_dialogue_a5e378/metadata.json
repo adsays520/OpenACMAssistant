@@ -1,0 +1,31 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "respond",
+  "topic": "result",
+  "model_used": true,
+  "model_operation": "respond",
+  "fallback_mode": "consult",
+  "resolution": null,
+  "selected_facts": [
+    "result_status",
+    "result_progress",
+    "result_best_mred",
+    "result_best_synthesized_area_um2",
+    "result_path",
+    "result_best",
+    "result_best_parameters",
+    "result_best_sample_count",
+    "result_best_error_count",
+    "result_best_error_rate",
+    "result_best_mae",
+    "result_best_max_absolute_error",
+    "result_best_nmed",
+    "result_best_post_synth_functional_checks",
+    "result_pareto",
+    "result_conditions"
+  ],
+  "executed": false,
+  "final_mode": "consult",
+  "response_complete": true,
+  "execution_started": false
+}

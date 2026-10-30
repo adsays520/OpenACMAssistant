@@ -34,15 +34,20 @@ def architecture_grid(reference, config):
             if c["array_capacity"] <= 65536 and c["cols"] % mu == 0]
 
 
-def bank_metrics(task, params, arch, output_width, area_model):
-    """OpenYield bank model: array SPICE plus analytic periphery, never bank signoff."""
-    raw = json.loads((Path(task) / "metrics.json").read_text())
+def bank_area_estimate(params, arch, area_model):
     rows, cols, arrays = arch["rows"], arch["cols"], arch["num_arrays"]
-    area = area_model.estimate_scaled_array_area(rows, cols, arrays,
+    return area_model.estimate_scaled_array_area(rows, cols, arrays,
         w_access=params["pg_width_nm"] * 1e-9, w_pd=params["pd_width_nm"] * 1e-9,
         w_pu=params["pu_width_nm"] * 1e-9, l_transistor=params["length_nm"] * 1e-9,
         sa_max_width=.54e-6 * params["senseamp_scale"],
         wld_max_width=.27e-6 * params["wordline_scale"], prc_max_width=.27e-6 * params["precharge_scale"]) * 1e12
+
+
+def bank_metrics(task, params, arch, output_width, area_model):
+    """OpenYield bank model: array SPICE plus analytic periphery, never bank signoff."""
+    raw = json.loads((Path(task) / "metrics.json").read_text())
+    rows, cols, arrays = arch["rows"], arch["cols"], arch["num_arrays"]
+    area = bank_area_estimate(params, arch, area_model)
     mux_levels = math.ceil(math.log2(arrays)) if arrays > 1 else 0
     # Ratio-2 column mux is already in the array SPICE; do not count it twice.
     serialization = math.ceil(output_width / (cols // arch["mux_ratio"]))

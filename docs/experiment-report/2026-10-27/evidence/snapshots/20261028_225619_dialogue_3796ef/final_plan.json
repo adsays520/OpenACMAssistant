@@ -1,0 +1,28 @@
+{
+  "intent": "run",
+  "workflow": "multiplier",
+  "parameters": {
+    "bit_width": 8,
+    "kind": "approx",
+    "compressor_id": 8,
+    "samples": 4096,
+    "exhaustive": false,
+    "seed": 42,
+    "backend": "functional",
+    "architecture": "auto"
+  },
+  "constraints": [
+    {
+      "metric": "mred",
+      "op": "le",
+      "value": 0.02
+    }
+  ],
+  "objective": null,
+  "sweep": null,
+  "message": "生成sabetz近似乘法器，采样验证并按实测MRED验收。",
+  "assumptions": [
+    "backend=functional（使用默认值）",
+    "architecture=auto（使用默认值）"
+  ]
+}

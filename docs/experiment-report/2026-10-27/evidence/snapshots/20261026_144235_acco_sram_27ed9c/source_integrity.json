@@ -1,0 +1,7 @@
+{
+  "unchanged": true,
+  "checked_files": 2631,
+  "reference_changes": [],
+  "protection": "Landlock pipeline + nested worker confinement",
+  "openyield_scope": "reused source files in reference_manifest.json"
+}

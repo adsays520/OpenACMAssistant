@@ -73,7 +73,7 @@ def evidence(job):
     status = result["status"]
     plan_path = job / "plan.json"
     plan = json.loads(plan_path.read_text()) if plan_path.exists() else None
-    title = design_text(plan) if plan else "ACCO两级探索" if result.get("kind") == "acco" else "DeepSeek设计空间探索" if result.get("kind") in ["exploration","exploration_suite"] else "全工程参考流程"
+    title = design_text(plan) if plan else "架构搜索对照实验" if result.get("kind") == "search_comparison" else "ACCO两级探索" if result.get("kind") == "acco" else "DeepSeek设计空间探索" if result.get("kind") in ["exploration","exploration_suite"] else "全工程参考流程"
     verdict = STATUS.get(status, status)
     facts["status"] = f"{title}：{verdict}。"
     essential.append("status")
@@ -143,6 +143,12 @@ def evidence(job):
         facts["constraints"] = "要求验收：\n" + "\n".join("  • " + line for line in lines)
     elif batch_path.exists():
         facts["constraints"] = "验收按各候选的实际测量分别判定；最佳项只从已达标候选中选择。"
+    elif result.get("kind") == "search_comparison":
+        trials = result.get("trials", [])
+        facts["comparison"] = f"已记录{len(trials)}/{result.get('planned_trials')}轮，完整完成{sum(t['status']=='completed' for t in trials)}轮；停止原因{result.get('stop_reason', '运行中')}。"
+        facts["comparison_trials"] = "各轮实测：\n" + "\n".join(f"{r['method']}，搜索种子{r['search_seed']}：{r['status']}；架构{r['unique_architectures']}个，实测{r['validation_count']}个、达标{r['measured_feasible']}个，最佳实测PDP={r['best_measured_pdp_fj']}fJ。" for r in trials)
+        facts["scope"] = result.get("implementation_limit", "搜索为预测，入选项单独复核，器件固定。")
+        essential += ["comparison", "comparison_trials", "scope"]
     elif result.get("kind") == "acco":
         facts["stages"] = "两级阶段记录：\n" + "\n".join(f"  • {name}：{stage['status']}，{len(stage['records'])}条；来源{stage['evidence_kind']}" for name, stage in result.get("stages", {}).items())
         best = result.get("best_design")
@@ -237,10 +243,6 @@ def summarize(job, endpoint, model, ui=None, use_model=True):
     selected, recommendation, model_used = fallback_order, alternatives[0], False
     (audit / "evidence.json").write_text(json.dumps({"facts": facts, "essential": essential}, ensure_ascii=False, indent=2) + "\n")
     if use_model:
-        if ui:
-            ui.status("仿真结果已就绪，DeepSeek 正在整理总结…")
-        else:
-            print("仿真结果已就绪，DeepSeek 正在整理总结…", flush=True)
         schema = {"type": "object", "additionalProperties": False, "properties": {
             "highlights": {"type": "array", "minItems": 1, "maxItems": len(facts),
                            "items": {"type": "string", "enum": list(facts)}},

@@ -80,6 +80,12 @@ def main():
                 assert output["mode"] == "consult" and not output["model_used"]
                 assert "五类" in output["text"] and "invented_success" not in output["text"]
             with patch("conversation.urllib.request.build_opener") as opener:
+                opener.return_value.open.return_value = io.StringIO(json.dumps({"message": {"content": json.dumps({
+                    "operation": "respond", "message": "<think>内部意图分析</think>已识别为能力咨询。你可以提出具体的电路要求。", "fact_ids": ["capabilities"]})}}))
+                output = answer(assistant, "你能干什么")
+            assert "内部意图分析" not in output["text"] and "已识别" not in output["text"]
+            assert "你可以提出具体的电路要求" in output["text"]
+            with patch("conversation.urllib.request.build_opener") as opener:
                 opener.return_value.open.side_effect = ConnectionError("offline")
                 output = answer(assistant, "你能干什么")
             assert not output["model_used"] and "五类" in output["text"]

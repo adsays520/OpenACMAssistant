@@ -1,0 +1,37 @@
+{
+  "intent": "run",
+  "workflow": "dcim",
+  "parameters": {
+    "bit_width": 16,
+    "rows": 32,
+    "kind": "exact",
+    "compressor_id": 1,
+    "samples": 256,
+    "exhaustive": false,
+    "seed": 42,
+    "backend": "asic",
+    "clock_period_ns": 50,
+    "memory_impl": "auto"
+  },
+  "constraints": [
+    {
+      "metric": "setup_wns_ns",
+      "op": "ge",
+      "value": 0
+    },
+    {
+      "metric": "hold_wns_ns",
+      "op": "ge",
+      "value": 0
+    },
+    {
+      "metric": "route_drc_count",
+      "op": "le",
+      "value": 0
+    }
+  ],
+  "objective": null,
+  "sweep": null,
+  "message": "",
+  "assumptions": []
+}

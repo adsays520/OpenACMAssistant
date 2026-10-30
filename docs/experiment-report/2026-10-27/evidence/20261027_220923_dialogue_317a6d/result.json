@@ -1,0 +1,13 @@
+{
+  "kind": "report_dialogue_collection",
+  "status": "completed",
+  "model": "deepseek-script",
+  "turn_count": 12,
+  "new_eda_tasks": [],
+  "errors": [
+    "URLError(PermissionError(1, 'Operation not permitted'))",
+    "URLError(PermissionError(1, 'Operation not permitted'))"
+  ],
+  "no_mocks": true,
+  "eda_scope": "E1两次RTL与E6完整后端为本轮实际调用；E2/E5为预览和历史结果读取；E3/E4不执行新EDA"
+}

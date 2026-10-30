@@ -1,0 +1,16 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "respond",
+  "topic": "learning",
+  "model_used": true,
+  "model_operation": "respond",
+  "fallback_mode": "consult",
+  "resolution": null,
+  "selected_facts": [
+    "learning"
+  ],
+  "executed": false,
+  "final_mode": "consult",
+  "response_complete": true,
+  "execution_started": false
+}

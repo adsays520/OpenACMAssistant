@@ -1,0 +1,14 @@
+{
+  "topic": "result",
+  "facts": {
+    "result_status": "任务20261030_154501_multiplier_d7b477：完成。",
+    "result_path": "任务及证据目录：/data2/huangjj/OpenACMAssistant/runs/20261030_154501_multiplier_d7b477",
+    "result_sample_count": "sample_count：256。",
+    "result_error_count": "error_count：0。",
+    "result_error_rate": "错误率：0 %。",
+    "result_mae": "平均绝对误差：0。",
+    "result_max_absolute_error": "最大绝对误差：0。",
+    "result_mred": "平均相对误差 MRED：0。",
+    "result_nmed": "归一化平均误差 NMED：0。"
+  }
+}

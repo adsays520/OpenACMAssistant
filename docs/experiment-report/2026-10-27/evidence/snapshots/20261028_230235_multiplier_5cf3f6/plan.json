@@ -1,0 +1,36 @@
+{
+  "intent": "run",
+  "workflow": "multiplier",
+  "parameters": {
+    "bit_width": 8,
+    "kind": "approx",
+    "compressor_id": 8,
+    "samples": 8192,
+    "exhaustive": false,
+    "seed": 42,
+    "backend": "functional",
+    "architecture": "auto",
+    "compressor_ids": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ]
+  },
+  "constraints": [
+    {
+      "metric": "mred",
+      "op": "le",
+      "value": 0.02
+    }
+  ],
+  "objective": null,
+  "sweep": null,
+  "message": "固定种子42采样8192组，重新验证乘法器设计。",
+  "assumptions": []
+}

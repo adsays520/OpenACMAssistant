@@ -1,0 +1,25 @@
+{
+  "interface": "contextual_dialogue",
+  "operation": "respond",
+  "topic": "result",
+  "model_used": true,
+  "model_operation": "respond",
+  "fallback_mode": "consult",
+  "resolution": null,
+  "selected_facts": [
+    "result_status",
+    "result_path",
+    "result_sample_count",
+    "result_error_count",
+    "result_error_rate",
+    "result_mae",
+    "result_max_absolute_error",
+    "result_mred",
+    "result_nmed",
+    "result_constraint_0"
+  ],
+  "executed": false,
+  "final_mode": "consult",
+  "response_complete": true,
+  "execution_started": false
+}

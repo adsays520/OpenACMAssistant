@@ -15,6 +15,8 @@ description: 用连续语言交流驱动OpenACM设计、仿真及ACCO两级探�
 
 研究探索以应用精度约束下的ACCO两级协同优化为主线。SRAM/近似乘法器探索先读[acco.md](references/acco.md)：先架构与入选复核，再固定架构优化器件。SRAM必须有总容量和输出字宽；原16×8局部尺寸循环不代表bank探索。仅原生8/16位使用已有PEA-GNN，预测不替代实测验收。单点/浮点/完整DCiM后端作为相应验证工具；显式局部扫描与旧任务兼容见[exploration.md](references/exploration.md)。
 
+用户要求多方法架构对照时，读[benchmark.md](references/benchmark.md)，使用compare及共同候选池协议；该实验固定器件以比较架构搜索，不启动普通两级任务冒充对照。补充预算、重复次数及评价条件时保留上文，已明确的字段不重复询问。
+
 当你是使用此 skill 的 Codex 时，先读 [model-guide.md](references/model-guide.md)，查阅[详细能力文档](../../docs/OpenACM能力与需求指南.md)以了解支持范围。先切换到助手根目录，优先使用外部执行器：
 
 ```bash
@@ -43,3 +45,9 @@ description: 用连续语言交流驱动OpenACM设计、仿真及ACCO两级探�
 DCiM 默认 backend=functional。要求完整后端时，使用 backend=asic、按尺寸匹配的参考宏和明确时钟周期；流程包含综合、门级差分验证、布局布线、寄生提取、STA、SDF后仿真及VCD活动功耗。必须读取 backend_stages.json 和 setup/hold slack、DRC数量；阶段完成不等于时序与DRC达标。memory_impl=auto使用16×8、32×16、64×32匹配宏，其它尺寸以standard_cells实现存储；实现方式必须明确，不能伪造宏库。参考宏库不会随独立SRAM SPICE尺寸更改而重新表征；不得混称同一经过重新表征的宏。GNN估计不能当SPICE或后端实测；面积公式不能当版图面积。不得调用无预算的内置优化demo或直接运行原目录的eda.sh。
 
 失败任务保留在对应目录；新需求或重试创建新任务，不覆盖上次结果。隔离能力不可用时拒绝执行，不绕过 Landlock 写保护。未经用户进一步指示不升级为任意脚本执行或改写原始内置程序。
+
+## 对话维护与验收
+
+修改对话入口或新增自然语言示例时，按[对话验收](../../docs/对话验收.md)核对用户最终回复及完整计划。将原话和预期字段加入`verification/fixtures/dialogue_examples.json`，用`verification/verify_examples_live.py`调用真实本地模型验收；检查多问题、参数继承、澄清、重启与电路切换，不能用预置正确计划、规则路由通过或合法JSON代替用户层验证。该脚本禁止执行EDA，计划验收通过不代表电路仿真成功。
+
+一轮同时问多个问题时逐项回应；历史任务的指标/范围与功能说明使用不同事实标识，不能相互覆盖。实验配置留在结构化上下文，聊天用自然语言表达。读取`answer.md`应得到工具处理后的最终回复，`dialogue_answer.md`仅是模型选句；异常也要留下明确的最终回答与阶段。未接通的要求说明具体缺口并保留条件，不回落为能力介绍或其它实验。

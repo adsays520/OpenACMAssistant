@@ -263,9 +263,11 @@ def choose_model(options,records,config,endpoint,model,audit,timeout,persistent=
     best,_=ranking(records,config["objectives"])
     if best:
         best={**best,"parameters":brief(best["parameters"])}
+    evidence = config.get("evidence_kind", "measurement")
+    boundary = " 当前历史是PEA-GNN预测，未经过RTL/STA验收；预测可行不等于实测可行。" if evidence == "prediction" else ""
     body={"model":model,"stream":False,"format":schema,"options":{"temperature":0,"num_ctx":8192,"num_predict":220},
           "messages":[{"role":"system","content":"你是OpenACM设计空间探索工程师。根据实测反馈选择下一项尚未运行的设计。先满足约束，再优化objectives第一项；兼顾其余目标，探索不同架构和参数组合。失败点不能当优胜者。menu内候选尚未在本轮实测，reason只能说明待验证的选择依据，不能说候选已达标或已有本地测量。仅返回菜单candidate_index和简短中文reason，不生成程序、不编造仿真结果。" + PUBLIC_DATA_POLICY},
-                      {"role":"user","content":json.dumps({"constraints":config["plan"]["constraints"],"objectives":config["objectives"],"best_measured":best,"recent_measured":history,"persistent_experience":compact_context(persistent) if persistent else None,"public_dataset_reference":public,"menu":[{"candidate_index":i,"parameters":brief(o["parameters"])} for i,o in enumerate(options)]},ensure_ascii=False)}]}
+                      {"role":"user","content":json.dumps({"evidence_kind":evidence,"evidence_boundary":boundary,"constraints":config["plan"]["constraints"],"objectives":config["objectives"],"best_measured":best,"recent_measured":history,"persistent_experience":compact_context(persistent) if persistent else None,"public_dataset_reference":public,"menu":[{"candidate_index":i,"parameters":brief(o["parameters"])} for i,o in enumerate(options)]},ensure_ascii=False)}]}
     json_write(audit/"request.json",body)
     client=urllib.request.build_opener(urllib.request.ProxyHandler({}))
     request=urllib.request.Request(endpoint+"/api/chat",data=json.dumps(body).encode(),headers={"Content-Type":"application/json"})
@@ -436,11 +438,15 @@ def run_exploration(root,source,config,runner,manifest,endpoint,model,budget=64,
 
 
 def is_exploration(text):
-    return bool(re.search(r"设计空间|探索|架构优化|\bloop\b|\bdse\b|跑.*最优|优化.*(?:候选|轮|次)",text,re.I))
+    return bool(re.search(r"设计空间|探索|器件复验|架构(?:优化|搜索|寻优)|参数搜索|\bloop\b|\bdse\b|跑.*最优|优化.*(?:候选|轮|次)",text,re.I))
 
 
 def explore_command(api,request="",workflow=None,budget=64,max_seconds=7200,use_model=True,spec_path=None,resume=None,previous=None,legacy=False):
     """CLI/chat routing; model still makes the sequential, feedback-based choices."""
+    from acco_spec import is_search_comparison
+    if is_search_comparison(request):
+        from benchmark import command
+        return command(api, request, spec_path, previous=previous)
     if resume:
         config=json.loads((Path(resume)/"config.json").read_text())
         if config.get("schema_version") == 1 and "budgets" in config:

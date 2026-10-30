@@ -1,0 +1,10 @@
+{
+  "kind": "example_acceptance",
+  "status": "completed",
+  "model": "deepseek-script",
+  "fixture_sha256": "01497ff4627604c6c24328d2bc5e8351a6d62a7d8e3b3afcee060fdecc1ddf6c",
+  "passed": 27,
+  "total": 27,
+  "eda_started": false,
+  "scope": "真实对话与规划模型；执行器禁止调用；不代表实际电路仿真通过"
+}

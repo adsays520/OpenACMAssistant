@@ -1,0 +1,124 @@
+{
+  "workflow": "sram",
+  "experiment_mode": "sram_device_retest",
+  "plan": {
+    "intent": "run",
+    "workflow": "sram",
+    "parameters": {
+      "rows": 32,
+      "cols": 32,
+      "vdd_v": 1.0,
+      "temperature_c": 27.0,
+      "corner": "TT",
+      "operations": [
+        "read",
+        "write",
+        "hold_snm",
+        "read_snm",
+        "write_snm"
+      ],
+      "mc_runs": 2,
+      "variation": true,
+      "vth_std": 0.05,
+      "seed": 42,
+      "pu_width_nm": 90.0,
+      "pd_width_nm": 90.0,
+      "pg_width_nm": 135.0,
+      "length_nm": 50.0,
+      "pu_model": "PMOS_VTG",
+      "pd_model": "NMOS_VTG",
+      "pg_model": "NMOS_VTG",
+      "wire_rc": true,
+      "wire_res_ohm": 100.0,
+      "wire_cap_pf": 0.001,
+      "column_mux": false,
+      "full_array": true,
+      "decoder_scale": 1.0,
+      "wordline_scale": 1.0,
+      "precharge_scale": 1.0,
+      "senseamp_scale": 1.0,
+      "write_driver_scale": 1.0,
+      "mux_scale": 1.0
+    },
+    "constraints": [],
+    "objective": null,
+    "sweep": null,
+    "message": "",
+    "assumptions": []
+  },
+  "capacity_bits": 32768,
+  "output_width": 8,
+  "architecture_space": {
+    "rows": [
+      32
+    ],
+    "cols": [
+      32
+    ],
+    "mux_ratio": [
+      1
+    ]
+  },
+  "device_space": {
+    "pd_width_nm": [
+      90.0,
+      135.0,
+      180.0
+    ]
+  },
+  "solvers": {
+    "architecture": "random",
+    "device": "random"
+  },
+  "budgets": {
+    "architecture": 1,
+    "shortlist": 1,
+    "validation": 1,
+    "device_per_parent": 3,
+    "max_seconds": 7200
+  },
+  "robustness": {
+    "cases": [
+      {
+        "corner": "TT",
+        "temperature_c": 27.0,
+        "vdd_v": 1.0
+      },
+      {
+        "corner": "SS",
+        "temperature_c": 85.0,
+        "vdd_v": 0.9
+      },
+      {
+        "corner": "FF",
+        "temperature_c": -40.0,
+        "vdd_v": 1.1
+      }
+    ],
+    "mc_runs": 2,
+    "vth_std": 0.05
+  },
+  "reference_design": {
+    "task": "20261025_143705_acco_sram_324799",
+    "candidate": "architecture/0013",
+    "record_sha256": "40942999587c496f31923bf37167cac6ceb109baffb20bcee31ab0315ad4bfca"
+  },
+  "schema_version": 1,
+  "search_seed": 42,
+  "bank_constraints": [],
+  "architecture_objectives": [
+    {
+      "metric": "fom_arch_estimate",
+      "direction": "max"
+    }
+  ],
+  "device_objectives": [
+    {
+      "metric": "fom_robust_estimate",
+      "direction": "max"
+    }
+  ],
+  "physical_evaluation": {
+    "bank_model": "openyield_hybrid_v1"
+  }
+}

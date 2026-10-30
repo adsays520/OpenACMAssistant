@@ -1,0 +1,15 @@
+{
+  "topic": "result",
+  "facts": {
+    "result_status": "任务20261027_204422_search_comparison_d356cf：incomplete。",
+    "result_path": "任务及证据目录：/data2/huangjj/OpenACMAssistant/runs/20261027_204422_search_comparison_d356cf",
+    "result_sample_count": "sample_count：4096。",
+    "result_error_count": "error_count：4059。",
+    "result_error_rate": "错误率：99.0967 %。",
+    "result_mae": "平均绝对误差：221.518。",
+    "result_max_absolute_error": "最大绝对误差：568。",
+    "result_mred": "平均相对误差 MRED：0.492823。",
+    "result_nmed": "归一化平均误差 NMED：0.00340665。",
+    "result_constraint_0": "验收mred le 0.02：不通过；实际值0.4928234136998939。"
+  }
+}

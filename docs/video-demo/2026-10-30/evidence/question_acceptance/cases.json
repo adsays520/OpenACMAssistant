@@ -1,0 +1,209 @@
+[
+  {
+    "id": "video_20261030_intro",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：开场交流",
+    "turns": [
+      {
+        "text": "你能干什么？",
+        "mode": "consult",
+        "contains": [
+          "仿真",
+          "SRAM"
+        ]
+      },
+      {
+        "text": "8位乘法器有哪些参数？MRED是什么意思？",
+        "mode": "consult",
+        "contains": [
+          "位宽",
+          "压缩器",
+          "MRED",
+          "平均相对误差"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "video_20261030_exact",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：短仿真计划",
+    "turns": [
+      {
+        "text": "做4位精确乘法器，穷举所有输入。",
+        "preview": true,
+        "mode": "plan",
+        "fields": {
+          "workflow": "multiplier",
+          "parameters.bit_width": 4,
+          "parameters.kind": "exact",
+          "parameters.exhaustive": true,
+          "constraints": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "video_20261030_free",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：目标驱动自由探索",
+    "restart": true,
+    "turns": [
+      {
+        "text": "探索8位近似乘法器，采用LLM，预算8个候选，限时10分钟，固定种子42、采样4096组，要求MRED≤0.02，优先减小综合面积。先给我看计划，不执行。",
+        "mode": "plan",
+        "fields": {
+          "workflow": "multiplier",
+          "plan.parameters.bit_width": 8,
+          "plan.parameters.kind": "approx",
+          "plan.parameters.seed": 42,
+          "plan.parameters.samples": 4096,
+          "plan.constraints": [
+            {
+              "metric": "mred",
+              "op": "le",
+              "value": 0.02
+            }
+          ],
+          "budgets.architecture": 8,
+          "budgets.max_seconds": 600,
+          "solvers.architecture": "llm",
+          "solvers.device": "llm",
+          "architecture_objectives": [
+            {
+              "metric": "predicted_area_um2",
+              "direction": "min"
+            }
+          ]
+        }
+      },
+      {
+        "text": "这个计划是否已经达标？",
+        "mode": "consult",
+        "contains": [
+          "还未",
+          "仿真"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "video_20261030_history",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：历史探索结果与连续追问",
+    "turns": [
+      {
+        "text": "总结任务20261011_140055_explore_multiplier_fdabd4的探索结果：执行了多少个候选，最佳达标项的MRED和综合面积是多少？",
+        "mode": "consult",
+        "contains": [
+          "128",
+          "291.802",
+          "MRED",
+          "42",
+          "4096"
+        ],
+        "excludes": [
+          "result_empty",
+          "暂无完整结果"
+        ]
+      },
+      {
+        "text": "之前这些探索数值可以做什么？先不要启动新实验。",
+        "mode": "consult",
+        "contains": [
+          "Pareto",
+          "复测",
+          "训练",
+          "291.802"
+        ],
+        "excludes": [
+          "请指定电路",
+          "我可以回答OpenACM能力"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "video_20261030_memory",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：持久经验",
+    "turns": [
+      {
+        "text": "经验库怎样记录和利用设计结果？会自动训练模型权重吗？",
+        "mode": "consult",
+        "contains": [
+          "配置",
+          "指标",
+          "失败",
+          "检索",
+          "不更新模型权重"
+        ],
+        "excludes": [
+          "已训练",
+          "自动更新了权重"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "video_20261030_bank",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：容量约束与两级SRAM",
+    "restart": true,
+    "turns": [
+      {
+        "text": "探索SRAM，总容量4KB，输出字宽8位，架构用LLM，器件用随机，预算4个候选，限时10分钟。先给我看计划，不执行。",
+        "mode": "plan",
+        "fields": {
+          "workflow": "sram",
+          "capacity_bits": 32768,
+          "output_width": 8,
+          "budgets.architecture": 4,
+          "budgets.max_seconds": 600,
+          "solvers.architecture": "llm",
+          "solvers.device": "random",
+          "plan.constraints": []
+        }
+      },
+      {
+        "text": "这里的bank是什么意思？",
+        "mode": "consult",
+        "contains": [
+          "存储",
+          "子阵列"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "video_20261030_backend",
+    "source": "docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md：参考DCiM后端",
+    "turns": [
+      {
+        "text": "做16×8精确DCiM全流程，穷举乘法输入，时钟周期10ns，要求setup slack不低于0ns、hold slack不低于0ns、布线DRC不超过0。",
+        "preview": true,
+        "mode": "plan",
+        "fields": {
+          "workflow": "dcim",
+          "parameters.rows": 16,
+          "parameters.bit_width": 8,
+          "parameters.kind": "exact",
+          "parameters.exhaustive": true,
+          "parameters.backend": "asic",
+          "parameters.clock_period_ns": 10.0,
+          "constraints": [
+            {
+              "metric": "setup_wns_ns",
+              "op": "ge",
+              "value": 0.0
+            },
+            {
+              "metric": "hold_wns_ns",
+              "op": "ge",
+              "value": 0.0
+            },
+            {
+              "metric": "route_drc_count",
+              "op": "le",
+              "value": 0.0
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

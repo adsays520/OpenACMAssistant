@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "metrics": {
+    "sample_count": 256,
+    "error_count": 0,
+    "error_rate": 0.0,
+    "mae": 0.0,
+    "max_absolute_error": 0,
+    "mred": 0.0,
+    "nmed": 0.0,
+    "architecture": "tiled_8bit"
+  },
+  "elapsed_s": 0.215,
+  "constraints": []
+}

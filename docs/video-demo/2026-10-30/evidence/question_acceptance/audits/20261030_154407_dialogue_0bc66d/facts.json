@@ -1,0 +1,8 @@
+{
+  "topic": "organization",
+  "facts": {
+    "bank_definition": "bank是一个存储块，由若干子阵列及片选、译码、复用等外围组成。这里一个子阵列的行×列决定它保存多少bit；整个bank的容量还要乘子阵列数。",
+    "bank_capacity": "总容量=行数×列数×子阵列数。例如32行×32列×32个子阵列=32768bit，即4KB；输出字宽是一次对外提供的数据位数，不等于总容量或子阵列列数。",
+    "bank_evaluation": "本助手用单阵列SPICE结果和明确的外围模型估算bank延迟、功耗与面积；这些估算不能当作完整bank版图或全bank SPICE实测。"
+  }
+}

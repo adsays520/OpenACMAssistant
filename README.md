@@ -6,6 +6,8 @@
 
 研究探索采用 **ACCO 两级流程**：在精度/容量约束下搜索架构，复核入选项，再固定架构优化器件。SRAM先确定bank组织，再执行器件与明确PVT/Monte Carlo；近似乘法器先用原8/16位PEA-GNN筛选，再以RTL、综合、STA活动功耗及单元真值复核。LLM、随机和原NSGA-II是可选策略。流程与边界见[两级探索](skills/openacm-design/references/acco.md)。
 
+固定bank组织的器件复验使用[SRAM复验模式](skills/openacm-design/references/sram-retest.md)：锁定容量/行列/子阵列/复用比，逐尺寸逐PVT运行，并保留同条件基线、原始样本和失败记录。不会将32768bit容量当成乘法器位宽或继承旧乘法器对照任务。
+
 ## 安装
 
 需要 Python 3.10+、Linux x86_64、Landlock ABI≥3，以及单独准备的 OpenACM 源目录和 EDA 工具。此仓库不包含 OpenACM 源码、模型权重或商业工具。
@@ -42,9 +44,21 @@ ACCO附加CPU依赖：`.venv/bin/pip install -r requirements.acco.lock.txt`。SR
 
 `/plan 需求`只查看计划，`/new`清除上下文，`/exit`退出。启动界面提供 OPENACM 字符画及 `neon/ocean/sunset/mono` 主题；使用 `/theme ocean` 切换，`NO_COLOR=1` 禁用颜色。
 
+聊天只呈现自然回复、缺项问题、可读计划、真实运行进度和结果；不打印意图识别、需求解析或模型思考过程。原始模型回复与结构化配置保留在任务审计文件，chat的计划预览用自然语言展示，CLI的`--plan-only`仍可输出JSON。
+
+每轮`answer.md`记录工具处理后的最终回复，计划另存`final_plan.json`；模型中间选句单独保存在`dialogue_answer.md`。更新代码后需要退出旧chat并重新启动，本地会话可恢复。
+
+直接粘贴测试条件也会保存，即使没有“做/运行”等动词。若缺电路类型或位宽，只问这一项；后续补齐时沿用已给采样、种子、负载与预算。chat将当前对话保存到本地`conversations/current.json`，退出重启后可继续；`/new`清空对话上下文，已有任务和经验保留。`ask`仍为独立请求，不自动采用其它聊天的设计。
+
 交流使用统一的上下文：DeepSeek同时看到当前问题、聊天记录、设计草案和历史实测，一轮可以解释、提出建议并调用参数/仿真工具。例如“之前探索的数值可以做什麽”会结合历史探索说明比较筛选、Pareto权衡、复测、继续优化与训练数据用途；随后可以说“解释刚才最佳配置，然后复测，改为穷举”。运行工具仍校验明确要求和参数，不因话里出现“探索”就启动循环。历史任务可通过名称指定，未指定时读取匹配的最近真实任务，跳过验证/对话审计目录。
 
 `/plan`或“先给我看计划”保存草案，随后“开始运行”直接执行；“其余不变，只改…”保留设计条件和验收约束。结果追问读取实测与日志，草案不能被称为已达标。模型连接或回复无效时回退到本地事实并保留上下文。CLI也可用`ask '你能干什么'`。详见[对话参考](skills/openacm-design/references/conversation-guide.md)。
+
+“开展/进行/启动…架构搜索”会被识别为任务要求；“如何开展”“先不要运行”仍是咨询。8/16位近似乘法器架构对照已提供共同候选池、独立搜索种子和批量执行：先说对照对象，补充每轮预算及重复次数，即可生成实验。详见[架构搜索对照](docs/架构搜索对照实验.md)。经验开关消融尚未接入，不与已支持的方法对照混称。可明确说“改成单次探索…”转为普通ACCO。
+
+按参赛论点组织的[实验1至6可复制输入](docs/experiment-plan/2026-10-27/实验1至6_可复制输入.md)包含逐轮文本、完整任务书、预期证据与当前执行范围。
+
+新版[参赛视频拍摄流程](docs/video-demo/2026-10-30/新版参赛视频拍摄流程.md)突出自由探索，附6分钟分镜、解说、可复制输入与素材索引；拍摄问句已完成真实模型验收，并实际验证4位精确乘法器短流程。
 
 DeepSeek 整理需求和总结重点；实际数字、验收和最佳候选由执行器依据测量填写。无效或截断的计划自动重试一次；仍无效时停止执行。总结服务不可用时直接输出实测总结。
 
@@ -54,6 +68,8 @@ DeepSeek 整理需求和总结重点；实际数字、验收和最佳候选由�
 ./openacm-assistant.sh acco --spec examples/acco-sram-smoke.json --plan-only
 ./openacm-assistant.sh acco --spec examples/acco-sram-4kb.json
 ./openacm-assistant.sh acco --spec examples/acco-multiplier-smoke.json
+./openacm-assistant.sh compare --spec examples/compare-multiplier-8bit.json --plan-only
+./openacm-assistant.sh compare --spec examples/compare-multiplier-smoke.json
 ./openacm-assistant.sh ask '做8位精确乘法器，穷举所有输入'
 ./openacm-assistant.sh run examples/dcim-full.json
 ./openacm-assistant.sh summarize runs/<任务目录>
@@ -108,10 +124,19 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_exploration.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_experience.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_public_dataset.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_dialogue.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_response_contract.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_chat_output.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_search_intent.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_benchmark.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_benchmark_methods.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_requirements_continuation.py
+PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_sram_retest.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_acco.py
 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python verification/check_sizes.py --all-widths
 ```
 
 前四项覆盖输入校验、真实 Landlock 隔离、计划重试、结果总结、探索续跑及浮点参考；其中结果总结和计划重试使用仓库附带的小型夹具，基本回归不要求安装 EDA 或部署 DeepSeek。check_acco需要可读的原OpenACM/OpenYield代码，用于核对架构构造器和原NSGA-II的小种群行为，不启动EDA。尺寸验证需要本机 EDA/OpenACM 环境，失败尺寸也会保留记录。本次两级实测范围见[验证记录](docs/验证记录.md#2026-10-25论文方向校正与acco两级探索)。完整仿真目录、虚拟环境、模型和私密配置不进入 Git。
+
+真实本地模型的文档示例验收：`.venv/bin/python -B verification/verify_examples_live.py`。这项检查逐轮核对自然回复和完整计划，包含重启、补充条件及切换电路，禁止执行EDA。范围、记录和单场景复查方法见[对话验收](docs/对话验收.md)。
 
 领域 skill：[openacm-design](skills/openacm-design/SKILL.md)。DeepSeek 入口直接读取该 skill 和参数参考，不要求模型原生支持 skill/tool calling。

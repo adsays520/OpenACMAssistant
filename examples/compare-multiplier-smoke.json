@@ -1,0 +1,102 @@
+{
+  "kind": "search_comparison",
+  "experiment": {
+    "workflow": "multiplier",
+    "plan": {
+      "intent": "run",
+      "workflow": "multiplier",
+      "parameters": {
+        "bit_width": 8,
+        "kind": "approx",
+        "compressor_id": 7,
+        "samples": 4096,
+        "exhaustive": false,
+        "seed": 42,
+        "backend": "synthesis",
+        "architecture": "native"
+      },
+      "constraints": [
+        {
+          "metric": "mred",
+          "op": "le",
+          "value": 0.02
+        }
+      ],
+      "objective": {
+        "metric": "pdp_fj",
+        "direction": "min"
+      },
+      "sweep": null,
+      "message": "",
+      "assumptions": []
+    },
+    "physical_evaluation": {
+      "clock_period_ns": 5.0,
+      "output_load_ff": 10.0
+    },
+    "schema_version": 1,
+    "search_seed": 42,
+    "budgets": {
+      "architecture": 64,
+      "shortlist": 3,
+      "validation": 3,
+      "device_per_parent": 8,
+      "max_seconds": 7200
+    },
+    "solvers": {
+      "architecture": "llm",
+      "device": "llm"
+    },
+    "architecture_space": {
+      "compressor_types": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    "device_space": {
+      "width_scale": [
+        0.8,
+        1,
+        1.2
+      ]
+    },
+    "architecture_objectives": [
+      {
+        "metric": "predicted_pdp_fj",
+        "direction": "min"
+      }
+    ],
+    "device_objectives": [
+      {
+        "metric": "pdp_fj",
+        "direction": "min"
+      },
+      {
+        "metric": "estimated_area_um2",
+        "direction": "min"
+      }
+    ]
+  },
+  "candidate_budget": 3,
+  "search_seeds": [
+    1
+  ],
+  "request": "三方法小预算工程验证，不作为正式对照优劣证据；其余测试/物理条件与正式组一致。",
+  "schema_version": 1,
+  "methods": [
+    "random",
+    "nsga2",
+    "llm"
+  ],
+  "pool_seed": 1729,
+  "validation_top_k": 1,
+  "trial_max_seconds": 240,
+  "max_seconds": 900,
+  "pool_size": 32
+}

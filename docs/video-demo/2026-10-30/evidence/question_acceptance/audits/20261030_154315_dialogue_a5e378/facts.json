@@ -1,0 +1,21 @@
+{
+  "topic": "result",
+  "facts": {
+    "result_status": "任务20261011_140055_explore_multiplier_fdabd4：完成。",
+    "result_path": "任务及证据目录：/data2/huangjj/OpenACMAssistant/runs/20261011_140055_explore_multiplier_fdabd4",
+    "result_progress": "已执行128个候选，预算128；停止原因candidate_budget。",
+    "result_best": "本次已测候选中的最佳达标项：6。有限探索不证明全局最优。",
+    "result_best_parameters": "最佳已测配置：8 位近似乘法器，固定种子采样验证。验证输入：4096组采样，测试种子42。 评价流程：RTL验证与综合。 压缩器：所有近似位置使用akbar2。 架构：按尺寸自动选择。",
+    "result_best_sample_count": "最佳候选sample_count：4096。",
+    "result_best_error_count": "最佳候选error_count：2674。",
+    "result_best_error_rate": "最佳候选错误率：65.2832 %。",
+    "result_best_mae": "最佳候选平均绝对误差：89.1582。",
+    "result_best_max_absolute_error": "最佳候选最大绝对误差：784。",
+    "result_best_mred": "最佳候选平均相对误差 MRED：0.013639。",
+    "result_best_nmed": "最佳候选归一化平均误差 NMED：0.00137114。",
+    "result_best_synthesized_area_um2": "最佳候选Nangate45综合映射面积：291.802 µm²。",
+    "result_best_post_synth_functional_checks": "最佳候选post_synth_functional_checks：4096。",
+    "result_pareto": "本次原约束下保存的Pareto候选：[6, 11, 58, 25, 2, 1]；权衡仅适用于该任务的指标和评价条件。",
+    "result_conditions": "本次探索的评价配置与验收条件：8 位近似乘法器，固定种子采样验证。验证输入：4096组采样，测试种子42。 评价流程：RTL验证与综合。 压缩器：所有近似位置使用ACCI1。 架构：按尺寸自动选择。验收要求：平均相对误差 MRED：0.02及以下。"
+  }
+}

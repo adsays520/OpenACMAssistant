@@ -1,0 +1,10 @@
+﻿pd_width_nm,corner,pvt_status,array_read_delay_ns,array_read_power_uw,array_write_delay_ns,read_snm_v
+90,TT,failed,0.5486925399999999,219.3586,,
+90,SS,failed,1.0473171,176.1911,,
+90,FF,failed,0.30939511000000003,280.2343,,
+135,TT,failed,0.50248074,219.7825,,
+135,SS,failed,0.9425156,176.8004,,
+135,FF,failed,0.28668664,280.0529,,
+180,TT,failed,0.48247493999999996,220.44680000000002,,
+180,SS,failed,0.8953774000000001,177.47379999999998,,
+180,FF,failed,0.27770647,280.9828,,

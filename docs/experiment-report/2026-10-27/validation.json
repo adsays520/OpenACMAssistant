@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "dialogue_count": 12,
+  "real_model_turns": 12,
+  "new_jobs": [
+    {
+      "task": "20261028_225710_multiplier_08fe9b",
+      "status": "infeasible"
+    },
+    {
+      "task": "20261028_230027_dcim_0026b3",
+      "status": "completed"
+    },
+    {
+      "task": "20261028_230235_multiplier_5cf3f6",
+      "status": "infeasible"
+    }
+  ],
+  "paragraphs": 200,
+  "tables": 13,
+  "embedded_figures": 7,
+  "reply_verbatim": true,
+  "source_hashes_passed": 22,
+  "docx_bytes": 782541,
+  "docx_sha256": "baf777364e3a85f3920845d3ba40e9841b10e28c668970755aca484ae7155c15",
+  "pdf_render_verified": false
+}

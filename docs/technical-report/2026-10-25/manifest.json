@@ -1,0 +1,95 @@
+{
+  "report_baseline": "8566e1ac9eff28dc668404e10480ef2ac664a70b",
+  "generated_at": "2026-10-25T14:50:29.190024+08:00",
+  "figures": 4,
+  "tables": 11,
+  "sram_relative_changes_percent": {
+    "min_snm_v": 8.981851065280333,
+    "bank_read_delay_ns_estimate": -1.8043179044752167,
+    "bank_read_power_uw_estimate": 0.4453772451999738
+  },
+  "files": {
+    "evidence_snapshot.json": {
+      "sha256": "8877b0d042d1b8ca0802f52f7a927efc7ef185bb4d299af6eac0e9ba83e45bb4",
+      "bytes": 89300
+    },
+    "requirements-report.txt": {
+      "sha256": "c734f58cfa80b86520279759e067fb6db09181afad1a7aa6571e24ee3770dbec",
+      "bytes": 132
+    },
+    ".gitignore": {
+      "sha256": "6cf68f361ed9af9c89f8304b81604d87347c3d38348e90f1e5bef55ea8fa99a5",
+      "bytes": 26
+    },
+    "OpenACMAssistant_技术报告.md": {
+      "sha256": "e337e91c36542e48ef7bd1e6bf63ecb0c1c890a557924b218400d568ae10877d",
+      "bytes": 36494
+    },
+    "OpenACMAssistant_技术报告.docx": {
+      "sha256": "dc6be3b0e9807a0b02dd943002604ce3588aa67b41fe1137c6468c6e87f4e776",
+      "bytes": 602272
+    },
+    "README.md": {
+      "sha256": "0be53f1368f9a86fa6c204808856b5682ee7609e33739170205955153bbe13cf",
+      "bytes": 2397
+    },
+    "OpenACMAssistant_技术报告.pdf": {
+      "sha256": "7708ab89333f00da7164a5580ad91fdbf3c45fcf1f9d26c77e77df7989aff3a4",
+      "bytes": 947546
+    },
+    "tools/build_report.py": {
+      "sha256": "109c238f520344c3a1e027da1cf45e922c977d2ac688031cea790d33edbf511d",
+      "bytes": 21766
+    },
+    "assets/sram_tradeoff.png": {
+      "sha256": "f927e8cb1d9853fa6234e4ae2fb6fdaef0ac3cbaf00955784b94559c2f9fca51",
+      "bytes": 84828
+    },
+    "assets/kernel_stack.png": {
+      "sha256": "51b1c6d04aa63508154ff350e8a1f5cf2670582409e1595c272e3301c59b1be1",
+      "bytes": 151861
+    },
+    "assets/two_level_flow.svg": {
+      "sha256": "0a77f8244401d59919ea4c8dae71099ea7eb5bcdba2595c2ae1f63e541862402",
+      "bytes": 132540
+    },
+    "assets/sram_tradeoff.svg": {
+      "sha256": "9e888e243c85a24d8341d8fe6073c9f6e818ebf1b697505dcb7f3a5479adb3c5",
+      "bytes": 62280
+    },
+    "assets/system_architecture.svg": {
+      "sha256": "4d8b148079cd2908ec113aa4abf1618e68e9329f0967d41b301dedafddcc9b8c",
+      "bytes": 111486
+    },
+    "assets/two_level_flow.png": {
+      "sha256": "6c2979d7721dea493e2fed58cbf199cffb04e9c5615aaa3cbc5b2f3ff1e7e2c9",
+      "bytes": 205466
+    },
+    "assets/kernel_stack.svg": {
+      "sha256": "9491241ee251817d694473771362068f58507c75f8cc1f451fd8fac540f4b815",
+      "bytes": 110896
+    },
+    "assets/sram_tradeoff.csv": {
+      "sha256": "a1eb76f139bef0fc383cd69fb5ae7c466e0a5c9543c110605dfc9a1fdf24b9fa",
+      "bytes": 168
+    },
+    "assets/system_architecture.png": {
+      "sha256": "91154118887804f6f9188fe3a69313e0b214c2115510678aac279367b6ea49d2",
+      "bytes": 154814
+    }
+  },
+  "checks": [
+    "original task integrity",
+    "expected completed/infeasible states",
+    "real model choice and summary",
+    "PDP constraint rejection",
+    "reported values",
+    "all embedded figures",
+    "docx paragraph and table structure",
+    "PDF all chapters present",
+    "PDF no empty pages or replacement glyphs",
+    "PDF key numeric values"
+  ],
+  "status": "passed",
+  "pdf_pages": 19
+}

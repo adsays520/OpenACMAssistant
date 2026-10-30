@@ -1,0 +1,12 @@
+{
+  "topic": "metrics",
+  "facts": {
+    "metric_scope": "采样误差只对本次测试集合成立；用固定samples/seed比较候选。综合面积、路由面积与SRAM估算面积分别记录；缺测延迟/功耗不能填0或当已达标。",
+    "slack": "setup/hold slack分别检查建立/保持时序，≥0才无对应违例；后端完成不等于时序和DRC都达标。",
+    "parameters": "DCiM可以设置行数、乘法位宽与类型、压缩器分配、存储实现、测试输入和种子、后端流程与时钟周期。",
+    "integer_scope": "整数乘法器/DCiM位宽支持4–64；auto/native/tiled架构，4位及大于32位近似通常采用8位分块。Log仅8/16/32位；穷举仅4–8位，较大位宽采用固定种子采样。",
+    "compressors": "逐位置压缩器ID：1=ACCI1、2=kong2、3=antonio、4=momeni、5=ha、6=akbar1、7=akbar2、8=sabetz；8位native为9个位置、16位native为49个。全部同种用compressor_id，混合分配用compressor_ids。",
+    "digital_flow": "functional验证RTL功能/误差；synthesis还测Nangate45综合面积并做门级对照。完整ASIC流程通过DCiM backend=asic执行，不把综合当布局布线完成。",
+    "dcim_scope": "DCiM自动选择16×8/32×16/64×32匹配SRAM宏，其它尺寸可用standard_cells；完整后端包含综合、布局布线、寄生提取、STA、SDF后仿真和活动功耗。时序、DRC和功能按实测分别验收。"
+  }
+}

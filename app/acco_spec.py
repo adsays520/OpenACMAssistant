@@ -21,6 +21,20 @@ class NeedsExperiment(ValueError):
     """Missing experiment specifications can be supplied in the same conversation."""
 
 
+COMPARISON_LIMIT = "多方法架构对照应使用compare入口及search_comparison规格，不能转换成一次普通ACCO；经验消融尚未接通。"
+
+
+def is_search_comparison(text):
+    return bool(re.search(r"对照实验|对比实验|消融实验|对照试验|对比试验|消融试验|"
+                          r"(?:对照|对比|比较).{0,16}(?:搜索算法|搜索策略|探索策略|LLM|NSGA|随机搜索)|"
+                          r"(?:多算法|多种算法|不同算法).{0,16}(?:对照|对比|比较)", text, re.I))
+
+
+def require_single_search(text):
+    if is_search_comparison(text):
+        raise NeedsExperiment(COMPARISON_LIMIT)
+
+
 def integer(value, name, lo=1, hi=10000):
     if type(value) is not int or not lo <= value <= hi:
         raise ValueError(f"{name}必须是{lo}–{hi}的整数")
@@ -40,18 +54,26 @@ def objectives(items, allowed):
 def validate_acco(raw):
     allowed = {"schema_version", "workflow", "plan", "capacity_bits", "output_width", "architecture_space",
                "device_space", "budgets", "solvers", "robustness", "architecture_objectives", "device_objectives",
-               "bank_constraints", "physical_evaluation"}
+               "bank_constraints", "physical_evaluation", "search_seed", "experiment_mode", "reference_design"}
     if not isinstance(raw, dict) or set(raw) - allowed or raw.get("schema_version", 1) != 1:
         raise ValueError("ACCO实验格式无效或含未知字段")
     config = copy.deepcopy(raw)
     wf = config.get("workflow")
     if wf not in ("sram", "multiplier"):
         raise ValueError("ACCO两级入口支持sram/multiplier；其它工作流保留独立验证入口")
+    mode = config.get("experiment_mode", "two_level")
+    if mode not in ("two_level", "sram_device_retest") or (mode == "sram_device_retest" and wf != "sram"):
+        raise ValueError("实验模式需为two_level或SRAM固定组织器件复验")
+    if "reference_design" in config:
+        r = config["reference_design"]
+        if not isinstance(r, dict) or set(r) != {"task", "candidate", "record_sha256"} or any(not isinstance(v, str) for v in r.values()):
+            raise ValueError("历史引用需包含任务名、候选名和记录哈希")
     config["schema_version"] = 1
     plan = validate(config.get("plan", {"workflow": wf, "parameters": {}}))
     if plan["intent"] != "run" or plan["workflow"] != wf or plan["sweep"]:
         raise ValueError("ACCO基线需为同一电路、无sweep的run计划")
     config["plan"] = plan
+    config["search_seed"] = integer(config.get("search_seed", plan["parameters"]["seed"]), "search_seed", 0, 2147483647)
     p = plan["parameters"]
     config.setdefault("budgets", {})
     defaults = {"architecture": 64, "shortlist": 3, "validation": 3, "device_per_parent": 8, "max_seconds": 7200}
@@ -111,6 +133,14 @@ def validate_acco(raw):
         config["physical_evaluation"] = {"bank_model": "openyield_hybrid_v1", **config.get("physical_evaluation", {})}
         if config["physical_evaluation"] != {"bank_model": "openyield_hybrid_v1"}:
             raise ValueError("当前bank评价为单阵列SPICE加OpenYield外围/面积估算，不能指定虚假的全bank实测")
+        if mode == "sram_device_retest":
+            if any(len(v) != 1 for v in grid.values()) or config["budgets"]["architecture"] != 1:
+                raise ValueError("器件复验必须锁定单个组织，架构预算为1")
+            if config["budgets"]["shortlist"] != 1:
+                raise ValueError("固定组织复验只有一个父架构")
+            if (any(p[k] not in v for k, v in config["device_space"].items())
+                    or config["budgets"]["device_per_parent"] != math.prod(len(set(v)) for v in config["device_space"].values())):
+                raise ValueError("复验域必须包含基线，器件预算须等于明确候选总数")
     else:
         if p["bit_width"] not in (8, 16) or p["kind"] != "approx" or p["architecture"] == "tiled":
             raise ValueError("原PEA-GNN仅支持8/16位原生近似压缩树，其它尺寸不能外推")
@@ -144,6 +174,7 @@ def request_is_acco(text):
 
 
 def from_request(text, plan, budget=64, seconds=7200, solver="llm"):
+    require_single_search(text)
     from bindings import explicit_parameters
     count = re.search(r"(?:预算|最多|跑|探索)\s*(\d+)\s*(?:个候选|个配置|轮|次)", text)
     if count:

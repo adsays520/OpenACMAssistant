@@ -1,0 +1,401 @@
+{
+  "date": "2026-10-30",
+  "model": "deepseek-script",
+  "question_validation": {
+    "run": "runs/20261030_154208_example_acceptance_a29e70",
+    "passed": 11,
+    "total": 11,
+    "eda_started": false
+  },
+  "short_flow": {
+    "run": "runs/20261030_154439_video_short_flow_62c540",
+    "passed": 3,
+    "total": 3,
+    "actual_task": "runs/20261030_154501_multiplier_d7b477",
+    "sample_count": 256,
+    "error_count": 0
+  },
+  "attempts": [
+    {
+      "run": "runs/20261030_152811_example_acceptance_41b9dd",
+      "passed": 5,
+      "total": 11
+    },
+    {
+      "run": "runs/20261030_153539_example_acceptance_a4ab8b",
+      "passed": 10,
+      "total": 11
+    },
+    {
+      "run": "runs/20261030_154208_example_acceptance_a29e70",
+      "passed": 11,
+      "total": 11
+    }
+  ],
+  "scope": "拍摄问句及计划检查＋4位精确RTL短流程；未重跑8候选长探索、4KB bank探索或完整DCiM后端。历史图表分别取自已完成的真实任务。",
+  "original_source_unchanged": true,
+  "files": [
+    {
+      "path": "assets/E5_64bit_tradeoffs.png",
+      "sha256": "febb1009d144ddf9c4a8c869a07c98bf43fa37f8100220c9acb01ae5d62654fc"
+    },
+    {
+      "path": "assets/E6_routed_def_view.png",
+      "sha256": "25dd5382aa91fc04f898a922ad075bf40f47b86c7a3bbe2028741b0084dce705"
+    },
+    {
+      "path": "assets/free_exploration_loop.png",
+      "sha256": "20e0a0f9c38358fc697a82f1deb67e99dc4a533371c66eb23f903004aae57ca0"
+    },
+    {
+      "path": "assets/free_exploration_loop.svg",
+      "sha256": "6d6e2e3f7be9bf1b3126babac80c0066f06718f80ce5764b8aec15a89240948b"
+    },
+    {
+      "path": "assets/free_exploration_results.png",
+      "sha256": "2e769da3e52821c6ba3d1bb8c038fa64e6e2ab02e4679d4e5b318b0d4c39785a"
+    },
+    {
+      "path": "assets/free_exploration_results.svg",
+      "sha256": "8e28b16502eb491384a468902b4ed4412b1a5fc7ffac0394d617d56312ddc06c"
+    },
+    {
+      "path": "evidence/existing_examples/cases.json",
+      "sha256": "596f85d33c2cfcf8378878a7eb0ae12f3830b8f8993bf693389a44938ac89094"
+    },
+    {
+      "path": "evidence/existing_examples/report.md",
+      "sha256": "367d7184cef7130aa8272d7d409ae9a17b4b32e04f61ced2ef5984af642a3cfa"
+    },
+    {
+      "path": "evidence/existing_examples/result.json",
+      "sha256": "5ea5da8e583f6ec5f6d1d533e5143ccab239ba9296b2e31c5a1f195ee5c80498"
+    },
+    {
+      "path": "evidence/existing_examples/source_integrity.json",
+      "sha256": "b602e061e084018b128e440c05db9dc887c06473b89cfdc14eaba409b0004409"
+    },
+    {
+      "path": "evidence/existing_examples/turns.json",
+      "sha256": "bc89bf2e0cddb196fea95a1abbfd6b142a3fbd3d95954342ac134926cf9378d6"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154209_dialogue_5db1a6/answer.md",
+      "sha256": "d5c832735c392aa31bef970e97661ab1e5b07542a7b28f763e77d542c8235f0c"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154209_dialogue_5db1a6/facts.json",
+      "sha256": "eb8dcf7132c2d9ba355e1a00a22b1b3d809b5ffccc4204a91317ea63e2d9c4de"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154209_dialogue_5db1a6/metadata.json",
+      "sha256": "6dbee67a0346c16baf5a75da6cf053f4b6cb09c62d37c35dc095418bb3ea7460"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154216_dialogue_153b23/answer.md",
+      "sha256": "821e52156dde49da268ba5b3e30b4f61b44ab2e2a0bb2fd918bb88143eb5c8d3"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154216_dialogue_153b23/facts.json",
+      "sha256": "874242ac7950e4b5b7391a2ad9596913abc5bf77f74a120eb23d8deb2ac759fe"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154216_dialogue_153b23/metadata.json",
+      "sha256": "2d9aa38ed5e105b4249106c02b9ec73f322c01e92dc7b5ce685baa7ccfda544e"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154224_dialogue_a0d34e/answer.md",
+      "sha256": "8ef00850b1d174322537b6620cf955cc28e3ecb509022bec3442695cf841ab73"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154224_dialogue_a0d34e/facts.json",
+      "sha256": "eb8dcf7132c2d9ba355e1a00a22b1b3d809b5ffccc4204a91317ea63e2d9c4de"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154224_dialogue_a0d34e/final_plan.json",
+      "sha256": "07dc43a48f75202abc7d7488ca2b167a357c58b4bda34c94f2187cfff7694c3a"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154224_dialogue_a0d34e/metadata.json",
+      "sha256": "4f0b2aaf4f1587b75960e36611d0e9fa18639594ec5057c0b5f70aff24bb787c"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154242_dialogue_6c941f/answer.md",
+      "sha256": "6ee0ab25f52c8ca62470ee6c987a527f71e158f3216969e01d3e36af79cb9ae3"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154242_dialogue_6c941f/facts.json",
+      "sha256": "1e825ec08fdae8902224bf4fcb6a7d9d6073a64b6793d2a2daa8bb7b968163e8"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154242_dialogue_6c941f/final_plan.json",
+      "sha256": "3b1852133b2b164d94eec2c50627b4e729da914fc1ef636a40c427fb79c9acda"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154242_dialogue_6c941f/metadata.json",
+      "sha256": "4f95ba4deb35d16542c234f402e82c8b1f98ab6aaa117fb623a164f970b46f00"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154306_dialogue_ffb2d3/answer.md",
+      "sha256": "2bd4b8c29f384ccf063895c8d587ec8db5342ebad3dc8774e865d36788c8f588"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154306_dialogue_ffb2d3/facts.json",
+      "sha256": "9d87fc49cd96a15a1dc40be043081c5a3a0e4eaf2751317ef7f5723e897764ef"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154306_dialogue_ffb2d3/metadata.json",
+      "sha256": "a51004206f4c2903a888874d150ab3f815a9f7de6b532ce3cd3e2ca1c3de21a0"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154315_dialogue_a5e378/answer.md",
+      "sha256": "0db63111576224d3c3bf5c532693b6830f1a72fa3f633c8f76f368b223a5db73"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154315_dialogue_a5e378/facts.json",
+      "sha256": "111d45c97d14bee0119c4f6c658e5cf5adf145bda4a693322fe1077a62a7fec1"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154315_dialogue_a5e378/metadata.json",
+      "sha256": "dab944af506c640bd94803f807babfe475d49b0aea62bebef212be341625a676"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154326_dialogue_044147/answer.md",
+      "sha256": "fedfd1bae9daadbb1eb6b39ea18898d69fb44aeee84efdb1f1c2805ad6cf821b"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154326_dialogue_044147/facts.json",
+      "sha256": "80adb2e4929102df0a6be9d0f0033dc246fa4969979510114b005246cd179164"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154326_dialogue_044147/metadata.json",
+      "sha256": "2c6118d281b9a9d8c9b9e1370e894f13ef1770c172a907c31f6fb94d863d0446"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154342_dialogue_fdca4a/answer.md",
+      "sha256": "770771dbaaa94958de5a3a151a76056648d67b3d30902b6076ff347498d3c1f2"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154342_dialogue_fdca4a/facts.json",
+      "sha256": "f645d92c2d60239eceb28da74e530b5d9052dcf4e0ab73a2ad9e9ab9cb0d3394"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154342_dialogue_fdca4a/metadata.json",
+      "sha256": "b2f70842700e7e8f715aefd41bfff3140b0c0c5e50de775a5c74a65c00a49a09"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154348_dialogue_f6989e/answer.md",
+      "sha256": "40d228245706c30d1fc20d890d81f4f372447880782696bdad8d28a34be385ee"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154348_dialogue_f6989e/facts.json",
+      "sha256": "9dab35d5c68d3383313af255954d1d3edbde6e8eac764b7a0ae30f410c5a5542"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154348_dialogue_f6989e/final_plan.json",
+      "sha256": "18d3aa93dd74ad51a14ec2b54879e684f3a2b3cd7ae6e29c0ea370e19c667c74"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154348_dialogue_f6989e/metadata.json",
+      "sha256": "4f95ba4deb35d16542c234f402e82c8b1f98ab6aaa117fb623a164f970b46f00"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154407_dialogue_0bc66d/answer.md",
+      "sha256": "ea1f7ee24b11e2dc0ab49b5c97f7e9adc3644c4a1756a9329fc52403f1f9ba42"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154407_dialogue_0bc66d/facts.json",
+      "sha256": "1a4ae3c324440d41a112da68fb636d7534bf39dbde091e2affc90711927e5025"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154407_dialogue_0bc66d/metadata.json",
+      "sha256": "b235ff6d1119b7cc9af51c9be49d3c301a764e31bf3f6add133858ddbe818710"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154413_dialogue_3fa584/answer.md",
+      "sha256": "626781ca498ef6de401369ecce422ab3f60cc60b8606adb632356ff8199cbc94"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154413_dialogue_3fa584/facts.json",
+      "sha256": "fb91dc522b9da6c73b0b50a07b8c85571bf589bf80fe5c1912f7f83204280ec4"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154413_dialogue_3fa584/final_plan.json",
+      "sha256": "82341a8a6416d67e013c40511b22504dbf60b2d7761273a0e52f4d365c736d06"
+    },
+    {
+      "path": "evidence/question_acceptance/audits/20261030_154413_dialogue_3fa584/metadata.json",
+      "sha256": "f074f43f15b5fb4260d40ddda2bc8b7d294802726ea15e1be77b306c8baf895a"
+    },
+    {
+      "path": "evidence/question_acceptance/cases.json",
+      "sha256": "079d3004379f6bf671eaa91da35a12ee29dcad3f2d134d60ddb128d4c63d2353"
+    },
+    {
+      "path": "evidence/question_acceptance/report.md",
+      "sha256": "6c8b67908921c32e9c4cd439bc4929fd8c25b2577111ca83b8a8e903c539df15"
+    },
+    {
+      "path": "evidence/question_acceptance/result.json",
+      "sha256": "22aa987861d76f40819d627e16b0869e8a278c96416449d89510bdbde3912795"
+    },
+    {
+      "path": "evidence/question_acceptance/source_integrity.json",
+      "sha256": "b602e061e084018b128e440c05db9dc887c06473b89cfdc14eaba409b0004409"
+    },
+    {
+      "path": "evidence/question_acceptance/turns.json",
+      "sha256": "d5c27a5b8cf5aa370915a51e2f81157a0a22a084c6cb56772a8d995605f4254b"
+    },
+    {
+      "path": "evidence/short_flow/actual_4bit_task/plan.json",
+      "sha256": "811705886266462ab45737835b0ce3eb7afdd0fb38f94564b6429fff5cf07be1"
+    },
+    {
+      "path": "evidence/short_flow/actual_4bit_task/report.md",
+      "sha256": "a9f87c545727bdb1241a951ac08d905215417b7051d8509176baa87abfe9c172"
+    },
+    {
+      "path": "evidence/short_flow/actual_4bit_task/result.json",
+      "sha256": "8b2d0944d51a1642f493f2da8e3131e712737a27f164527101e8775500c1b4fa"
+    },
+    {
+      "path": "evidence/short_flow/actual_4bit_task/source_integrity.json",
+      "sha256": "b661ec6e53a28ac9615b6efcad0c9d9c73c55efc17023ce8dbc4eb03e00e80b0"
+    },
+    {
+      "path": "evidence/short_flow/actual_4bit_task/summary.md",
+      "sha256": "4dd66ce398398468d713acdd552d83f4a05370bbae7b2d3b3334eeb0b3a794f5"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154440_dialogue_a554a7/answer.md",
+      "sha256": "8ef00850b1d174322537b6620cf955cc28e3ecb509022bec3442695cf841ab73"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154440_dialogue_a554a7/facts.json",
+      "sha256": "eb8dcf7132c2d9ba355e1a00a22b1b3d809b5ffccc4204a91317ea63e2d9c4de"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154440_dialogue_a554a7/final_plan.json",
+      "sha256": "07dc43a48f75202abc7d7488ca2b167a357c58b4bda34c94f2187cfff7694c3a"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154440_dialogue_a554a7/metadata.json",
+      "sha256": "4f0b2aaf4f1587b75960e36611d0e9fa18639594ec5057c0b5f70aff24bb787c"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154457_dialogue_b52e4d/answer.md",
+      "sha256": "b07e0d1db13a5fa6b757729f88d8f28ad8af7b128def78ee26936a79b8c68a2c"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154457_dialogue_b52e4d/facts.json",
+      "sha256": "eb8dcf7132c2d9ba355e1a00a22b1b3d809b5ffccc4204a91317ea63e2d9c4de"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154457_dialogue_b52e4d/final_plan.json",
+      "sha256": "07dc43a48f75202abc7d7488ca2b167a357c58b4bda34c94f2187cfff7694c3a"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154457_dialogue_b52e4d/metadata.json",
+      "sha256": "b0ef7f7fb8448c7052dd1d6a24e5cb3db0af4197f059be66f00af9f21d14ac06"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154509_dialogue_8a40ff/answer.md",
+      "sha256": "f74de0b9e2dfe1218e9bcf01b73c49cd9c0035ac5f44679830350ef282217e30"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154509_dialogue_8a40ff/facts.json",
+      "sha256": "daa464aabd7e5abafdb87c48e5a15ec3cd13e3d5db79a82ec13eaea2ecf3dca1"
+    },
+    {
+      "path": "evidence/short_flow/audits/20261030_154509_dialogue_8a40ff/metadata.json",
+      "sha256": "eaaa50d3e6a160c1fe59f0551a2ddc6351df367cdbee67ab777911a8e014c284"
+    },
+    {
+      "path": "evidence/short_flow/report.md",
+      "sha256": "d4032dbda1d79d0a6887e9144da346be698195e13e7b1e63da9be9fd86e5c26a"
+    },
+    {
+      "path": "evidence/short_flow/result.json",
+      "sha256": "1536b6de812146ced37794b28fbccca255c3741ce795bc4a6f316acfcf2aa696"
+    },
+    {
+      "path": "evidence/short_flow/source_integrity.json",
+      "sha256": "b602e061e084018b128e440c05db9dc887c06473b89cfdc14eaba409b0004409"
+    },
+    {
+      "path": "evidence/short_flow/turns.json",
+      "sha256": "3d81610285052bb4c80dcad27f8c0f5e8b0fd16932301dd30195627364111dcc"
+    },
+    {
+      "path": "evidence/validated_backend_plan.json",
+      "sha256": "82341a8a6416d67e013c40511b22504dbf60b2d7761273a0e52f4d365c736d06"
+    },
+    {
+      "path": "evidence/validated_free_plan.json",
+      "sha256": "3b1852133b2b164d94eec2c50627b4e729da914fc1ef636a40c427fb79c9acda"
+    },
+    {
+      "path": "evidence/validated_sram_plan.json",
+      "sha256": "18d3aa93dd74ad51a14ec2b54879e684f3a2b3cd7ae6e29c0ea370e19c667c74"
+    },
+    {
+      "path": "拍摄问句验证报告.md",
+      "sha256": "c25b6d51116af2b3f65322a5809f6ff3796a518b3bf68e75607d10ddebda6ae9"
+    },
+    {
+      "path": "新版参赛视频拍摄流程.md",
+      "sha256": "2e99aa2565d5d1a76deed74ed409c4aa2cfa0b7f2bf3bbb25d492371b589f402"
+    },
+    {
+      "path": "演示素材索引.md",
+      "sha256": "ac962b3ee65538e4eb1cbff2064bab1b7bd80273f319668167af06adc5261e91"
+    },
+    {
+      "path": "逐条输入.md",
+      "sha256": "c4e5c78af5647763a179dafc1b897e6b4391ab1eda919a8539b6e2ce756113cf"
+    }
+  ],
+  "existing_examples": {
+    "run": "runs/20261030_154559_example_acceptance_93cebf",
+    "passed": 27,
+    "total": 27,
+    "eda_started": false
+  },
+  "current_fixture_coverage": {
+    "scenarios": 22,
+    "passed_turns": 38,
+    "total_turns": 38
+  },
+  "offline_checks": [
+    "verification/check_response_contract.py",
+    "verification/check_dialogue.py",
+    "verification/check_chat_output.py"
+  ],
+  "code_fingerprints": [
+    {
+      "path": "app/conversation.py",
+      "sha256": "80ce9eb748bc2a2e21b1af1015446fde0672a6ef1b530d115e9b94cf1c013e3a"
+    },
+    {
+      "path": "skills/openacm-design/references/planner-prompt.md",
+      "sha256": "6aa64c3336d2e6b196d676cf41f020227c6cd67447113c131e7e4b7cd16ed5fd"
+    },
+    {
+      "path": "verification/verify_examples_live.py",
+      "sha256": "431c3baec92c3e74bf0cd11546978a2eb74ecc883469433e959f91df65b88661"
+    },
+    {
+      "path": "verification/verify_video_short_flow.py",
+      "sha256": "f73d3f9020d48610df4b0a682f52725ee5fa0988ff0a608f5163ac829b318ba0"
+    },
+    {
+      "path": "verification/fixtures/dialogue_examples.json",
+      "sha256": "01497ff4627604c6c24328d2bc5e8351a6d62a7d8e3b3afcee060fdecc1ddf6c"
+    },
+    {
+      "path": "verification/check_response_contract.py",
+      "sha256": "98f50b53209f0aafb86360d0233d91e4bd1bd66341d4d512c739fb843dea5c0f"
+    }
+  ]
+}
